@@ -28,6 +28,23 @@ WhiskerWay is a modern cat adoption platform connecting feline friends with fore
 ├── seeds/                    # Scripts to seed the database
 │   ├── seedCats.js           # Script to seed cats into the database
 │   └── seedShelters.js       # Script to seed shelters into the database
+├── views/
+│   ├── layouts/
+│   │   └── layout.ejs       # Main layout template
+│   ├── partials/
+│   │   ├── header.ejs       # Header partial
+│   │   ├── footer.ejs       # Footer partial
+│   ├── cats/
+│   │   ├── index.ejs        # List all cats
+│   │   ├── show.ejs         # Show details of a single cat
+│   │   ├── new.ejs          # Form to add a new cat
+│   │   └── edit.ejs         # Form to edit a cat
+│   ├── shelters/
+│   │   ├── index.ejs        # List all shelters
+│   │   ├── show.ejs         # Show details of a single shelter
+│   │   ├── new.ejs          # Form to add a new shelter
+│   │   └── edit.ejs         # Form to edit a shelter
+│   └── home.ejs             # Homepage template
 
 
 
