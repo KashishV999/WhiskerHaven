@@ -1,0 +1,16 @@
+{
+  "name": "whiskerway",
+  "version": "1.0.0",
+  "description": "A modern cat adoption platform connecting feline friends with forever homes. WhiskerWay helps users browse adoptable cats from local shelters, view detailed profiles, and streamline the adoption process",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2"
+  }
+}
