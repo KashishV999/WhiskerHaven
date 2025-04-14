@@ -11,7 +11,7 @@ WhiskerWay is a modern cat adoption platform connecting feline friends with fore
 
 ## Project Structure
 
-WhiskerWay/
+```WhiskerWay/
 ├── .gitignore                # Specifies files and directories to ignore in Git
 ├── LICENSE                   # MIT License for the project
 ├── README.md                 # Project documentation
