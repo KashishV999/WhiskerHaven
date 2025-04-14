@@ -1,0 +1,51 @@
+<!---List all cats-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Main heading for the page -->
+    <h2>Cats Available for Adoption</h2>
+    
+    <!-- List of available cats with aria-label for clarity -->
+    <ul aria-label="List of available cats">
+      <% cats.forEach((cat) => { %>
+      
+      <!-- Each cat's details should be in a <section> -->
+      <section>
+        
+        <!-- Cat's name as a heading -->
+        <h3><%= cat.name %></h3>
+
+        <!-- Image of the cat with descriptive alt text -->
+        <figure>
+          <img
+            src="<%= cat.image %>"
+            alt="Image of <%= cat.name %>, a <%= cat.breed %> breed"
+            width="400"
+          />
+        </figure>
+
+        <!-- Cat details in a list -->
+        <ul>
+            <li><strong>Breed:</strong> <%= cat.breed %></li>
+            <li><strong>Gender:</strong> <%= cat.gender %></li>
+            <li><strong>Age:</strong> <%= cat.age %> years</li>
+        </ul>
+
+        <!-- Link to the cat's individual page with accessible text -->
+        <a href="/cats/<%= cat._id %>" aria-label="View more details about <%= cat.name %>">
+            View Details
+        </a>
+        
+      </section>
+
+      <% }) %>
+    </ul>
+</body>
+
+</html>

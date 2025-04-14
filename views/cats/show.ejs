@@ -1,0 +1,50 @@
+<!----Show details of One Cat-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Use <h1> for the main page heading, providing the cat's name -->
+    <h1>Details of <%= cat.name %></h1>
+
+    <!-- Figure for the image with descriptive alt text for accessibility -->
+    <figure>
+        <img
+            src="<%= cat.image %>"
+            alt="Image of <%= cat.name %>, a <%= cat.breed %> breed cat."
+            width="400"
+        />
+        <figcaption><%= cat.description %></figcaption>
+    </figure>
+
+    <!-- Cat details section wrapped with <section> for semantic structure -->
+    <section aria-labelledby="cat-details">
+        <h2>Cat Details</h2> <!-- Secondary heading to introduce the cat's details -->
+        <ul id="cat-details">
+            <li><strong>Breed:</strong> <%= cat.breed %></li>
+            <li><strong>Gender:</strong> <%= cat.gender %></li>
+            <li><strong>Age:</strong> <%= cat.age %> years</li>
+            <li><strong>Color:</strong> <%= cat.color %></li>
+            <li><strong>Weight:</strong> <%= cat.weight %> kg</li>
+        </ul>
+    </section>
+
+    <!-- Shelter information section with better structure for screen readers -->
+    <section aria-labelledby="shelter-info">
+        <h2>Shelter Information</h2> <!-- Heading for the shelter details -->
+        <ul id="shelter-info">
+            <li><strong>Shelter Name:</strong> <%= cat.shelter.name %></li>
+            <li><strong>Location:</strong> <%= cat.shelter.location %></li>
+            <li><strong>Phone:</strong> <%= cat.shelter.phone %></li>
+            <li><strong>Email:</strong> <%= cat.shelter.email %></li>
+        </ul>
+    </section>
+
+</body>
+
+</html>

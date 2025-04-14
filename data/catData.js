@@ -67,7 +67,7 @@ module.exports = [
       weight: 4.2,
       gender: "Male",
       description: "Charlie is a charming Scottish Fold who loves attention and treats.",
-      image: "https://images.unsplash.com/photo-1596854407944-02b71bc3b4b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+      image: "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     },
     {
       name: "Lucy",
