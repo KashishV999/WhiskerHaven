@@ -28,3 +28,7 @@ WhiskerWay is a modern cat adoption platform connecting feline friends with fore
 ├── seeds/                    # Scripts to seed the database
 │   ├── seedCats.js           # Script to seed cats into the database
 │   └── seedShelters.js       # Script to seed shelters into the database
+
+
+
+
