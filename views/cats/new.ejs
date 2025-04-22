@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>Add A New Cat</h1>
-    <form action="/cats" method="POST">
+    <form action="/shelters/<%=shelter._id%>/cats" method="POST">
       <label for="name">Name: </label>
       <input type="text" id="name" name="name" required />
 
@@ -49,14 +49,7 @@
       <label for="image">Image: </label>
       <input type="url" id="image" name="image" required />
 
-      <br /><br />
-      <label for="shelter">Shelter: </label>
-      <select name="shelter" id="shelter">
-        <option value="" disabled selected>Select shelter</option>
-        <% shelters.forEach((shelter) => { %>
-        <option value="<%= shelter._id %>"><%= shelter.name %></option>
-        <% }) %>
-      </select>
+
 
       <br /><br />
 

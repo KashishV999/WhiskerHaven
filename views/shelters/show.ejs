@@ -29,6 +29,7 @@
 
     <header>
         <h1><%=shelter.name%></h1>
+        <h2> <a href="/shelters/<%=shelter._id%>/cats/new">Add a new Cat</a></h2>
         <img
         src="<%= shelter.image %>"
         alt="Image of <%= shelter.name %>, a <%= shelter.location %> location"
@@ -47,6 +48,7 @@
     <!-- shelter details section wrapped with <section> for semantic structure -->
       <div id="about">
         <section aria-labelledby="shelter-details">
+            <p><%=shelter.description%></p>
             <h2>Contact Details</h2> <!-- Secondary heading to introduce the shelter's details -->
             <ul id="cat-details">
                 <li><strong>Address:</strong> <%= shelter.location %></li>
@@ -71,12 +73,13 @@
 
       <div id="available">
         <%shelter.cats.forEach((cat)=>{%>
-            <h2><%=cat.name%></h2>
-
-            <br>
+            <li>
+                <a href="/cats/<%=cat._id%>"><%=cat.name%></a>
+            </li>
+            
        <% })%>
       </div>
-
+      <button><a href="/shelters">Go Back</a></button>
 
 
 </body>

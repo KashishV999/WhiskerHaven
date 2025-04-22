@@ -11,7 +11,7 @@
 
     <!-- Use <h1> for the main page heading, providing the cat's name -->
     <h1>Details of <%= cat.name %></h1>
-
+    
     <!-- Figure for the image with descriptive alt text for accessibility -->
     <figure>
         <img
@@ -34,9 +34,12 @@
         </ul>
     </section>
 
+
+ <!----Add your code here later-->
     <!-- Shelter information section with better structure for screen readers -->
     <section aria-labelledby="shelter-info">
         <h2>Shelter Information</h2> <!-- Heading for the shelter details -->
+        <a href="/shelters/<%=cat.shelter._id%>">Visit shelter</a>
         <ul id="shelter-info">
             <li><strong>Shelter Name:</strong> <%= cat.shelter.name %></li>
             <li><strong>Location:</strong> <%= cat.shelter.location %></li>
@@ -44,8 +47,15 @@
             <li><strong>Email:</strong> <%= cat.shelter.email %></li>
         </ul>
     </section>
-    <button><a href="/cats">Go Back</a></button>
 
+
+    <h3><a href="/cats/<%=cat._id%>/edit">Edit cat</a></h3>
+
+    <form action="/cats/<%=cat._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+  </form>
+  <br>
+  <button><a href="/cats">Go Back</a></button>
 </body>
 
 </html>

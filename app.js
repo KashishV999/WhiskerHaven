@@ -47,6 +47,13 @@ const shelterRoutes=require('./routes/shelterRoute'); //import routes for shelte
 //Use routes
 app.use("/shelters", shelterRoutes); //use routes for shelters
 
+
+
+//import nested routes for shelters and cats
+const nestedRoutes=require('./routes/nestedRoutes'); //import nested routes for shelters and cats
+//use nested routes
+app.use("/shelters/:shelterId/cats",nestedRoutes); //use nested routes for shelters and cats
+
 app.listen(port,hostname,()=>{
     console.log(`Server running at http://${hostname}:${port}/`);
 })
