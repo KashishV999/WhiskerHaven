@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Cat - WhiskerWay</title>
+  </head>
+  <body>
+    <h1>Add A New Cat</h1>
+    <form action="/cats" method="POST">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" required />
+
+      <br /><br />
+      <label for="breed">Breed: </label>
+      <input type="text" id="breed" name="breed" required />
+
+      <br /><br />
+      <label for="age">Age: </label>
+      <input type="number" name="age" id="age" required min="0" step="1" />
+
+      <br /><br />
+      <label for="color">Color: </label>
+      <input type="color" id="color" name="color" required />
+
+      <br /><br />
+      <label for="weight">Weight: </label>
+      <input type="number" name="weight" id="weight" required min="0" />
+
+      <br /><br />
+      <label for="gender">Gender: </label>
+      <select name="gender" id="gender">
+        <option value="" disabled selected>Select gender</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+      </select>
+
+      <br /><br />
+      <label for="description">Description: </label>
+      <textarea
+        id="description"
+        name="description"
+        required
+        rows="3"
+        cols="30"
+      ></textarea>
+
+      <br /><br />
+      <label for="image">Image: </label>
+      <input type="url" id="image" name="image" required />
+
+      <br /><br />
+      <label for="shelter">Shelter: </label>
+      <select name="shelter" id="shelter">
+        <option value="" disabled selected>Select shelter</option>
+        <% shelters.forEach((shelter) => { %>
+        <option value="<%= shelter._id %>"><%= shelter.name %></option>
+        <% }) %>
+      </select>
+
+      <br /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+    <br>
+    <button><a href="/cats">Cancel</a></button>
+  </body>
+</html>

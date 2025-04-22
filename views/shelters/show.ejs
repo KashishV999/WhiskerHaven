@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=shelter.name%></title>
+</head>
+
+
+<script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.getElementById("about").style.display = "none";
+      document.getElementById("available").style.display = "none";
+      document.getElementById("process").style.display = "none";
+
+      // Show the selected section
+      document.getElementById(sectionId).style.display = "block";
+    }
+
+        // This runs when the page first loads
+        window.onload = function () {
+      showSection('about'); // Show only the "About" section by default
+    };
+  </script>
+
+
+<body>
+
+    <header>
+        <h1><%=shelter.name%></h1>
+        <img
+        src="<%= shelter.image %>"
+        alt="Image of <%= shelter.name %>, a <%= shelter.location %> location"
+        width="400"
+      />
+
+      <p><%=shelter.location%></p>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showSection('about')">About</a> |
+        <a href="#" onclick="showSection('available')">Available Pets</a> |
+        <a href="#" onclick="showSection('process')">Adoption Process</a>
+      </nav>
+
+    <!-- shelter details section wrapped with <section> for semantic structure -->
+      <div id="about">
+        <section aria-labelledby="shelter-details">
+            <h2>Contact Details</h2> <!-- Secondary heading to introduce the shelter's details -->
+            <ul id="cat-details">
+                <li><strong>Address:</strong> <%= shelter.location %></li>
+                <li><strong>Phone:</strong> <%= shelter.phone %></li>
+                <li><strong>Email:</strong> <%=shelter.email %> years</li>
+
+            </ul>
+        </section>
+      </div>
+
+      <div id="process">
+        <h2>Our Adoption Process</h2>
+            <ol>
+            <li>Browse our available pets online or visit our shelter</li>
+            <li>Fill out an adoption application</li>
+            <li>Meet with our adoption counselors for an interview</li>
+            <li>Meet your potential new pet</li>
+            <li>Complete the adoption paperwork and pay the adoption fee</li>
+            <li>Take your new family member home!</li>
+            </ol>
+      </div>
+
+      <div id="available">
+        <%shelter.cats.forEach((cat)=>{%>
+            <h2><%=cat.name%></h2>
+
+            <br>
+       <% })%>
+      </div>
+
+
+
+</body>
+</html>

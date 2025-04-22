@@ -33,18 +33,19 @@ app.get("/", (req,res)=>{
     res.render('home.ejs');
 })
 
-app.get("/cats", async (req,res)=>{
-    const cats= await Cat.find({}).populate('shelter', 'name'); //find all cats in the database and populate the shelter name
-    res.render("cats/index.ejs", {cats});
-})
 
-app.get("/cats/:id", async(req,res)=>{
-    const {id}= req.params; //get the id from the url
-    const cat= await Cat.findById(id).populate('shelter', 'name location phone email'); //find the cat by id and populate the shelter name
-    res.render("cats/show.ejs", {cat}); //render the show page for the cat
-});
+//Import cat routes
+const catRoutes=require('./routes/catsRoute'); //import routes for cats
+
+//Use routes
+app.use("/cats", catRoutes); //use routes for cats
 
 
+
+//Import Shelter routes
+const shelterRoutes=require('./routes/shelterRoute'); //import routes for shelters
+//Use routes
+app.use("/shelters", shelterRoutes); //use routes for shelters
 
 app.listen(port,hostname,()=>{
     console.log(`Server running at http://${hostname}:${port}/`);

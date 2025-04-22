@@ -3,7 +3,7 @@ module.exports = [
       name: "Luna",
       breed: "Siamese",
       age: 1,
-      color: "Cream",
+      color: "#FFFDD0", // Cream
       weight: 4.5,
       gender: "Female",
       description: "Luna is a gentle Siamese cat who enjoys cuddles and window watching.",
@@ -13,7 +13,7 @@ module.exports = [
       name: "Oliver",
       breed: "Persian",
       age: 2,
-      color: "White",
+      color: "#FFFFFF", // White
       weight: 5.2,
       gender: "Male",
       description: "Oliver is a majestic Persian cat with a calm and loving personality.",
@@ -23,7 +23,7 @@ module.exports = [
       name: "Milo",
       breed: "Maine Coon",
       age: 3,
-      color: "Brown Tabby",
+      color: "#8B4513", // Brown Tabby (approximated with SaddleBrown)
       weight: 8.5,
       gender: "Male",
       description: "Milo is a magnificent Maine Coon with a gentle giant personality.",
@@ -33,7 +33,7 @@ module.exports = [
       name: "Bella",
       breed: "Ragdoll",
       age: 2,
-      color: "Seal Point",
+      color: "#704214", // Seal Point (approximated)
       weight: 5.8,
       gender: "Female",
       description: "Bella is a beautiful Ragdoll who loves to follow her humans around.",
@@ -43,7 +43,7 @@ module.exports = [
       name: "Leo",
       breed: "Bengal",
       age: 1,
-      color: "Spotted Brown",
+      color: "#A0522D", // Spotted Brown (approximated with Sienna)
       weight: 4.8,
       gender: "Male",
       description: "Leo is an energetic Bengal cat who loves to play and explore.",
@@ -53,7 +53,7 @@ module.exports = [
       name: "Sophie",
       breed: "British Shorthair",
       age: 4,
-      color: "Blue",
+      color: "#6699CC", // Blue (approximated with Steel Blue tone)
       weight: 5.5,
       gender: "Female",
       description: "Sophie is a dignified British Shorthair with a sweet disposition.",
@@ -63,7 +63,7 @@ module.exports = [
       name: "Charlie",
       breed: "Scottish Fold",
       age: 2,
-      color: "Grey",
+      color: "#C0C0C0", // Silver
       weight: 4.2,
       gender: "Male",
       description: "Charlie is a charming Scottish Fold who loves attention and treats.",
@@ -73,7 +73,7 @@ module.exports = [
       name: "Lucy",
       breed: "Russian Blue",
       age: 1,
-      color: "Silver",
+      color: "#FFC0CB", // Pink
       weight: 3.8,
       gender: "Female",
       description: "Lucy is a shy but affectionate Russian Blue looking for a quiet home.",
@@ -83,7 +83,7 @@ module.exports = [
       name: "Max",
       breed: "Sphynx",
       age: 3,
-      color: "Pink",
+      color: "#FFC0CB", // Pink
       weight: 4.0,
       gender: "Male",
       description: "Max is a unique Sphynx cat who loves to cuddle for warmth.",
@@ -93,7 +93,7 @@ module.exports = [
       name: "Chloe",
       breed: "American Shorthair",
       age: 2,
-      color: "Silver Tabby",
+      color: "#C0C0C0", // Silver Tabby (Silver base)
       weight: 4.7,
       gender: "Female",
       description: "Chloe is a playful American Shorthair who gets along with everyone.",

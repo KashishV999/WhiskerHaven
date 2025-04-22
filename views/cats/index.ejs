@@ -10,6 +10,8 @@
   <body>
     <!-- Main heading for the page -->
     <h2>Cats Available for Adoption</h2>
+
+    <h2><a href="/cats/new">Add Cats</a></h2>
     
     <!-- List of available cats with aria-label for clarity -->
     <ul aria-label="List of available cats">
@@ -41,11 +43,18 @@
         <a href="/cats/<%= cat._id %>" aria-label="View more details about <%= cat.name %>">
             View Details
         </a>
-        
+
       </section>
+      <h3><a href="/cats/<%=cat._id%>/edit">Edit cat</a></h3>
+
+      <form action="/cats/<%=cat._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
 
       <% }) %>
     </ul>
+
+
 </body>
 
 </html>

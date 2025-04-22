@@ -1,0 +1,35 @@
+<!----List all the shelters-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All shelters</title>
+</head>
+<body>
+    <h1>Shelters</h1>
+    <h2>Browse our partner shelters and rescue organizations.</h2>
+    <a href="/shelters/new">Add Shelter</a>
+    <%shelters.forEach((shelter)=>{%>
+        <h3><%=shelter.name%></h3>
+        <!-- Image of the shelter with descriptive alt text -->
+        <figure>
+            <img
+              src="<%= shelter.image %>"
+              alt="Image of <%= shelter.name %>, a <%= shelter.location %> location"
+              width="400"
+              height="310"
+            />
+          </figure>
+
+          <p><strong>Location:</strong> <%= shelter.location %></p>
+
+                  <!-- Link to the shelters's individual page with accessible text -->
+        <a href="/shelters/<%= shelter._id %>" aria-label="View more details about <%= shelter.name %>">
+            View Details
+        </a>
+    <%})%>
+
+</body>
+</html>
