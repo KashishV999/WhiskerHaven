@@ -1,0 +1,44 @@
+
+<% layout("/layouts/boilerplate") %>
+    <form action="/shelters/<%= shelter._id %>?_method=PUT" method="POST">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" value="<%= shelter.name %>" required />
+
+      <br /><br />
+      <label for="location">Location: </label>
+      <input type="text" id="location" name="location" value="<%= shelter.location %>" required />
+
+      <br /><br />
+      <label for="Description">Description: </label>
+      <textarea
+        id="description"
+        name="description"
+        required
+        rows="3"
+        cols="30"
+      ><%=shelter.description%></textarea>
+
+      <br /><br />
+      <label for="phone">Phone: </label>
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" value="<%=shelter.phone%>" required />
+
+      <br /><br />
+      <label for="email">Email: </label>
+      <input type="email" id="email" name="email" value="<%=shelter.email%>" required />
+
+      <br /><br />
+
+
+      <br /><br />
+      <label for="image">Image: </label>
+      <input type="url" id="image" name="image" value="<%=shelter.image%>" required />
+
+      <br><br>
+
+      <button type="submit">Submit</button>
+    </form>
+    <br>
+     <button type="button" onclick="window.location.href='/shelters/<%= shelter._id %>'">Cancel</button>
+
+     
+

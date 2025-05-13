@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=shelter.name%></title>
-</head>
+<!----Show details of One Shelter-->
 
+<% layout("/layouts/boilerplate") %>
 
 <script>
     function showSection(sectionId) {
@@ -25,7 +20,6 @@
   </script>
 
 
-<body>
 
     <header>
         <h1><%=shelter.name%></h1>
@@ -79,8 +73,12 @@
             
        <% })%>
       </div>
+
+      <h3><a href="/shelters/<%=shelter._id%>/edit">Edit shelter</a></h3>
+
+      <form action="/shelters/<%=shelter._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+      </form>
+
       <button><a href="/shelters">Go Back</a></button>
 
-
-</body>
-</html>

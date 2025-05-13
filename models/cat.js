@@ -23,7 +23,7 @@ const CatSchema=new Schema({
     weight:{
         type:Number,
         required:true,
-        min:0
+        min:[0, 'Weight must be a positive number']
     },
     gender:{
         type:String,

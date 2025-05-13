@@ -1,13 +1,6 @@
 <!----Show details of One Cat-->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<% layout("/layouts/boilerplate") %>
 
     <!-- Use <h1> for the main page heading, providing the cat's name -->
     <h1>Details of <%= cat.name %></h1>
@@ -36,6 +29,8 @@
 
 
  <!----Add your code here later-->
+
+<%if(cat.shelter) {%>
     <!-- Shelter information section with better structure for screen readers -->
     <section aria-labelledby="shelter-info">
         <h2>Shelter Information</h2> <!-- Heading for the shelter details -->
@@ -47,6 +42,8 @@
             <li><strong>Email:</strong> <%= cat.shelter.email %></li>
         </ul>
     </section>
+    <%}%>
+
 
 
     <h3><a href="/cats/<%=cat._id%>/edit">Edit cat</a></h3>
@@ -56,6 +53,4 @@
   </form>
   <br>
   <button><a href="/cats">Go Back</a></button>
-</body>
 
-</html>

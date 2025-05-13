@@ -2,7 +2,7 @@
 
 const { mongoose } = require("mongoose");
 const { Schema } = mongoose;
-
+const Cat =require('./cat'); //import the Cat model
 const ShelterSchema= new Schema({
     name:{
         type:String,
@@ -49,6 +49,18 @@ const ShelterSchema= new Schema({
         }
     ]
 });
+
+
+//hook to remove the cat reference from the shelter when the cat is deleted
+ShelterSchema.post('findOneAndDelete', async function (shelter) {
+    console.log(shelter);
+    console.log(shelter.cats.length);
+    console.log(shelter.cats);
+    if (shelter.cats.length) {
+        await Cat.deleteMany({ _id: { $in: shelter.cats } });
+    }
+});
+
 
 const Shelter= mongoose.model('Shelter', ShelterSchema);
 module.exports= Shelter;

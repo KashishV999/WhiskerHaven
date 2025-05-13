@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Cat - WhiskerWay</title>
-  </head>
-  <body>
+<% layout("/layouts/boilerplate") %>
+
     <h1>Add A New Cat</h1>
     <form action="/shelters/<%=shelter._id%>/cats" method="POST">
       <label for="name">Name: </label>
@@ -57,5 +51,5 @@
     </form>
     <br>
     <button><a href="/cats">Cancel</a></button>
-  </body>
-</html>
+
+ 
