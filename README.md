@@ -1,9 +1,9 @@
 # WhiskerWay
+> 🚧 **Project Status**: Work in Progress  
+> This project is still under development.
 
 WhiskerWay is a modern cat adoption platform connecting feline friends with forever homes. It helps users browse adoptable cats from local shelters, view detailed profiles, and streamline the adoption process.
 
-> 🚧 **Project Status**: Work in Progress  
-> This project is still under development.
 
 ## Features
 
