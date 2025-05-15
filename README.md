@@ -2,6 +2,9 @@
 
 WhiskerWay is a modern cat adoption platform connecting feline friends with forever homes. It helps users browse adoptable cats from local shelters, view detailed profiles, and streamline the adoption process.
 
+> 🚧 **Project Status**: Work in Progress  
+> This project is still under development.
+
 ## Features
 
 - **Cat Profiles**: View detailed profiles of adoptable cats, including their breed, age, color, weight, and personality description.
@@ -9,16 +12,6 @@ WhiskerWay is a modern cat adoption platform connecting feline friends with fore
 - **CRUD Operations**: Full Create, Read, Update, and Delete functionality for managing cats and shelters.
 - **Database Integration**: Uses MongoDB to store and manage data for cats and shelters.
 
-
-> 🚧 **Project Status**: Work in Progress  
-> This project is still under development.
-
-## ✨ Features (Planned / In Progress)
-- [x] User login & registration
-- [ ] JWT-based authentication
-- [ ] User dashboard
-- [ ] Add and save favorite cats
-- [ ] Admin panel for cat content management
 
 ## Project Structure
 
