@@ -166,3 +166,6 @@ app.post("/api/login", (req,res)=>{
   .catch(err => {
     console.error('Database connection failed:', err);
   });
+
+
+  module.exports = app; //export the app
