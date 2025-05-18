@@ -168,4 +168,3 @@ app.post("/api/login", (req,res)=>{
   });
 
 
-  module.exports = app; //export the app
