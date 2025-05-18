@@ -51,7 +51,8 @@ const ShelterSchema= new Schema({
 });
 
 
-//hook to remove the cat reference from the shelter when the cat is deleted
+//hook to remove the cats when the shelter is deleted
+// The post middleware is executed after the findOneAndDelete operation
 ShelterSchema.post('findOneAndDelete', async function (shelter) {
     console.log(shelter);
     console.log(shelter.cats.length);

@@ -9,6 +9,7 @@ const CatSchema=new Schema({
     },
     breed:{
         type:String,
+        trim:true,
         required:true
     },
     age:{
@@ -18,7 +19,8 @@ const CatSchema=new Schema({
     },
     color:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     weight:{
         type:Number,
@@ -32,7 +34,8 @@ const CatSchema=new Schema({
     },
     description:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     image:{
         type:String,

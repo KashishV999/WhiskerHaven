@@ -1,0 +1,6 @@
+1. Work on displaying availble pets under Shelter
+2. Authenticaltion
+3. Image Upload
+4. Styling
+5. Datbase cleanup
+6. Deploy

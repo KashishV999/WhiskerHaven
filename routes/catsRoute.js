@@ -27,10 +27,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
-  const cat = await Cat.findById(id).populate(
-    "shelter",
-    "name location phone email"
-  ); // Find the cat by ID and populate the shelter
+  const cat = await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
     if(!cat){
         throw new AppError("Cat not found", 404); // Throw an error if the cat is not found
     }
@@ -82,11 +79,11 @@ catch(e){
 }
 });
 
-// Delete a cat
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params; // Get the cat ID from the URL
-  await Cat.findByIdAndDelete(id); // Find the cat by ID and delete it
-  res.redirect("/cats"); // Redirect to the index page for all cats
-});
+// // Delete a cat
+// router.delete("/:id", async (req, res) => {
+//   const { id } = req.params; // Get the cat ID from the URL
+//   await Cat.findByIdAndDelete(id); // Find the cat by ID and delete it
+//   res.redirect("/cats"); // Redirect to the index page for all cats
+// });
 
 module.exports = router;
