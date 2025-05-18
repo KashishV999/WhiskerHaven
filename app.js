@@ -1,3 +1,4 @@
+require('dotenv').config(); //load environment variables from .env file
 const express= require('express');
 const app=express();
 const port=process.env.PORT || 3000;
@@ -6,12 +7,52 @@ const path=require('path');
 const connectDB=require('./config/database'); //connect to the database
 const AppError = require("./AppError"); //import AppError class
 
-//connection to mongoDB
-connectDB(); //connect to the database
 
-//models
-const Cat=require('./models/cat'); //model for cat
-const Shelter=require('./models/shelter'); //model for shelter
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+
+
+// JSON Web Token Setup
+let ExtractJwt = passportJWT.ExtractJwt;
+let JwtStrategy = passportJWT.Strategy;
+
+// Configure its options
+let jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.SECRET_KEY,
+};
+
+
+
+let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+  console.log('payload received', jwt_payload);
+
+  if (jwt_payload) {
+    // The following will ensure that all routes using
+    // passport.authenticate have a req.user._id, req.user.userName, req.user.fullName & req.user.role values
+    // that matches the request payload data
+    next(null, {
+      _id: jwt_payload._id,
+      userName: jwt_payload.userName,
+      fullName: jwt_payload.fullName,
+      role: jwt_payload.role,
+    });
+  } else {
+    next(null, false);
+  }
+});
+
+
+// tell passport to use our "strategy"
+passport.use(strategy);
+
+// add passport as application-level middleware
+app.use(passport.initialize());
+
+
+
+const db=require('./config/database'); //import the database connection
 
 
 //ejs-mate :  ejs-mate is a package that allows us to use partials in ejs -->. npm install ejs-mate
@@ -28,55 +69,100 @@ app.set('views',path.join(__dirname,'/views'));
 app.use(express.static(path.join(__dirname,'/public'))); //serve static files from public directory
 app.use(express.urlencoded({extended:true})); //parse urlencoded data
 app.use(express.json()); //parse json data
+app.use(express.urlencoded({ extended: true }));
 
 //method-override  -> Forms with PUT and DELETE requests
 const methodOverride=require('method-override');
 app.use(methodOverride('_method'));
 
 
-app.get("/", (req,res)=>{
-    res.render('home.ejs');
+
+// Connect to the database
+db.connect()
+  .then(() => {
+    (async () => {
+      const Cat = db.getCatModel();
+      const Shelter = db.getShelterModel();
+
+      const catRoutes = require('./routes/catsRoute')(Cat, Shelter);
+      const shelterRoutes = require('./routes/shelterRoute')(Cat, Shelter);
+      const nestedRoutes = require('./routes/nestedRoutes')(Cat, Shelter);
+
+      const seedShelter = require('./seeds/seedShelters');
+      const seedCat = require('./seeds/seedCats');
+
+      // Seed data
+      await seedShelter(Shelter);
+      await seedCat(Cat, Shelter);
+
+
+app.post("/api/register", (req,res)=>{
+  db
+    .registerUser(req.body)
+    .then((msg) => {
+      res.json({ message: msg });
+    })
+    .catch((msg) => {
+      res.status(422).json({ message: msg });
+    });
 })
 
-
-//Import cat routes
-const catRoutes=require('./routes/catsRoute'); //import routes for cats
-
-//Use routes
-app.use("/cats", catRoutes); //use routes for cats
+app.post("/api/login", (req,res)=>{
 
 
+  db
+    .checkUser(req.body)
+    .then((user) => {
+      let payload = { 
+                _id: user._id,
+                userName: user.userName,
+                fullName: user.fullName,
+                role: user.role
+            };
+            
+            let token = jwt.sign(payload, jwtOptions.secretOrKey);
 
-//Import Shelter routes
-const shelterRoutes=require('./routes/shelterRoute'); //import routes for shelters
-//Use routes
-app.use("/shelters", shelterRoutes); //use routes for shelters
-
-
-//import nested routes for shelters and cats
-const nestedRoutes=require('./routes/nestedRoutes'); //import nested routes for shelters and cats
-//use nested routes
-app.use("/shelters/:shelterId/cats",nestedRoutes); //use nested routes for shelters and cats
-
-
-
-
-//all route middleware: when no route is matched
-app.use((req,res)=>{
-    console.log("Entered the all route middleware");
-    throw new AppError("Page not found", 404);
-})
-
-//erro handling middleware
-app.use((err, req,res, next)=>{
-    const {statusCode=500, message="Something went wrong"}=err;
-    console.log(statusCode)
-    res.status(statusCode).render("error.ejs", {message});
-})
+      res.json({ message: 'login successful', token: token });
+    })
+    .catch((msg) => {
+      res.status(422).json({ message: msg });
+    });
+});
 
 
 
 
-app.listen(port,hostname,()=>{
-    console.log(`Server running at http://${hostname}:${port}/`);
-})
+
+      app.get("/", (req, res) => {
+        res.render('home.ejs');
+      });
+
+      app.use("/cats", catRoutes);
+      app.use("/shelters", shelterRoutes);
+      app.use("/shelters/:shelterId/cats", nestedRoutes);
+
+
+
+
+
+
+
+
+
+      app.use((req, res) => {
+        throw new AppError("Page not found", 404);
+      });
+
+      app.use((err, req, res, next) => {
+        const { statusCode = 500, message = "Something went wrong" } = err;
+        res.status(statusCode).render("error.ejs", { message });
+      });
+
+      app.listen(port, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}/`);
+      });
+    })();
+  })
+  .catch(err => {
+    console.error('Database connection failed:', err);
+  });

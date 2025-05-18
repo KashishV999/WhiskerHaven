@@ -4,3 +4,47 @@
 4. Styling
 5. Datbase cleanup
 6. Deploy
+
+
+
+
+
+
+
+
+Edit and delete cat
+
+    <h3><a href="/cats/<%=cat._id%>/edit">Edit cat</a></h3>
+
+    <form action="/shelters/<%=cat.shelter._id%>/cats/<%=cat._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+  </form>
+  <br>
+
+Edit and delete shelter
+
+    <h2> <a href="/shelters/<%=shelter._id%>/cats/new">Add a new Cat</a></h2>
+
+
+
+
+         <h3><a href="/shelters/<%=shelter._id%>/edit">Edit shelter</a></h3>
+
+      <form action="/shelters/<%=shelter._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+      </form>
+
+
+      add shelter :
+          <a href="/shelters/new">Add Shelter</a>
+
+
+
+
+login:
+{
+
+  "email": "test123@gmail.com",
+  "password": "test123"
+
+}

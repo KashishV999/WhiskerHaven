@@ -1,22 +1,52 @@
 const Joi = require('joi');
-module.exports.ValidateShelterSchema= Joi.object({
-     name:Joi.string().required().trim(), //string, required, trim
-        location:Joi.string().required().trim(), //string, required, trim
-        description:Joi.string().required().trim(), //string, required, trim
-        phone:Joi.string().required().trim().pattern(/^\d{10}$/), //string, required, trim, regex for 10 digit phone number
-        email:Joi.string().required().trim().email(), //string, required, trim, regex for email
-        image:Joi.string().required().trim(), //string, required, trim
-        cats:Joi.array().items(Joi.string()) //array of strings, required
+
+module.exports.ValidateShelterSchema = Joi.object({
+  name: Joi.string().required().trim(),
+  location: Joi.string().required().trim(),
+  description: Joi.string().required().trim(),
+  phone: Joi.string()
+    .pattern(/^\d{10}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Phone number must be exactly 10 digits',
+    }),
+  email: Joi.string().email().required().trim()
+    .messages({
+      'string.email': 'Please enter a valid email address',
+    }),
+  image: Joi.string().trim().allow('').optional(),
+  cats: Joi.array().items(Joi.string().regex(/^[0-9a-fA-F]{24}$/)).default([]),
+  hours: Joi.object().default({}), // flexible JSON object for hours
+  mission: Joi.string().trim().allow('').default(''),
 }).required();
 
-module.exports.ValidateCatSchema=Joi.object({
-    name:Joi.string().required().trim(), //string, required, trim
-    breed:Joi.string().required().trim(), //string, required, trim
-    age:Joi.number().required().min(0), //number, required, min 0, max 20
-    color:Joi.string().required().trim(), //string, required, trim
-    weight:Joi.number().required().min(0), //number, required, min 0
-    gender:Joi.string().required().valid('Male', 'Female'),
-    description:Joi.string().required().trim(), //string, required, trim
-    image:Joi.string().required(), //string, required, trim
-    shelter:Joi.string(), //string, required, trim
+module.exports.ValidateCatSchema = Joi.object({
+  name: Joi.string().required().trim(), // string, required, trim
+  breed: Joi.string().required().trim(), // string, required, trim
+  age: Joi.number().required().min(0), // number, required, min 0
+  color: Joi.string().required().trim(), // string, required, trim
+  weight: Joi.number().required().min(0), // number, required, min 0
+  gender: Joi.string().required().valid('Male', 'Female'),
+  description: Joi.string().required().trim(), // string, required, trim
+  image: Joi.string().trim().allow('').optional(),
+  shelter: Joi.string(), // string, required, trim
+
+  status: Joi.string().valid('Available', 'Pending', 'Adopted').default('Available'),
+  arrival_date: Joi.date().default(() => new Date()),
+  adoption_fee: Joi.number().min(0).default(0),
+
+  spayed_neutered: Joi.boolean().default(false),
+  vaccinated: Joi.boolean().default(false),
+  microchipped: Joi.boolean().default(false),
+  special_needs: Joi.boolean().default(false),
+  house_trained: Joi.boolean().default(false),
+
+  activity_level: Joi.string().valid('Low', 'Moderate', 'High').default('Moderate'),
+  coat_length: Joi.string().valid('Short', 'Medium', 'Long').default('Short'),
+
+  good_with_children: Joi.boolean().allow(null).default(null),
+  good_with_cats: Joi.boolean().allow(null).default(null),
+  good_with_dogs: Joi.boolean().allow(null).default(null),
+
+  story: Joi.string().trim().allow('').default('')
 }).required();

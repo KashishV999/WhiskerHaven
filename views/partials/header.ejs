@@ -1,8 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HEADER</title>
-  </head>
-  <body>
+<header class="bg-white border-b sticky top-0 z-10">
+  <div class="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto">
+    <a href="/" class="flex items-center gap-2">
+      <img src="https://www.shutterstock.com/image-vector/vector-cat-face-minimalist-adorable-600nw-2426797721.jpg" alt="Whisker Haven Logo" width="40" height="40" class="h-10 w-10" />
+      <span class="font-bold text-xl">Whisker Haven</span>
+    </a>
+    <nav class="hidden md:flex gap-6">
+      <a href="/cats" class="text-sm font-medium hover:underline underline-offset-4">
+        Find a Cat
+      </a>
+      <a href="/shelters" class="text-sm font-medium hover:underline underline-offset-4">
+        Shelters
+      </a>
+      <a href="/adoption-process" class="text-sm font-medium hover:underline underline-offset-4">
+        Adoption Process
+      </a>
+      <a href="/resources" class="text-sm font-medium hover:underline underline-offset-4">
+        Resources
+      </a>
+      <a href="/donate" class="text-sm font-medium hover:underline underline-offset-4">
+        Donate
+      </a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <% if (locals.currentUser) { %>
+        <a href="/favorites" class="hidden md:flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-muted-foreground">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span class="text-sm">Favorites</span>
+        </a>
+        <div class="relative group">
+          <button class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium">
+            <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+              <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">
+                <%= currentUser.name.charAt(0).toUpperCase() %>
+              </span>
+            </span>
+          </button>
+          <div class="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden group-hover:block">
+            <div class="py-1">
+              <div class="px-4 py-2 text-sm">
+                <p class="font-medium"><%= currentUser.name %></p>
+                <p class="text-gray-500"><%= currentUser.email %></p>
+              </div>
+              <hr class="my-1">
+              <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+              <a href="/favorites" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Favorites</a>
+              <a href="/my-applications" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Applications</a>
+              <% if (currentUser.role === 'admin') { %>
+                <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>
+              <% } %>
+              <hr class="my-1">
+              <form action="/logout" method="POST" class="block">
+                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } else { %>
+        <a href="/login" class="hidden md:block">
+          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+            Sign In
+          </button>
+        </a>
+        <a href="/register" class="hidden md:block">
+          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
+            Sign Up
+          </button>
+        </a>
+      <% } %>
+      <button class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-10 w-10 md:hidden" id="mobile-menu-button" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu, hidden by default -->
+  <div class="fixed inset-0 z-50 bg-white md:hidden hidden" id="mobile-menu">
+    <div class="flex h-16 items-center justify-between px-4">
+      <a href="/" class="flex items-center gap-2">
+        <img src="/images/logo.png" alt="Whisker Haven Logo" width="40" height="40" />
+        <span class="font-bold text-xl">Whisker Haven</span>
+      </a>
+      <button class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-10 w-10" id="mobile-menu-close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="px-4 py-6 space-y-6">
+      <a href="/cats" class="block text-lg font-medium hover:text-primary">Find a Cat</a>
+      <a href="/shelters" class="block text-lg font-medium hover:text-primary">Shelters</a>
+      <a href="/adoption-process" class="block text-lg font-medium hover:text-primary">Adoption Process</a>
+      <a href="/resources" class="block text-lg font-medium hover:text-primary">Resources</a>
+      <a href="/donate" class="block text-lg font-medium hover:text-primary">Donate</a>
+      <% if (locals.currentUser) { %>
+        <a href="/favorites" class="block text-lg font-medium hover:text-primary">Favorites</a>
+        <a href="/profile" class="block text-lg font-medium hover:text-primary">Profile</a>
+        <a href="/my-applications" class="block text-lg font-medium hover:text-primary">My Applications</a>
+        <% if (currentUser.role === 'admin') { %>
+          <a href="/admin" class="block text-lg font-medium hover:text-primary">Admin Dashboard</a>
+        <% } %>
+        <form action="/logout" method="POST">
+          <button type="submit" class="w-full text-left block text-lg font-medium hover:text-primary">Log out</button>
+        </form>
+      <% } else { %>
+        <div class="flex flex-col gap-4">
+          <a href="/login">
+            <button class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+              Sign In
+            </button>
+          </a>
+          <a href="/register">
+            <button class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+              Sign Up
+            </button>
+          </a>
+        </div>
+      <% } %>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.remove('hidden');
+  });
+  
+  document.getElementById('mobile-menu-close').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.add('hidden');
+  });
+</script>

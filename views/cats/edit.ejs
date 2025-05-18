@@ -1,66 +1,174 @@
-
 <% layout("/layouts/boilerplate") %>
 
-    <form action="/cats/<%=cat._id%>?_method=PUT" method="POST">
-      <label for="name">Name: </label>
-      <input type="text" id="name" name="name" value="<%=cat.name%>" required />
+<div class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="bg-white shadow-md rounded-lg p-6 md:p-8">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Cat</h1>
+      <p class="text-gray-600">Update information for <span class="font-medium"><%= cat.name %></span></p>
+    </div>
 
-      <br /><br />
-      <label for="breed">Breed: </label>
-      <input type="text" id="breed" name="breed" value="<%=cat.breed%>" required />
+    <form action="/cats/<%= cat._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="space-y-6">
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              value="<%= cat.name %>" 
+              required 
+              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+              placeholder="Cat's name"
+            />
+          </div>
+          
+          <div>
+            <label for="breed" class="block text-sm font-medium text-gray-700 mb-1">Breed</label>
+            <input 
+              type="text" 
+              id="breed" 
+              name="breed" 
+              value="<%= cat.breed %>" 
+              required 
+              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+              placeholder="Cat's breed"
+            />
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age (years)</label>
+            <input 
+              type="number" 
+              id="age" 
+              name="age" 
+              value="<%= cat.age %>" 
+              required 
+              min="0" 
+              step="1" 
+              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+              placeholder="0"
+            />
+          </div>
+          
+          <div>
+            <label for="weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+            <input 
+              type="number" 
+              id="weight" 
+              name="weight" 
+              value="<%= cat.weight %>" 
+              required 
+              min="0" 
+              step="0.1" 
+              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+              placeholder="0.0"
+            />
+          </div>
+          
+          <div>
+            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+            <select 
+              id="gender" 
+              name="gender" 
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+            >
+              <option value="" disabled <%= !cat.gender ? 'selected' : '' %>>Select gender</option>
+              <option value="Female" <%= cat.gender === 'Female' ? 'selected' : '' %>>Female</option>
+              <option value="Male" <%= cat.gender === 'Male' ? 'selected' : '' %>>Male</option>
+            </select>
+          </div>
+        </div>
+        
+        <div>
+          <label for="color" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+          <div class="flex items-center space-x-3">
+            <input 
+              type="color" 
+              id="color" 
+              name="color" 
+              value="<%= cat.color %>" 
+              required 
+              class="h-10 w-20 border-0 rounded-md shadow-sm cursor-pointer"
+            />
+            <span class="text-sm text-gray-500">Select the cat's primary color</span>
+          </div>
+        </div>
+        
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            required 
+            rows="4" 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition resize-y"
+            placeholder="Describe the cat's personality, habits, and any special needs"
+          ><%= cat.description %></textarea>
+        </div>
+        
 
-      <br /><br />
-      <label for="age">Age: </label>
-      <input type="number" name="age" id="age" required min="0" step="1" value="<%=cat.age%>" required />
 
-      <br /><br />
-      <label for="color">Color: </label>
-      <input type="color" id="color" name="color" value="<%=cat.color%>" required />
 
-      <br /><br />
-      <label for="weight">Weight (kg): </label>
+
+
+        <div>
+          <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+          <input 
+            type="file" 
+            id="image" 
+            name="image" 
+            accept="image/*" 
+            required 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+          />
+          <p class="mt-1 text-xs text-gray-500">Upload an image file of the cat</p>
+        </div>
+
+        <div>
+          <label for="shelter" class="block text-sm font-medium text-gray-700 mb-1">Shelter</label>
+          <select 
+            id="shelter" 
+            name="shelter" 
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+          >
+            <option value="" disabled>Select shelter</option>
+            <% shelters.forEach((shelter) => { %>
+              <option 
+                value="<%= shelter._id %>" 
+                <%= cat.shelter && cat.shelter._id.toString() === shelter._id.toString() ? 'selected' : '' %>
+              >
+                <%= shelter.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
       
-      <input type="number" name="weight" id="weight" value="<%=cat.weight%>" required min="0" />
-     
-
-      <br /><br />
-      <label for="gender">Gender: </label>
-      <select name="gender" id="gender" required>
-        <option value="" disabled <%= !cat.gender ? 'selected' : '' %>>Select gender</option>
-        <option value="Female" <%= cat.gender === 'Female' ? 'selected' : '' %>>Female</option>
-        <option value="Male" <%= cat.gender === 'Male' ? 'selected' : '' %>>Male</option>
-      </select>
-
-      <br /><br />
-      <label for="description">Description: </label>
-      <textarea
-        id="description"
-        name="description"
-        required
-        rows="3"
-        cols="30"
-       
-      ><%=cat.description%></textarea>
-
-      <br /><br />
-      <label for="image">Image: </label>
-      <input type="url" id="image" name="image" value="<%=cat.image%>" required />
-
-      <br /><br />
-      <label for="shelter">Shelter: </label>
-      <select name="shelter" id="shelter">
-        <option value="" disabled selected>Select shelter</option>
-        <% shelters.forEach((shelter) => { %>
-            <option value="<%= shelter._id %>" <%= cat.shelter && cat.shelter._id.toString() === shelter._id.toString() ? 'selected' : '' %>><%= shelter.name %></option>
-
-        <% }) %>
-      </select>
-
-      <br /><br />
-
-      <button type="submit">Submit</button>
+      <div class="flex items-center justify-end pt-4 space-x-4">
+        <a 
+          href="/cats" 
+          class="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition"
+        >
+          Cancel
+        </a>
+        <button 
+          type="submit" 
+          class="px-6 py-2 bg-[#FF7A45] text-white font-medium rounded-md shadow-sm hover:bg-[#FF9D6C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF7A45] transition"
+        >
+          Update Cat
+        </button>
+      </div>
     </form>
-    <br>
-    <button><a href="/cats">Cancel</a></button>
-
-
+  </div>
+  
+  <div class="mt-6 text-center">
+    <a href="/cats/<%= cat._id %>" class="text-[#FF7A45] hover:text-[#FF9D6C] font-medium">
+      &larr; Back to <%= cat.name %>'s Details
+    </a>
+  </div>
+</div>

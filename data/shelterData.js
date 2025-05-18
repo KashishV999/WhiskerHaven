@@ -1,31 +1,79 @@
-module.exports=[
-// Shelter 1
-{
-    name: "Whiskers Haven",
-    location: "123 Main Street, San Francisco, CA 94105",
-    description: "Whiskers Haven is a non-profit cat rescue organization dedicated to finding loving homes for abandoned, abused, and homeless cats. We provide shelter, medical care, and rehabilitation for cats in need, and work tirelessly to match them with their perfect forever families. Founded in 2010, we have helped over 2,000 cats find their forever homes.",
-    phone: "4155551234",
-    email: "info@whiskershaven.org",
-    image: "https://images.unsplash.com/photo-1695462323553-6e58299ee8ce?q=80&w=2070&auto=format&fit=crop&w=1170&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  },
-  
-  // Shelter 2
+
+module.exports= [
   {
-    name: "Feline Friends Rescue",
-    location: "456 Oak Avenue, Oakland, CA 94610",
-    description: "Feline Friends Rescue is dedicated to rescuing cats from high-kill shelters and providing them with temporary foster homes until they find their forever families. We focus on cats with special needs, senior cats, and those who might otherwise be overlooked. Our network of dedicated volunteers ensures each cat receives personalized care and attention.",
-    phone: "5105559876",
-    email: "adopt@felinefriends.org",
-    image: "https://plus.unsplash.com/premium_photo-1663133698547-660d78434cdd?q=80&w=2072&auto=format&fit=crop&w=1170&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "Paws & Whiskers Shelter",
+    location: "New York, NY",
+    description: "A non-profit organization dedicated to rescuing and rehoming cats in the New York area. We've been operating since 2010 and have helped over 5,000 cats find their forever homes.",
+    phone: "2125551234",
+    email: "info@pawsandwhiskers.org",
+    image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c",
+    cats: [], // This would be populated with cat IDs after creation
+    hours: {
+      Monday: "10:00 AM - 6:00 PM",
+      Tuesday: "10:00 AM - 6:00 PM",
+      Wednesday: "10:00 AM - 6:00 PM",
+      Thursday: "10:00 AM - 8:00 PM",
+      Friday: "10:00 AM - 6:00 PM",
+      Saturday: "9:00 AM - 5:00 PM",
+      Sunday: "11:00 AM - 4:00 PM"
+    },
+    mission: "Our mission is to rescue, rehabilitate, and rehome cats in need. We believe every cat deserves a loving home and work tirelessly to make that a reality."
   },
-  
-  // Shelter 3
   {
-    name: "Purrfect Match Cat Sanctuary",
-    location: "789 Sunset Boulevard, Berkeley, CA 94704",
-    description: "Purrfect Match Cat Sanctuary provides a safe haven for abandoned and homeless cats in the Berkeley area. Our cage-free environment allows cats to socialize and play while they wait for their forever homes. We believe in matching each cat with the perfect family based on personality, lifestyle, and needs. Our adoption counselors work closely with potential adopters to ensure successful, lifelong placements.",
-    phone: "5105557890",
-    email: "contact@purrfectmatch.org",
-    image: "https://images.unsplash.com/photo-1570824104453-508955ab713e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+    name: "Happy Tails Rescue",
+    location: "Boston, MA",
+    description: "Focused on rescuing cats from high-kill shelters and finding them loving homes. We specialize in cats with special needs and senior cats that might otherwise be overlooked.",
+    phone: "6175555678",
+    email: "contact@happytails.org",
+    image: "https://images.unsplash.com/photo-1570824104453-508955ab713e",
+    cats: [], // This would be populated with cat IDs after creation
+    hours: {
+      Monday: "11:00 AM - 5:00 PM",
+      Tuesday: "11:00 AM - 5:00 PM",
+      Wednesday: "11:00 AM - 5:00 PM",
+      Thursday: "11:00 AM - 7:00 PM",
+      Friday: "11:00 AM - 5:00 PM",
+      Saturday: "10:00 AM - 6:00 PM",
+      Sunday: "Closed"
+    },
+    mission: "Happy Tails is committed to giving a second chance to cats that are often overlooked. We believe that every cat, regardless of age or health status, deserves a loving forever home."
+  },
+  {
+    name: "Feline Friends",
+    location: "Chicago, IL",
+    description: "A volunteer-run organization that has been helping cats find homes since 2005. We focus on community education and TNR (Trap-Neuter-Return) programs in addition to adoptions.",
+    phone: "3125559012",
+    email: "help@felinefriends.org",
+    image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+    cats: [], // This would be populated with cat IDs after creation
+    hours: {
+      Monday: "By appointment only",
+      Tuesday: "12:00 PM - 6:00 PM",
+      Wednesday: "12:00 PM - 6:00 PM",
+      Thursday: "12:00 PM - 6:00 PM",
+      Friday: "12:00 PM - 6:00 PM",
+      Saturday: "10:00 AM - 4:00 PM",
+      Sunday: "10:00 AM - 4:00 PM"
+    },
+    mission: "Feline Friends is dedicated to improving the lives of cats through rescue, adoption, education, and community outreach. We envision a world where all cats are valued and cared for."
+  },
+  {
+    name: "Whisker Rescue",
+    location: "Los Angeles, CA",
+    description: "Specializing in rescuing and rehabilitating cats with special needs. Our team includes veterinary professionals who provide specialized care for cats with medical conditions.",
+    phone: "3235553456",
+    email: "rescue@whiskerrescue.org",
+    image: "https://images.unsplash.com/photo-1604916287784-c324202b3205",
+    cats: [], // This would be populated with cat IDs after creation
+    hours: {
+      Monday: "Closed",
+      Tuesday: "1:00 PM - 7:00 PM",
+      Wednesday: "1:00 PM - 7:00 PM",
+      Thursday: "1:00 PM - 7:00 PM",
+      Friday: "1:00 PM - 7:00 PM",
+      Saturday: "11:00 AM - 5:00 PM",
+      Sunday: "11:00 AM - 5:00 PM"
+    },
+    mission: "At Whisker Rescue, we believe that cats with special needs deserve the same chance at a happy life as any other cat. We're committed to providing specialized care and finding understanding, patient forever homes for these special felines."
   }
-]
+];

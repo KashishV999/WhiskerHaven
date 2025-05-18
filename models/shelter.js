@@ -12,7 +12,8 @@ const ShelterSchema= new Schema({
     location:{
         type:String,
         required:true,
-        trim:true
+        trim:true,
+        index: true  // add index on location
     },
     description:{
         type:String,
@@ -39,7 +40,6 @@ const ShelterSchema= new Schema({
     },
     image:{
         type:String,
-        required:true,
         trim:true
     },
     cats:[
@@ -47,8 +47,18 @@ const ShelterSchema= new Schema({
             type:Schema.Types.ObjectId,
             ref:'Cat'
         }
-    ]
-});
+    ],
+    
+    hours: {
+        type: Schema.Types.Mixed,  // store operating hours as JSON object
+        default: {}
+    },
+    mission: {
+        type: String,
+        trim: true,
+        default: ''
+    }}, { timestamps: true });
+
 
 
 //hook to remove the cats when the shelter is deleted
@@ -63,5 +73,5 @@ ShelterSchema.post('findOneAndDelete', async function (shelter) {
 });
 
 
-const Shelter= mongoose.model('Shelter', ShelterSchema);
-module.exports= Shelter;
+//const Shelter= mongoose.model('Shelter', ShelterSchema);
+module.exports= ShelterSchema;

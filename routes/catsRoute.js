@@ -1,11 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const Cat = require("../models/cat"); // Import the Cat model
-const Shelter = require("../models/shelter"); // Import the Shelter model
 const AppError = require("../AppError"); //import AppError class
 
+
+const multer = require("multer");
+const { storage } = require('../config/cloudinary'); // your path may vary
+const upload = multer({ storage }); // multer middleware for handling file uploads
+
+
+
+const passport = require('passport');
+
+module.exports = (Cat, Shelter) => {
+
 // Show all cats
-router.get("/", async (req, res) => {
+router.get("/", async (req, res,next) => {
   try {
     const cats = await Cat.find({}).populate("shelter", "name"); // Find all cats and populate the shelter name
     if (!cats) {
@@ -24,7 +33,7 @@ router.get("/", async (req, res) => {
 // });
 
 // Show one cat
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res,next) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
   const cat = await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
@@ -42,7 +51,7 @@ catch(e){
 
 
 // Render edit form
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", passport.authenticate('jwt', { session: false }), async (req, res,next) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
   const cat = await Cat.findById(id); // Find the cat by ID
@@ -65,13 +74,17 @@ catch(e){
 // });
 
 // Update a cat
-router.put("/:id", async (req, res) => {
+router.put("/:id", upload.single("image"), passport.authenticate('jwt', { session: false }), async (req, res,next) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
   const cat = await Cat.findByIdAndUpdate(id, req.body, { new: true }); // Find the cat by ID and update it
   if(!cat){
     throw new AppError("Cat not found", 404); // Throw an error if the cat is not found
   }
+  if (req.file) {
+    cat.image = req.file.path; //set the image path if a file was uploaded
+  }
+  await cat.save(); //save the updated cat
   res.redirect(`/cats/${cat._id}`); // Redirect to the show page for the updated cat
 }
 catch(e){
@@ -86,4 +99,9 @@ catch(e){
 //   res.redirect("/cats"); // Redirect to the index page for all cats
 // });
 
-module.exports = router;
+
+
+  return router;
+};
+
+

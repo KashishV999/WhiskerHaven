@@ -1,13 +1,20 @@
+require('dotenv').config();
 const express = require("express");
 const router = express.Router();
-const Shelter = require("../models/shelter"); //import model for shelter
-const Cat = require("../models/cat"); //import model for cat
 const AppError = require("../AppError"); //import AppError class
-
+const passport = require("passport");
 const { ValidateShelterSchema } = require("../schemasSecurity"); //import Joi schema for shelter
 
+
+
+const multer = require("multer");
+const { storage } = require('../config/cloudinary'); // your path may vary
+const upload = multer({ storage }); // multer middleware for handling file uploads
+
+module.exports = (Cat, Shelter) => {
+
 //show all shelters
-router.get("/", async (req, res) => {
+router.get("/", async (req, res,next) => {
   try {
     const shelters = await Shelter.find({}).populate("cats"); //find all shelters and populate the cats array
     if (!shelters) {
@@ -24,10 +31,10 @@ router.get("/new", (req, res) => {
 });
 
 //show details of a shelter
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res,next) => {
   try {
     const { id } = req.params; //get the id from the url
-    const shelter = await Shelter.findById(id).populate("cats", "name image"); //find the shelter by id and populate the cats array
+    const shelter = await Shelter.findById(id).populate("cats"); //find the shelter by id and populate the cats array
     if (!shelter) {
       throw new AppError("Shelter not found", 404); //throw an error if the shelter is not found
     }
@@ -54,13 +61,23 @@ const validateShelter = (req, res, next) => {
   }
 };
 
-router.post("/", validateShelter, async (req, res) => {
-  const newShelter = await Shelter.create(req.body); //create a new shelter
+router.post("/", upload.single('image'), validateShelter, async (req, res) => {
+  //const newShelter = await Shelter.create(req.body); //create a new shelter
+  const newShelter = new Shelter(req.body); //create a new shelter
+  if(req.file) {
+    newShelter.image=req.file.path; //set the image path for the new shelter
+    console.log(newShelter.image);
+  }
+  else{
+    console.log("no image");
+  }
+  await newShelter.save(); //save the new shelter
+
   res.redirect(`/shelters/${newShelter._id}`); //redirect to the show page for the new shelter
 });
 
 //render edit form
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit",async (req, res,next) => {
   try {
     const { id } = req.params; //get the id from the url
     const shelter = await Shelter.findById(id); //find the shelter by id
@@ -73,9 +90,13 @@ router.get("/:id/edit", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
   const shelter = await Shelter.findByIdAndUpdate(id, req.body, { new: true }); //find the shelter by id and update it
+  if (req.file) {
+    shelter.image = req.file.path; //set the image path if a file was uploaded
+  }
+  await shelter.save(); //save the updated shelter
   res.redirect(`/shelters/${shelter._id}`); //redirect to the show page for the updated shelter
 });
 
@@ -85,4 +106,10 @@ router.delete("/:id", async (req, res) => {
   res.redirect("/shelters"); //redirect to the index page for shelters
 });
 
-module.exports = router; //export the router
+
+return router; //return the router
+}
+
+
+
+
