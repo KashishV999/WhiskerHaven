@@ -134,7 +134,8 @@ app.post("/api/login", (req,res)=>{
 
 
       app.get("/", (req, res) => {
-        res.render('home.ejs');
+       // res.render('./cats/index.ejs');
+       res.redirect("/cats");
       });
 
       app.use("/cats", catRoutes);
