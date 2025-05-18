@@ -7,7 +7,7 @@ module.exports = [
     weight: 10.5,
     gender: "Male",
     description: "Whiskers is a playful and affectionate cat who loves to cuddle. He's very social and gets along well with children and other pets.",
-    image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747558381/photo-1747176786013-63fb1ad3e0e4_aoab2k.jpg",
     status: "Available",
     arrival_date: new Date("2023-01-15"),
     adoption_fee: 150.00,
