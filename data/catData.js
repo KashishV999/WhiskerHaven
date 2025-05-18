@@ -151,7 +151,7 @@ module.exports = [
     weight: 7.5,
     gender: "Male",
     description: "Leo is playful and very active. He needs plenty of toys and playtime to keep him entertained and would do best in a home where he gets lots of attention.",
-    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747558793/photo-1746672757960-e712d0795674_ychps7.jpg",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747559414/photo-1747321752241-10b0900481cc_cwdurz.jpg",
     status: "Available",
     arrival_date: new Date("2023-03-10"),
     adoption_fee: 200.00,
