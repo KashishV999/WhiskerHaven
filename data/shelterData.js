@@ -6,7 +6,7 @@ module.exports= [
     description: "A non-profit organization dedicated to rescuing and rehoming cats in the New York area. We've been operating since 2010 and have helped over 5,000 cats find their forever homes.",
     phone: "2125551234",
     email: "info@pawsandwhiskers.org",
-    image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747559763/photo-1548767797-d8c844163c4c_gi4ogs.jpg",
     cats: [], // This would be populated with cat IDs after creation
     hours: {
       Monday: "10:00 AM - 6:00 PM",
@@ -25,7 +25,7 @@ module.exports= [
     description: "Focused on rescuing cats from high-kill shelters and finding them loving homes. We specialize in cats with special needs and senior cats that might otherwise be overlooked.",
     phone: "6175555678",
     email: "contact@happytails.org",
-    image: "https://images.unsplash.com/photo-1570824104453-508955ab713e",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747559809/photo-1570824104453-508955ab713e_gcacy1.jpg",
     cats: [], // This would be populated with cat IDs after creation
     hours: {
       Monday: "11:00 AM - 5:00 PM",
@@ -44,7 +44,7 @@ module.exports= [
     description: "A volunteer-run organization that has been helping cats find homes since 2005. We focus on community education and TNR (Trap-Neuter-Return) programs in addition to adoptions.",
     phone: "3125559012",
     email: "help@felinefriends.org",
-    image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747559928/o93hcwgbjvos225ixk1g_vv2lyu.jpg",
     cats: [], // This would be populated with cat IDs after creation
     hours: {
       Monday: "By appointment only",
@@ -63,7 +63,7 @@ module.exports= [
     description: "Specializing in rescuing and rehabilitating cats with special needs. Our team includes veterinary professionals who provide specialized care for cats with medical conditions.",
     phone: "3235553456",
     email: "rescue@whiskerrescue.org",
-    image: "https://images.unsplash.com/photo-1604916287784-c324202b3205",
+    image: "https://res.cloudinary.com/dvrtuaseh/image/upload/v1747559952/photo-1592194996308-7b43878e84a6_fzxfsh.jpg",
     cats: [], // This would be populated with cat IDs after creation
     hours: {
       Monday: "Closed",
