@@ -91,9 +91,16 @@ db.connect()
       const seedShelter = require('./seeds/seedShelters');
       const seedCat = require('./seeds/seedCats');
 
-      // Seed data
-      await seedShelter(Shelter);
-      await seedCat(Cat, Shelter);
+
+      if(!await Shelter.findOne()){
+        console.log("No shelters found, seeding data...");
+        await seedShelter(Shelter);
+      }
+      if(!await Cat.findOne()){
+        console.log("No cats found, seeding data...");
+        await seedCat(Cat, Shelter);
+      }
+    
 
 
 app.post("/api/register", (req,res)=>{
@@ -128,7 +135,6 @@ app.post("/api/login", (req,res)=>{
       res.status(422).json({ message: msg });
     });
 });
-
 
 
 
