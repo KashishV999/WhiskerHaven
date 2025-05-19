@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Dashboard | Cat Adoption</title>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar for larger screens -->
+        <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+            <div class="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
+                <%- include('../partials/sidebarAdmin') %>
+            </div>
+        </div>
+        
+        <!-- Main content area -->
+        <div class="md:pl-64 flex flex-col flex-1">
+            <!-- Header -->
+            <div class="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
+                <%- include('../partials/headerAdmin') %>
+            </div>
+            
+            <!-- Main content -->
+            <main class="flex-1 p-4 md:p-6">
+                <%- body %>
+            </main>
+            
+
+        </div>
+    </div>
+    
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-gray-600 bg-opacity-75 z-20 hidden md:hidden"></div>
+    
+    <script>
+        // Toggle mobile sidebar
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                sidebar.classList.add('hidden');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+        
+        // Close sidebar when clicking outside
+        document.getElementById('sidebar-overlay')?.addEventListener('click', toggleMobileSidebar);
+    </script>
+</body>
+</html>

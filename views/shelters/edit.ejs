@@ -81,7 +81,7 @@
           name="image" 
           accept="image/*" 
           value="<%= shelter.image %>"
-          required 
+           
           class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
         />
         <p class="mt-1 text-xs text-gray-500">Upload an image file of the Cat</p>
@@ -89,7 +89,7 @@
       
       <div class="flex items-center justify-end pt-4 space-x-4">
         <a 
-          href="/shelters/<%= shelter._id %>" 
+          href="/admin/shelters" 
           class="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition"
         >
           Cancel
@@ -105,7 +105,7 @@
   </div>
   
   <div class="mt-6 text-center">
-    <a href="/shelters" class="text-[#FF7A45] hover:text-[#FF9D6C] font-medium">
+    <a href="/admin/shelters" class="text-[#FF7A45] hover:text-[#FF9D6C] font-medium">
       &larr; Back to All Shelters
     </a>
   </div>

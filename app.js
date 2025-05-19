@@ -103,8 +103,6 @@ db.connect()
         console.log("No cats found, seeding data...");
         await seedCat(Cat, Shelter);
       }
-    
-
 
 // app.get("/api/register", (req,res)=>{
 //   res.render("register.ejs");
@@ -163,6 +161,22 @@ app.post("/api/login", (req,res)=>{
       app.use("/cats", catRoutes);
       app.use("/shelters", shelterRoutes);
       app.use("/shelters/:shelterId/cats", nestedRoutes);
+
+
+
+
+
+
+
+
+app.get("/admin/cats", async (req,res)=>{
+  const cats=await Cat.find({}).populate("shelter");
+  res.render("adminDashboard/catsManage.ejs", { cats });
+})
+app.get("/admin/shelters", async (req,res)=>{ 
+const shelters=await Shelter.find({})
+  res.render("adminDashboard/sheltersManage.ejs", { shelters });
+});
 
 
 

@@ -1,343 +1,347 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-  <div class="bg-white shadow-md rounded-lg p-6 md:p-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Add A New Cat</h1>
-      <p class="text-gray-600">Add a new cat to <span class="font-medium"><%= shelter.name %></span> shelter.</p>
-    </div>
-
-    <form action="/shelters/<%= shelter._id %>/cats" method="POST" enctype="multipart/form-data" class="space-y-8">
-      <!-- Basic Information Section -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Basic Information</h2>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name*</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                required 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                placeholder="Cat's name"
-              />
-            </div>
-            
-            <div>
-              <label for="breed" class="block text-sm font-medium text-gray-700 mb-1">Breed*</label>
-              <input 
-                type="text" 
-                id="breed" 
-                name="breed" 
-                required 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                placeholder="Cat's breed"
-              />
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age (years)*</label>
-              <input 
-                type="number" 
-                id="age" 
-                name="age" 
-                required 
-                min="0" 
-                step="1" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                placeholder="0"
-              />
-            </div>
-            
-            <div>
-              <label for="weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (lbs)*</label>
-              <input 
-                type="number" 
-                id="weight" 
-                name="weight" 
-                required 
-                min="0" 
-                step="0.1" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                placeholder="0.0"
-              />
-            </div>
-            
-            <div>
-              <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender*</label>
-              <select 
-                id="gender" 
-                name="gender" 
-                required
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-              >
-                <option value="" disabled selected>Select gender</option>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-              </select>
-            </div>
-          </div>
-          
-          <div>
-            <label for="color" class="block text-sm font-medium text-gray-700 mb-1">Color*</label>
-            <div class="flex items-center space-x-3">
-              <input 
-                type="color" 
-                id="color" 
-                name="color" 
-                required 
-                class="h-10 w-20 border-0 rounded-md shadow-sm cursor-pointer"
-              />
-              <span class="text-sm text-gray-500">Select the cat's primary color</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Adoption Details Section -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Adoption Details</h2>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-              <select 
-                id="status" 
-                name="status" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-              >
-                <option value="Available" selected>Available</option>
-                <option value="Pending">Pending</option>
-                <option value="Adopted">Adopted</option>
-              </select>
-            </div>
-            
-            <div>
-              <label for="arrival_date" class="block text-sm font-medium text-gray-700 mb-1">Arrival Date</label>
-              <input 
-                type="date" 
-                id="arrival_date" 
-                name="arrival_date" 
-                value="<%= new Date().toISOString().split('T')[0] %>"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-              />
-            </div>
-            
-            <div>
-              <label for="adoption_fee" class="block text-sm font-medium text-gray-700 mb-1">Adoption Fee ($)</label>
-              <input 
-                type="number" 
-                id="adoption_fee" 
-                name="adoption_fee" 
-                min="0" 
-                step="0.01" 
-                value="0.00"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                placeholder="0.00"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Health & Care Section -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Health & Care</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              id="spayed_neutered" 
-              name="spayed_neutered" 
-              class="h-4 w-4 rounded border-gray-300 text-[#FF7A45] focus:ring-[#FF7A45]"
-            />
-            <label for="spayed_neutered" class="text-sm font-medium text-gray-700">Spayed/Neutered</label>
-          </div>
-          
-          <div class="flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              id="vaccinated" 
-              name="vaccinated" 
-              class="h-4 w-4 rounded border-gray-300 text-[#FF7A45] focus:ring-[#FF7A45]"
-            />
-            <label for="vaccinated" class="text-sm font-medium text-gray-700">Vaccinated</label>
-          </div>
-          
-          <div class="flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              id="microchipped" 
-              name="microchipped" 
-              class="h-4 w-4 rounded border-gray-300 text-[#FF7A45] focus:ring-[#FF7A45]"
-            />
-            <label for="microchipped" class="text-sm font-medium text-gray-700">Microchipped</label>
-          </div>
-          
-          <div class="flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              id="special_needs" 
-              name="special_needs" 
-              class="h-4 w-4 rounded border-gray-300 text-[#FF7A45] focus:ring-[#FF7A45]"
-            />
-            <label for="special_needs" class="text-sm font-medium text-gray-700">Special Needs</label>
-          </div>
-          
-          <div class="flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              id="house_trained" 
-              name="house_trained" 
-              class="h-4 w-4 rounded border-gray-300 text-[#FF7A45] focus:ring-[#FF7A45]"
-            />
-            <label for="house_trained" class="text-sm font-medium text-gray-700">House Trained</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Personality & Characteristics Section -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Personality & Characteristics</h2>
-        <div class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label for="activity_level" class="block text-sm font-medium text-gray-700 mb-1">Activity Level</label>
-              <select 
-                id="activity_level" 
-                name="activity_level" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-              >
-                <option value="Low">Low</option>
-                <option value="Moderate" selected>Moderate</option>
-                <option value="High">High</option>
-              </select>
-            </div>
-            
-            <div>
-              <label for="coat_length" class="block text-sm font-medium text-gray-700 mb-1">Coat Length</label>
-              <select 
-                id="coat_length" 
-                name="coat_length" 
-                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-              >
-                <option value="Short" selected>Short</option>
-                <option value="Medium">Medium</option>
-                <option value="Long">Long</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="space-y-2">
-            <p class="block text-sm font-medium text-gray-700">Good With:</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label class="flex items-center space-x-2">
-                  <select 
-                    name="good_with_children" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                  >
-                    <option value="" selected>Unknown - Children</option>
-                    <option value="true">Yes - Good with children</option>
-                    <option value="false">No - Not good with children</option>
-                  </select>
-                </label>
-              </div>
-              
-              <div>
-                <label class="flex items-center space-x-2">
-                  <select 
-                    name="good_with_cats" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                  >
-                    <option value="" selected>Unknown - Cats</option>
-                    <option value="true">Yes - Good with cats</option>
-                    <option value="false">No - Not good with cats</option>
-                  </select>
-                </label>
-              </div>
-              
-              <div>
-                <label class="flex items-center space-x-2">
-                  <select 
-                    name="good_with_dogs" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-                  >
-                    <option value="" selected>Unknown - Dogs</option>
-                    <option value="true">Yes - Good with dogs</option>
-                    <option value="false">No - Not good with dogs</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Additional Information Section -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Additional Information</h2>
-        <div class="space-y-4">
-          <div>
-            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description*</label>
-            <textarea 
-              id="description" 
-              name="description" 
-              required 
-              rows="3" 
-              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition resize-y"
-              placeholder="Describe the cat's personality, habits, and any special needs"
-            ></textarea>
-          </div>
-          
-          <div>
-            <label for="story" class="block text-sm font-medium text-gray-700 mb-1">Background Story</label>
-            <textarea 
-              id="story" 
-              name="story" 
-              rows="4" 
-              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition resize-y"
-              placeholder="Share the cat's background story, rescue details, or other relevant history"
-            ></textarea>
-          </div>
-          
-      <div>
-        <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-        <input 
-          type="file" 
-          id="image" 
-          name="image" 
-          accept="image/*" 
-          required 
-          class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
-        />
-        <p class="mt-1 text-xs text-gray-500">Upload an image file of the Cat</p>
-      </div>
-      
-      <div class="flex items-center justify-end pt-4 space-x-4">
-        <a 
-          href="/cats" 
-          class="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition"
-        >
-          Cancel
-        </a>
-        <button 
-          type="submit" 
-          class="px-6 py-2 bg-[#FF7A45] text-white font-medium rounded-md shadow-sm hover:bg-[#FF9D6C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF7A45] transition"
-        >
-          Add Cat
-        </button>
-      </div>
-    </form>
-  </div>
-  
-  <div class="mt-6 text-center">
-    <a href="/shelters/<%= shelter._id %>" class="text-[#FF7A45] hover:text-[#FF9D6C] font-medium">
-      &larr; Back to <%= shelter.name %> Shelter
+<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Add A New Cat</h1>
+    <a href="/admin/cats" class="text-amber-500 hover:text-amber-600 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to <%= shelter ? shelter.name : 'Cats' %>
     </a>
   </div>
+
+  <form 
+    action="<%= shelter ? `/shelters/${shelter._id}/cats` : '/cats' %>" 
+    method="POST" 
+    enctype="multipart/form-data"
+    class="space-y-8"
+  >
+    <!-- Basic Information Section -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+      <div class="bg-amber-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">Basic Information</h2>
+      </div>
+      <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="space-y-2">
+          <label for="name" class="block text-sm font-medium text-gray-700">Name <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            required 
+            placeholder="Cat's name" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="breed" class="block text-sm font-medium text-gray-700">Breed <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="breed" 
+            name="breed" 
+            required 
+            placeholder="Cat's breed" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="age" class="block text-sm font-medium text-gray-700">Age (years) <span class="text-red-500">*</span></label>
+          <input 
+            type="number" 
+            id="age" 
+            name="age" 
+            required 
+            min="0" 
+            step="1" 
+            placeholder="0" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="weight" class="block text-sm font-medium text-gray-700">Weight (lbs) <span class="text-red-500">*</span></label>
+          <input 
+            type="number" 
+            id="weight" 
+            name="weight" 
+            required 
+            min="0" 
+            step="0.1" 
+            placeholder="0.0" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="gender" class="block text-sm font-medium text-gray-700">Gender <span class="text-red-500">*</span></label>
+          <select 
+            id="gender" 
+            name="gender" 
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          >
+            <option value="" disabled selected>Select gender</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+          </select>
+        </div>
+        <div class="space-y-2">
+          <label for="color" class="block text-sm font-medium text-gray-700">Color <span class="text-red-500">*</span></label>
+          <div class="flex items-center space-x-3">
+            <input 
+              type="color" 
+              id="color" 
+              name="color" 
+              required 
+              class="h-10 w-10 border border-gray-300 rounded cursor-pointer"
+            />
+            <span class="text-sm text-gray-500">Select the cat's primary color</span>
+          </div>
+        </div>
+        <% if (shelters) { %>
+          <div class="space-y-2 sm:col-span-2">
+            <label for="shelter" class="block text-sm font-medium text-gray-700">Shelter</label>
+            <select 
+              name="shelter"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+              <% shelters.forEach((oneShelter) => { %>
+                <option value="<%= oneShelter._id %>"><%= oneShelter.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Adoption Details Section -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+      <div class="bg-amber-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">Adoption Details</h2>
+      </div>
+      <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div class="space-y-2">
+          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+          <select 
+            id="status" 
+            name="status"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          >
+            <option value="Available" selected>Available</option>
+            <option value="Pending">Pending</option>
+            <option value="Adopted">Adopted</option>
+          </select>
+        </div>
+        <div class="space-y-2">
+          <label for="arrival_date" class="block text-sm font-medium text-gray-700">Arrival Date</label>
+          <input 
+            type="date" 
+            id="arrival_date" 
+            name="arrival_date" 
+            value="<%= new Date().toISOString().split('T')[0] %>" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div class="space-y-2">
+          <label for="adoption_fee" class="block text-sm font-medium text-gray-700">Adoption Fee ($)</label>
+          <input 
+            type="number" 
+            id="adoption_fee" 
+            name="adoption_fee" 
+            min="0" 
+            step="0.01" 
+            value="0.00" 
+            placeholder="0.00" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Health & Care Section -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+      <div class="bg-amber-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">Health & Care</h2>
+      </div>
+      <div class="p-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="spayed_neutered" 
+            name="spayed_neutered" 
+            class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded"
+          />
+          <label for="spayed_neutered" class="ml-2 block text-sm text-gray-700">Spayed/Neutered</label>
+        </div>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="vaccinated" 
+            name="vaccinated" 
+            class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded"
+          />
+          <label for="vaccinated" class="ml-2 block text-sm text-gray-700">Vaccinated</label>
+        </div>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="microchipped" 
+            name="microchipped" 
+            class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded"
+          />
+          <label for="microchipped" class="ml-2 block text-sm text-gray-700">Microchipped</label>
+        </div>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="special_needs" 
+            name="special_needs" 
+            class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded"
+          />
+          <label for="special_needs" class="ml-2 block text-sm text-gray-700">Special Needs</label>
+        </div>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="house_trained" 
+            name="house_trained" 
+            class="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-300 rounded"
+          />
+          <label for="house_trained" class="ml-2 block text-sm text-gray-700">House Trained</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personality & Characteristics Section -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+      <div class="bg-amber-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">Personality & Characteristics</h2>
+      </div>
+      <div class="p-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="space-y-2">
+          <label for="activity_level" class="block text-sm font-medium text-gray-700">Activity Level</label>
+          <select 
+            id="activity_level" 
+            name="activity_level"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          >
+            <option value="Low">Low</option>
+            <option value="Moderate" selected>Moderate</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        <div class="space-y-2">
+          <label for="coat_length" class="block text-sm font-medium text-gray-700">Coat Length</label>
+          <select 
+            id="coat_length" 
+            name="coat_length"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          >
+            <option value="Short" selected>Short</option>
+            <option value="Medium">Medium</option>
+            <option value="Long">Long</option>
+          </select>
+        </div>
+        
+        <div class="space-y-4 sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-700">Good With:</label>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="space-y-2">
+              <label for="good_with_children" class="block text-sm text-gray-700">Children</label>
+              <select 
+                id="good_with_children" 
+                name="good_with_children"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+              >
+                <option value="" selected>Unknown - Children</option>
+                <option value="true">Yes - Good with children</option>
+                <option value="false">No - Not good with children</option>
+              </select>
+            </div>
+            <div class="space-y-2">
+              <label for="good_with_cats" class="block text-sm text-gray-700">Cats</label>
+              <select 
+                id="good_with_cats" 
+                name="good_with_cats"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+              >
+                <option value="" selected>Unknown - Cats</option>
+                <option value="true">Yes - Good with cats</option>
+                <option value="false">No - Not good with cats</option>
+              </select>
+            </div>
+            <div class="space-y-2">
+              <label for="good_with_dogs" class="block text-sm text-gray-700">Dogs</label>
+              <select 
+                id="good_with_dogs" 
+                name="good_with_dogs"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+              >
+                <option value="" selected>Unknown - Dogs</option>
+                <option value="true">Yes - Good with dogs</option>
+                <option value="false">No - Not good with dogs</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information Section -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+      <div class="bg-amber-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">Additional Information</h2>
+      </div>
+      <div class="p-6 space-y-6">
+        <div class="space-y-2">
+          <label for="description" class="block text-sm font-medium text-gray-700">Description <span class="text-red-500">*</span></label>
+          <textarea 
+            id="description" 
+            name="description" 
+            required 
+            rows="3" 
+            placeholder="Describe the cat's personality, habits, and any special needs"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          ></textarea>
+        </div>
+        <div class="space-y-2">
+          <label for="story" class="block text-sm font-medium text-gray-700">Background Story</label>
+          <textarea 
+            id="story" 
+            name="story" 
+            rows="4" 
+            placeholder="Share the cat's background story, rescue details, or other relevant history"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+          <input 
+            type="file" 
+            id="image" 
+            name="image" 
+            accept="image/*" 
+            required 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#FF7A45] focus:border-[#FF7A45] outline-none transition"
+          />
+          <p class="mt-1 text-xs text-gray-500">Upload an image file of the cat</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-4">
+      <a 
+        href="/admin/cats" 
+        class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+      >
+        Cancel
+      </a>
+      <button 
+        type="submit" 
+        class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+      >
+        Add Cat
+      </button>
+    </div>
+  </form>
 </div>
