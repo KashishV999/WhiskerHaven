@@ -14,13 +14,77 @@ const passport = require('passport');
 module.exports = (Cat, Shelter) => {
 
 // Show all cats
-router.get("/", async (req, res,next) => {
+// Show all cats
+router.get("/", async (req, res, next) => {
   try {
-    const cats = await Cat.find({}).populate("shelter", "name"); // Find all cats and populate the shelter name
-    if (!cats) {
+    // Pagination and filtering
+    const { page = 1, perPage = 5, search, age, ...filters } = req.query;
+    
+    // Build the filter object
+    let filter = {};
+    
+    // Search filter
+    if (search) {
+      filter = {
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { breed: { $regex: search, $options: "i" } }
+        ]
+      };
+    }
+
+    
+  const filterByAge = {
+  kitten: { age: { $lt: 1 } },
+  young: { age: { $gte: 1, $lt: 3 } },
+  adult: { age: { $gte: 4, $lt: 10 } },
+  senior: { age: { $gte: 10 } }
+  }[age] || {};
+
+   // Boolean filters with !! conversion
+    const booleanFields = [
+      "spayed_neutered",
+      "vaccinated",
+      "microchipped",
+      "special_needs",
+      "house_trained",
+      "good_with_children",
+      "good_with_cats",
+      "good_with_dogs"
+    ];
+    
+    booleanFields.forEach(field => {
+      if (filters[field] !== undefined) {
+        // Using !! to convert to boolean
+        filter[field] = !!filters[field];
+      }
+    });
+    
+    // Count total matching cats
+    const totalCats = await Cat.countDocuments(filter);
+    const totalPages = Math.ceil(totalCats / perPage);
+    
+
+    console.log(filter);
+
+
+    // Get paginated results
+    const cats = await Cat.find({ ...filter, ...filterByAge })
+      .skip((page - 1) * perPage)
+      .limit(Number(perPage))
+      .populate("shelter", "name")
+      .exec();
+    
+    if (!cats || cats.length === 0) {
       throw new AppError("No cats found", 404);
     }
-    res.render("cats/index.ejs", { cats });
+    
+    res.render("cats/index.ejs", { 
+      cats, 
+      currentPage: Number(page), 
+      perPage: Number(perPage), 
+      totalPages 
+    });
   } catch (e) {
     next(e);
   }
@@ -51,7 +115,7 @@ catch(e){
 
 
 // Render edit form
-router.get("/:id/edit", passport.authenticate('jwt', { session: false }), async (req, res,next) => {
+router.get("/:id/edit", async (req, res,next) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
   const cat = await Cat.findById(id); // Find the cat by ID
@@ -74,7 +138,7 @@ catch(e){
 // });
 
 // Update a cat
-router.put("/:id", upload.single("image"), passport.authenticate('jwt', { session: false }), async (req, res,next) => {
+router.put("/:id", upload.single("image"),  async (req, res,next) => {
     try{
   const { id } = req.params; // Get the cat ID from the URL
   const cat = await Cat.findByIdAndUpdate(id, req.body, { new: true }); // Find the cat by ID and update it

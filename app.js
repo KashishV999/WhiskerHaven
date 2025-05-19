@@ -103,6 +103,15 @@ db.connect()
     
 
 
+app.get("/api/register", (req,res)=>{
+  res.render("register.ejs");
+})
+
+app.get("/api/login", (req,res)=>{
+  res.render("login.ejs");
+});
+
+
 app.post("/api/register", (req,res)=>{
   db
     .registerUser(req.body)
