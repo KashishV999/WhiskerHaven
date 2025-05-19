@@ -17,8 +17,11 @@ module.exports = (Cat, Shelter) => {
 // Show all cats
 router.get("/", async (req, res, next) => {
   try {
+
+   
+    
     // Pagination and filtering
-    const { page = 1, perPage = 5, search, age, ...filters } = req.query;
+    const { page = 1, perPage = 6, search, age, ...filters } = req.query;
     
     // Build the filter object
     let filter = {};
@@ -83,7 +86,8 @@ router.get("/", async (req, res, next) => {
       cats, 
       currentPage: Number(page), 
       perPage: Number(perPage), 
-      totalPages 
+      totalPages,
+   
     });
   } catch (e) {
     next(e);

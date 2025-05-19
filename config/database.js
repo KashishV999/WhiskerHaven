@@ -71,32 +71,9 @@ function connect(){
         db.once('open', () => {
             console.log("Connected to MongoDB");
 
-            //initialize models here
-          User = db.model("User", userSchema, "users");
-          if(User) {
-              console.log("User model initialized");
-          }
-          else {
-              console.log("User model not initialized");
-          }
-
-
-          Cat = db.model("Cat", CatSchema, "cats");
-          if(Cat) {
-              console.log("Cat model initialized");
-          }
-          else {
-              console.log("Cat model not initialized");
-          }
-
-
-          Shelter = db.model("Shelter", ShelterSchema, "shelters");
-          if(Shelter) {
-              console.log("Shelter model initialized");
-          }
-          else {
-              console.log("Shelter model not initialized");
-          }
+      if (!User) User = db.model("User", userSchema, "users");
+      if (!Cat) Cat = db.model("Cat", CatSchema, "cats");
+      if (!Shelter) Shelter = db.model("Shelter", ShelterSchema, "shelters");
 
             resolve();
         });
@@ -106,13 +83,22 @@ function connect(){
 function registerUser(userData) {
     return new Promise(function (resolve, reject) {
 
+        console.log(userData);
+
         if (userData.password != userData.password2) {
             reject("Passwords do not match");
         } else {
 
+            User.findOne({ email: userData.email })
+        .then(existingUser => {
+          if (existingUser) {
+            reject("Email already registered"); // Early rejection
+          }})
+
             bcrypt.hash(userData.password, 10).then(hash=>{ // Hash the password using a Salt that was generated using 10 rounds
                 
                 userData.password = hash;
+
 
                 let newUser = new User(userData);
 
@@ -120,6 +106,7 @@ function registerUser(userData) {
                     resolve("User " + userData.email + " successfully registered");
                 }).catch(err => {
                     if (err.code == 11000) {
+                        console.log("11000 errorrrrrr");
                         reject("Email already registered");
                     } else {
                         reject("There was an error creating the user: " + err);

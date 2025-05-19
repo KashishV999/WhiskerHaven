@@ -52,6 +52,9 @@ app.use(passport.initialize());
 
 
 
+
+
+
 const db=require('./config/database'); //import the database connection
 
 
@@ -103,20 +106,23 @@ db.connect()
     
 
 
-app.get("/api/register", (req,res)=>{
-  res.render("register.ejs");
-})
+// app.get("/api/register", (req,res)=>{
+//   res.render("register.ejs");
+// })
 
-app.get("/api/login", (req,res)=>{
-  res.render("login.ejs");
-});
+// app.get("/api/login", (req,res)=>{
+//   res.render("login.ejs");
+// });
 
 
 app.post("/api/register", (req,res)=>{
   db
     .registerUser(req.body)
     .then((msg) => {
-      res.json({ message: msg });
+      //res.json({ message: msg });
+      res.redirect('/cats');
+
+
     })
     .catch((msg) => {
       res.status(422).json({ message: msg });
@@ -138,7 +144,8 @@ app.post("/api/login", (req,res)=>{
             
             let token = jwt.sign(payload, jwtOptions.secretOrKey);
 
-      res.json({ message: 'login successful', token: token });
+      //res.json({ message: 'login successful', token: token });
+      res.redirect("/cats");
     })
     .catch((msg) => {
       res.status(422).json({ message: msg });

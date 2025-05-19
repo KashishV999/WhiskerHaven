@@ -1,0 +1,102 @@
+<dialog id="registerModal" class="modal fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 p-4">
+  <div class="modal-box bg-white rounded-lg shadow-xl max-w-md mx-auto my-8">
+    <div class="p-6">
+      <div class="space-y-2 text-center">
+        <div class="flex justify-center">
+          <img src="https://www.shutterstock.com/image-vector/vector-cat-face-minimalist-adorable-600nw-2426797721.jpg" alt="Whisker Haven Logo" width="40" height="40" class="h-10 w-10" />
+        </div>
+        <h1 class="text-3xl font-bold">Registration</h1>
+        <p class="text-gray-500">Create an account to get started</p>
+      </div>
+      
+      <div class="space-y-4 mt-6">
+        <form action="/api/register" method="POST" class="space-y-4">
+          <div class="space-y-2">
+            <label for="firstName" class="block text-sm font-medium">First Name</label>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              placeholder="Enter your first name"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label for="lastName" class="block text-sm font-medium">Last Name</label>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              placeholder="Enter your last name"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label for="email" class="block text-sm font-medium">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label for="password" class="block text-sm font-medium">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Create a password"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label for="password2" class="block text-sm font-medium">Confirm Password</label>
+            <input
+              id="password2"
+              name="password2"
+              type="password"
+              placeholder="Confirm your password"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+            >
+          </div>
+          
+          <button 
+            type="submit" 
+            class="w-full bg-amber-500 text-white font-medium py-2 px-4 rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
+          >
+            Register
+          </button>
+        </form>
+        
+        <div class="text-center text-sm">
+          <p class="text-gray-500">
+            Already have an account?
+            <button onclick="loginModal.showModal()" class="text-amber-500 hover:underline underline-offset-4 ml-1 font-medium">
+              Sign in
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-action border-t p-4 flex justify-end">
+      <button 
+        onclick="registerModal.close()" 
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</dialog>
