@@ -1,9 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
-
-
-
-
+<!------All cats-->
 
 <div class="container mx-auto px-4 py-8 max-w-7xl">
   <div class="text-center mb-10">
@@ -208,42 +205,44 @@
     <!-- Right side with cat grid -->
     <div class="lg:col-span-3">
       <!-- Cat grid -->
+  
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
-        <% cats.forEach((cat) => { %>
-          <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow border border-gray-200 group">
-            <div class="relative overflow-hidden">
-              <img 
-                src="<%= cat.image %>" 
-                alt="Image of <%= cat.name %>, a <%= cat.breed %> breed" 
-                class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div class="absolute top-3 right-3">
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                  <%= cat.age %> years
-                </span>
-              </div>
-            </div>
-            <div class="p-5 space-y-4">
-              <h3 class="font-bold text-xl text-gray-900"><%= cat.name %></h3>
-              <ul class="space-y-1 text-gray-600">
-                <li class="flex items-center gap-2">
-                  <span class="font-semibold">Breed:</span> <%= cat.breed %>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="font-semibold">Gender:</span> <%= cat.gender %>
-                </li>
-              </ul>
-              <p class="text-gray-600 line-clamp-2"><%= cat.description %></p>
-              <a 
-                href="/cats/<%= cat._id %>" 
-                class="block w-full text-center bg-amber-50 text-amber-800 border border-amber-200 px-4 py-3 rounded-lg hover:bg-amber-100 transition-colors font-medium"
-              >
-                View Details
-              </a>
-            </div>
+  <% cats.forEach((cat) => { %>
+    <a href="/cats/<%= cat._id %>" class="block">
+      <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow border border-gray-200 group hover:ring-2 hover:ring-amber-300">
+        <div class="relative overflow-hidden">
+          <img 
+            src="<%= cat.image %>" 
+            alt="Image of <%= cat.name %>, a <%= cat.breed %> breed" 
+            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute top-3 right-3">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+              <%= cat.age %> years
+            </span>
           </div>
-        <% }) %>
+        </div>
+        <div class="p-5 space-y-4">
+          <h3 class="font-bold text-xl text-gray-900"><%= cat.name %></h3>
+          <ul class="space-y-1 text-gray-600">
+            <li class="flex items-center gap-2">
+              <span class="font-semibold">Breed:</span> <%= cat.breed %>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-semibold">Gender:</span> <%= cat.gender %>
+            </li>
+          </ul>
+          <p class="text-gray-600 line-clamp-2"><%= cat.description %></p>
+          <div class="block w-full text-center bg-amber-50 text-amber-800 border border-amber-200 px-4 py-3 rounded-lg font-medium">
+            View Details
+          </div>
+        </div>
       </div>
+    </a>
+  <% }) %>
+</div>
+
+   
 
       <!-- Pagination -->
       <div class="flex flex-wrap items-center justify-center gap-2 mt-10">

@@ -104,6 +104,8 @@ db.connect()
         await seedCat(Cat, Shelter);
       }
 
+//       await seedShelter(Shelter);
+//  await seedCat(Cat, Shelter);
 // app.get("/api/register", (req,res)=>{
 //   res.render("register.ejs");
 // })
