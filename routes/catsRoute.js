@@ -86,11 +86,21 @@ module.exports = (Cat, Shelter, Application, User) => {
         throw new AppError("No cats found", 404);
       }
 
+  
+      let userFavorites=[];
+      if(req.user){
+        const user = await User.findById(req.user._id);
+        userFavorites = user.favoriteCats;
+      }
+
+      console.log("User Favorites:", userFavorites);
+      
       res.render("cats/index.ejs", {
         cats,
         currentPage: Number(page),
         perPage: Number(perPage),
         totalPages,
+        userFavorites
       });
     } catch (e) {
       next(e);
@@ -207,7 +217,7 @@ module.exports = (Cat, Shelter, Application, User) => {
       }
 
       await user.save();
-      res.redirect(`/user/favorites`);
+     res.redirect(`/cats`);
     } catch (error) {
       next(error);
     }
