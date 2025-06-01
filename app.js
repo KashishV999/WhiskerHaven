@@ -136,6 +136,13 @@ app.get("/adoptionProcess", (req,res)=>{
 })
 
 
+//  //get all applications of all users
+
+app.get("/admin/applications", isAdmin, async(req,res)=>{
+  const applications = await Application.find({}).populate("cat").populate("user").populate("shelter");
+  res.render("adminDashboard/applicationsManage.ejs", { applications });
+})
+
 
 
 

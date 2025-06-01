@@ -265,6 +265,9 @@ module.exports = (Cat, Shelter, Application) => {
   });
 
 
+  //update status of application
+
+
 
 
 
