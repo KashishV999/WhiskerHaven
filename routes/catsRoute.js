@@ -7,13 +7,17 @@ const multer = require("multer");
 const { storage } = require("../config/cloudinary"); // your path may vary
 const upload = multer({ storage }); // multer middleware for handling file uploads
 
-const passport = require("passport");
 
-module.exports = (Cat, Shelter) => {
-  // Show all cats
+module.exports = (Cat, Shelter, Application) => {
+
   // Show all cats
   router.get("/", async (req, res, next) => {
     try {
+      if (req.user) {
+        console.log("User authenticated:", req.user);
+      } else {
+        console.log("User not authenticated, redirecting to login");
+      }
       // Pagination and filtering
       const { page = 1, perPage = 6, search, age, ...filters } = req.query;
 
@@ -78,7 +82,8 @@ module.exports = (Cat, Shelter) => {
         cats,
         currentPage: Number(page),
         perPage: Number(perPage),
-        totalPages,
+        totalPages
+        //user: req.user // Pass the user object if authenticated
       });
     } catch (e) {
       next(e);
@@ -90,6 +95,24 @@ module.exports = (Cat, Shelter) => {
       const shelters = await Shelter.find({}); // Find all shelters
       res.render("cats/new.ejs", { shelters, shelter: null }); // Render the new cat form
   });
+
+
+
+
+  router.get("/:id/application/new", async (req,res)=>{
+    const { id } = req.params;
+    const cat= await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
+    if(req.user){
+    res.render("adoption/adoptionForm.ejs", { cat });
+    }
+    else {
+      res.render("isLoginError.ejs") // Throw an error if the user is not authenticated
+
+    }
+  });
+
+
+
 
   // Show one cat
   router.get("/:id", async (req, res, next) => {
@@ -140,6 +163,9 @@ module.exports = (Cat, Shelter) => {
     }
     next(); //if validation passes, call the next middleware
   };
+
+
+
 
   router.post(
     "/",
@@ -200,6 +226,47 @@ module.exports = (Cat, Shelter) => {
   //   await Cat.findByIdAndDelete(id); // Find the cat by ID and delete it
   //   res.redirect("/cats"); // Redirect to the index page for all cats
   // });
+
+
+
+  //application for adoption
+  router.post("/:id/adopt", async(req,res,next)=>{
+    console.log("Adoption request received");
+    console.log("User adoption", req.user);
+   const {id}= req.params; // Get the cat ID from the URL
+
+   if(!req.user) {
+     throw new AppError("You must be logged in to adopt a cat", 401); // Throw an error if the user is not authenticated
+   }
+
+   const cat= await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
+   const shelterId= cat.shelter._id; // Get the shelter ID from the cat
+
+   if(cat.status!=="Adopted"){
+   const application= new Application({
+       ...req.body, // Get the application data from the request body
+       user: req.user._id, // Get the user ID from the authenticated user
+       cat: cat._id,
+       shelter: shelterId,
+       status: "Pending",
+       firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      email: req.user.email
+   });
+
+  await application.save();
+  res.status(201).json({ message: "Application submitted", application });  //redirect to my applications page 
+
+  }
+  else {
+      throw new AppError("Cat is already adopted", 400);
+  }
+
+  });
+
+
+
+
 
   return router;
 };

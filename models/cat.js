@@ -7,6 +7,7 @@ const CatSchema=new Schema({
         required:true,
         trim:true
     },
+
     breed:{
         type:String,
         trim:true,

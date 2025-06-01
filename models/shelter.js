@@ -3,6 +3,7 @@
 const { mongoose } = require("mongoose");
 const { Schema } = mongoose;
 const Cat =require('./cat'); //import the Cat model
+const { application } = require("express");
 const ShelterSchema= new Schema({
     name:{
         type:String,
@@ -48,7 +49,9 @@ const ShelterSchema= new Schema({
             ref:'Cat'
         }
     ],
-    
+
+
+
     hours: {
         type: Schema.Types.Mixed,  // store operating hours as JSON object
         default: {}

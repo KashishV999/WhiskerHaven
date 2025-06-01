@@ -3,61 +3,14 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const CatSchema= require("../models/cat");
 const ShelterSchema= require("../models/shelter");
-// const connectDB = async () => {
-//      await mongoose
-//     .connect("mongodb://127.0.0.1:27017/WhiskersWay")
-//     .then(() => {
-//       console.log("MongoDB connected successfully");
-//     })
-//     .catch((err) => {
-//       console.log("MongoDB connection failed", err);
-//     });
-// };
-
-// module.exports = connectDB;
-
-
-let Schema = mongoose.Schema;
-//userSchema
-const userSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-      "Please enter a valid email address"
-    ]
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  }
-}, { timestamps: true });
-
+const userSchema = require("../models/user");
+let ApplicationSchema = require("../models/application");
 
 
 let User;
 let Cat;
 let Shelter;
+let Application;
 
 
 //register user
@@ -74,6 +27,7 @@ function connect(){
       if (!User) User = db.model("User", userSchema, "users");
       if (!Cat) Cat = db.model("Cat", CatSchema, "cats");
       if (!Shelter) Shelter = db.model("Shelter", ShelterSchema, "shelters");
+      if (!Application) Application = db.model("Application", ApplicationSchema, "applications");
 
             resolve();
         });
@@ -151,5 +105,6 @@ module.exports = {
     checkUser,
     getCatModel: () => Cat,
     getShelterModel: () => Shelter,
-    getUserModel: () => User
+    getUserModel: () => User,
+    getApplicationModel: () => Application
 };

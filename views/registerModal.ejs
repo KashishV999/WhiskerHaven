@@ -10,7 +10,7 @@
       </div>
       
       <div class="space-y-4 mt-6">
-        <form action="/api/register" method="POST" class="space-y-4">
+        <form id="registerForm" class="space-y-4">
           <div class="space-y-2">
             <label for="firstName" class="block text-sm font-medium">First Name</label>
             <input
@@ -100,3 +100,42 @@
     </div>
   </div>
 </dialog>
+
+
+
+
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+    // Convert FormData to JSON object
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',  // Add this header
+      },
+      body: JSON.stringify(data)  // Convert to JSON string
+    });
+      
+      if (response.ok) {
+        registerModal.close();
+        // Registration successful, open login modal
+       loginModal.showModal();
+        // Optional: reset the form
+        this.reset();
+      } else {
+        // Handle errors
+        const errorData = await response.json();
+        alert(errorData.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred during registration');
+    }
+  });
+</script>
