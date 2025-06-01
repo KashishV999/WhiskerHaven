@@ -1,30 +1,46 @@
+// =============================================================================
+// Cats Routes
+// =============================================================================
+// Name: Kashish Verma
+// Technologies: Node.js, Express.js, MongoDB, EJS
+// Description: This file defines all routes related to managing cats, including
+// CRUD operations, filtering, pagination, and adoption processes.
+// =============================================================================
+
 const express = require("express");
 const router = express.Router();
-const AppError = require("../AppError"); //import AppError class
-const { ValidateCatSchema } = require("../schemasSecurity"); //import Joi schema for cat
-
+const AppError = require("../AppError");
+const { ValidateCatSchema } = require("../schemasSecurity");
 const multer = require("multer");
-const { storage } = require("../config/cloudinary"); // your path may vary
-const upload = multer({ storage }); // multer middleware for handling file uploads
+const { storage } = require("../config/cloudinary");
+const upload = multer({ storage });
 
+// =============================================================================
+// VALIDATION MIDDLEWARE
+// =============================================================================
+const ValidateCat = (req, res, next) => {
+  const { error } = ValidateCatSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new AppError(msg, 400);
+  }
+  next();
+};
 
-module.exports = (Cat, Shelter, Application) => {
+// =============================================================================
+// ROUTE MODULE
+// =============================================================================
+module.exports = (Cat, Shelter, Application, User) => {
+  // =============================================================================
+  // READ ROUTES (GET)
+  // =============================================================================
 
-  // Show all cats
+  // Show all cats with pagination and filtering
   router.get("/", async (req, res, next) => {
     try {
-      if (req.user) {
-        console.log("User authenticated:", req.user);
-      } else {
-        console.log("User not authenticated, redirecting to login");
-      }
-      // Pagination and filtering
       const { page = 1, perPage = 6, search, age, ...filters } = req.query;
-
-      // Build the filter object
       let filter = {};
 
-      // Search filter
       if (search) {
         filter = {
           $or: [
@@ -34,15 +50,13 @@ module.exports = (Cat, Shelter, Application) => {
         };
       }
 
-      const filterByAge =
-        {
-          kitten: { age: { $lt: 1 } },
-          young: { age: { $gte: 1, $lt: 3 } },
-          adult: { age: { $gte: 4, $lt: 10 } },
-          senior: { age: { $gte: 10 } },
-        }[age] || {};
+      const filterByAge = {
+        kitten: { age: { $lt: 1 } },
+        young: { age: { $gte: 1, $lt: 3 } },
+        adult: { age: { $gte: 4, $lt: 10 } },
+        senior: { age: { $gte: 10 } },
+      }[age] || {};
 
-      // Boolean filters with !! conversion
       const booleanFields = [
         "spayed_neutered",
         "vaccinated",
@@ -56,23 +70,17 @@ module.exports = (Cat, Shelter, Application) => {
 
       booleanFields.forEach((field) => {
         if (filters[field] !== undefined) {
-          // Using !! to convert to boolean
           filter[field] = !!filters[field];
         }
       });
 
-      // Count total matching cats
       const totalCats = await Cat.countDocuments(filter);
       const totalPages = Math.ceil(totalCats / perPage);
 
-      console.log(filter);
-
-      // Get paginated results
       const cats = await Cat.find({ ...filter, ...filterByAge })
         .skip((page - 1) * perPage)
         .limit(Number(perPage))
-        .populate("shelter", "name")
-        .exec();
+        .populate("shelter", "name");
 
       if (!cats || cats.length === 0) {
         throw new AppError("No cats found", 404);
@@ -82,96 +90,75 @@ module.exports = (Cat, Shelter, Application) => {
         cats,
         currentPage: Number(page),
         perPage: Number(perPage),
-        totalPages
-        //user: req.user // Pass the user object if authenticated
+        totalPages,
       });
     } catch (e) {
       next(e);
     }
   });
 
-  // Render the new form page
-  router.get("/new", async (req, res) => {
-      const shelters = await Shelter.find({}); // Find all shelters
-      res.render("cats/new.ejs", { shelters, shelter: null }); // Render the new cat form
-  });
-
-
-
-
-  router.get("/:id/application/new", async (req,res)=>{
-    const { id } = req.params;
-    const cat= await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
-    if(req.user){
-    res.render("adoption/adoptionForm.ejs", { cat });
-    }
-    else {
-      res.render("isLoginError.ejs") // Throw an error if the user is not authenticated
-
-    }
-  });
-
-
-
-
   // Show one cat
   router.get("/:id", async (req, res, next) => {
     try {
-      const { id } = req.params; // Get the cat ID from the URL
-      const cat = await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
+      const { id } = req.params;
+      const cat = await Cat.findById(id).populate("shelter");
       if (!cat) {
-        throw new AppError("Cat not found", 404); // Throw an error if the cat is not found
+        throw new AppError("Cat not found", 404);
       }
 
-      res.render("cats/show.ejs", { cat }); // Render the show page for the cat
+      let isFavorite = false;
+      if (req.user) {
+        const user = await User.findById(req.user._id);
+        isFavorite = user.favoriteCats.includes(cat._id);
+      }
+
+      res.render("cats/show.ejs", { cat, user: req.user, isFavorite });
     } catch (e) {
       next(e);
     }
+  });
+
+  // Render new cat form
+  router.get("/new", async (req, res) => {
+    const shelters = await Shelter.find({});
+    res.render("cats/new.ejs", { shelters, shelter: null });
   });
 
   // Render edit form
   router.get("/:id/edit", async (req, res, next) => {
     try {
-      const { id } = req.params; // Get the cat ID from the URL
-      const cat = await Cat.findById(id); // Find the cat by ID
+      const { id } = req.params;
+      const cat = await Cat.findById(id);
       if (!cat) {
-        throw new AppError("Cat not found", 404); // Throw an error if the cat is not found
+        throw new AppError("Cat not found", 404);
       }
-      const shelters = await Shelter.find({}); // Find all shelters
-      res.render("cats/edit.ejs", { cat, shelters }); // Render the edit page for the cat
+      const shelters = await Shelter.find({});
+      res.render("cats/edit.ejs", { cat, shelters });
     } catch (e) {
       next(e);
     }
   });
 
-  // // Create a new cat
-  // router.post("/", async (req, res) => {
-  //   console.log(req.body);
-  //     const newCat = await Cat.create(req.body);
-  //     await Shelter.findByIdAndUpdate(newCat.shelter, { $push: { cats: newCat._id } }); // Update the shelter with the cat ID
-  //     res.redirect(`/cats/${newCat._id}`); // Redirect to the show page for the new cat
-  // });
-
-
-  const ValidateCat = (req, res, next) => {
-    const { error } = ValidateCatSchema.validate(req.body, {
-      abortEarly: false,
-    }); //validate the cat data
-    if (error) {
-      const msg = error.details.map((el) => el.message).join(",");
-      throw new AppError(msg, 400); //throw an error if the validation fails
+  // Render adoption application form
+  router.get("/:id/application/new", async (req, res) => {
+    const { id } = req.params;
+    const cat = await Cat.findById(id).populate("shelter");
+    if (req.user) {
+      res.render("adoption/adoptionForm.ejs", { cat });
+    } else {
+      res.render("isLoginError.ejs");
     }
-    next(); //if validation passes, call the next middleware
-  };
+  });
 
+  // =============================================================================
+  // CREATE ROUTES (POST)
+  // =============================================================================
 
-
-
+  // Create a new cat
   router.post(
     "/",
     upload.single("image"),
     (req, res, next) => {
-      // Convert checkbox values to booleans
       req.body.spayed_neutered = !!req.body.spayed_neutered;
       req.body.vaccinated = !!req.body.vaccinated;
       req.body.microchipped = !!req.body.microchipped;
@@ -184,92 +171,103 @@ module.exports = (Cat, Shelter, Application) => {
     },
     ValidateCat,
     async (req, res) => {
-      // const { shelterId } = req.params;
       const newCat = new Cat(req.body);
       newCat.shelter = req.body.shelter;
       if (req.file) {
         newCat.image = req.file.path;
-      } else {
-        console.log("No file uploaded");
       }
       await newCat.save();
-      const shelter = await Shelter.findByIdAndUpdate(req.body.shelter, {
+      await Shelter.findByIdAndUpdate(req.body.shelter, {
         $push: { cats: newCat._id },
       });
       res.redirect(`/admin/cats`);
     }
   );
 
-
-
-  // Update a cat
-  router.put("/:id", upload.single("image"), async (req, res, next) => {
+  // Toggle favorite cat
+  router.post("/:id/favorites", async (req, res, next) => {
     try {
-      const { id } = req.params; // Get the cat ID from the URL
-      const cat = await Cat.findByIdAndUpdate(id, req.body, { new: true }); // Find the cat by ID and update it
+      const { id } = req.params;
+      const cat = await Cat.findById(id);
       if (!cat) {
-        throw new AppError("Cat not found", 404); // Throw an error if the cat is not found
+        return next(new AppError("Cat not found", 404));
       }
-      if (req.file) {
-        cat.image = req.file.path; //set the image path if a file was uploaded
+
+      if (!req.user) {
+        return next(new AppError("You must be logged in to favorite a cat", 401));
       }
-      await cat.save(); //save the updated cat
-      res.redirect("/admin/cats"); // Redirect to the show page for the updated cat
+
+      const user = await User.findById(req.user._id);
+      const isFavorite = user.favoriteCats.includes(cat._id);
+
+      if (isFavorite) {
+        user.favoriteCats.pull(cat._id);
+      } else {
+        user.favoriteCats.push(cat._id);
+      }
+
+      await user.save();
+      res.redirect(`/user/favorites`);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Submit adoption application
+  router.post("/:id/adopt", async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      if (!req.user) {
+        throw new AppError("You must be logged in to adopt a cat", 401);
+      }
+
+      const cat = await Cat.findById(id).populate("shelter");
+      const shelterId = cat.shelter._id;
+
+      if (cat.status !== "Adopted") {
+        const application = new Application({
+          ...req.body,
+          user: req.user._id,
+          cat: cat._id,
+          shelter: shelterId,
+          status: "Pending",
+          firstName: req.user.firstName,
+          lastName: req.user.lastName,
+          email: req.user.email,
+        });
+
+        await application.save();
+        res.redirect("/user/applications");
+      } else {
+        throw new AppError("Cat is already adopted", 400);
+      }
     } catch (e) {
       next(e);
     }
   });
 
-  // // Delete a cat
-  // router.delete("/:id", async (req, res) => {
-  //   const { id } = req.params; // Get the cat ID from the URL
-  //   await Cat.findByIdAndDelete(id); // Find the cat by ID and delete it
-  //   res.redirect("/cats"); // Redirect to the index page for all cats
-  // });
+  // =============================================================================
+  // UPDATE ROUTES (PUT)
+  // =============================================================================
 
-
-
-  //application for adoption
-  router.post("/:id/adopt", async(req,res,next)=>{
-    console.log("Adoption request received");
-    console.log("User adoption", req.user);
-   const {id}= req.params; // Get the cat ID from the URL
-
-   if(!req.user) {
-     throw new AppError("You must be logged in to adopt a cat", 401); // Throw an error if the user is not authenticated
-   }
-
-   const cat= await Cat.findById(id).populate("shelter"); // Find the cat by ID and populate the shelter
-   const shelterId= cat.shelter._id; // Get the shelter ID from the cat
-
-   if(cat.status!=="Adopted"){
-   const application= new Application({
-       ...req.body, // Get the application data from the request body
-       user: req.user._id, // Get the user ID from the authenticated user
-       cat: cat._id,
-       shelter: shelterId,
-       status: "Pending",
-       firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      email: req.user.email
-   });
-
-  await application.save();
-  res.status(201).json({ message: "Application submitted", application });  //redirect to my applications page 
-
-  }
-  else {
-      throw new AppError("Cat is already adopted", 400);
-  }
-
+  // Update a cat
+  router.put("/:id", upload.single("image"), async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const cat = await Cat.findByIdAndUpdate(id, req.body, { new: true });
+      if (!cat) {
+        throw new AppError("Cat not found", 404);
+      }
+      if (req.file) {
+        cat.image = req.file.path;
+      }
+      await cat.save();
+      res.redirect("/admin/cats");
+    } catch (e) {
+      next(e);
+    }
   });
-
-
-  //update status of application
-
-
-
-
 
   return router;
 };

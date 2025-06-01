@@ -35,12 +35,12 @@
       </a>
 
 
-      <a
+      <!-- <a
         href="/resources"
         class="text-sm font-medium hover:underline underline-offset-4"
       >
         Resources
-      </a>
+      </a> -->
       <a
         href="/donate"
         class="text-sm font-medium hover:underline underline-offset-4"
@@ -49,6 +49,15 @@
       </a>
       <% } %>
 
+      <% if (user && user.role === 'user') { %>
+      <a
+        href="/user/applications"
+        class="text-sm font-medium hover:underline underline-offset-4"
+      >
+        My Applications
+      </a>
+
+      <%}%>
       <% if (user && user.role === 'admin') { %>
       <a
         href="/admin/cats"
@@ -67,7 +76,7 @@
       <% if (user) { %>
 
         <% if(user.role==='user'){ %>
-      <a href="/favorites" class="hidden md:flex items-center gap-1">
+      <a href="/user/favorites" class="hidden md:flex items-center gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -102,18 +111,18 @@
 
 <div class="relative">
   <!-- Avatar Button -->
-  <button
-    id="dropdownDefaultButton"
-    data-dropdown-toggle="dropdown"
-    class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium"
-  >
-    <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
-      <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">
-        <%= user.firstName.charAt(0).toUpperCase() %>
-      </span>
+<!-- Avatar Button -->
+<button
+  id="dropdownDefaultButton"
+  data-dropdown-toggle="dropdown"
+  class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium hover:bg-muted/80 transition-colors"
+>
+  <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-gray-300">
+    <span class="flex h-full w-full items-center justify-center rounded-full bg-white text-gray-800 font-semibold shadow-sm">
+      <%= user.firstName.charAt(0).toUpperCase() %>
     </span>
-  </button>
-
+  </span>
+</button>
   <!-- Dropdown Menu -->
   <div
     id="dropdown"
@@ -132,14 +141,14 @@
 
       <% if(user.role==='user'){ %>
       <a
-        href="/favorites"
+        href="/user/favorites"
         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >Favorites</a>
       <% } %>
 
       <%if(user.role==='user'){ %>
       <a
-        href="/my-applications"
+        href="/user/applications"
         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >My Applications</a>
       <% } %>
@@ -153,7 +162,7 @@
       
       <hr class="my-1" />
 
-      <form action="/logout" method="POST" class="block">
+      <form action="/api/logout" method="POST" class="block">
         <button
           type="submit"
           class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -283,10 +292,10 @@ document.addEventListener('DOMContentLoaded', function() {
         >Adoption Process</a
       >
       <%}%>
-
+<!-- 
       <a href="/resources" class="block text-lg font-medium hover:text-primary"
         >Resources</a
-      >
+      > -->
       <a href="/donate" class="block text-lg font-medium hover:text-primary"
         >Donate</a
       >
@@ -299,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <% if (user) { %>
         <% if(user.role==='user'){ %>
-      <a href="/favorites" class="block text-lg font-medium hover:text-primary"
+      <a href="/user/favorites" class="block text-lg font-medium hover:text-primary"
         >Favorites</a
       >
         <%}%>
@@ -316,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
         >Admin Dashboard</a
       >
       <% } %>
-      <form action="/logout" method="POST">
+      <form action="/api/logout" method="POST">
         <button
           type="submit"
           class="w-full text-left block text-lg font-medium hover:text-primary"

@@ -1,51 +1,69 @@
-//define schema and model for cat
+// =============================================================================
+// DEPENDENCIES
+// =============================================================================
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const CatSchema=new Schema({
-    name:{
-        type:String,
-        required:true,
-        trim:true
-    },
 
-    breed:{
-        type:String,
-        trim:true,
-        required:true
+// =============================================================================
+// CAT SCHEMA
+// =============================================================================
+
+const CatSchema = new Schema({
+    // =============================================================================
+    // RELATIONSHIPS
+    // =============================================================================
+    
+    shelter: {
+        type: Schema.Types.ObjectId,
+        ref: 'Shelter'
     },
-    age:{
-        type:Number,
-        required:true,
-        min:0
+    
+    name: {
+        type: String,
+        required: true,
+        trim: true
     },
-    color:{
-        type:String,
-        required:true,
-        trim:true
+    breed: {
+        type: String,
+        trim: true,
+        required: true
     },
-    weight:{
-        type:Number,
-        required:true,
-        min:[0, 'Weight must be a positive number']
+    age: {
+        type: Number,
+        required: true,
+        min: 0
     },
-    gender:{
-        type:String,
-        required:true,
+    color: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    weight: {
+        type: Number,
+        required: true,
+        min: [0, 'Weight must be a positive number']
+    },
+    gender: {
+        type: String,
+        required: true,
         enum: ['Male', 'Female']
     },
-    description:{
-        type:String,
-        required:true,
-        trim:true
+    description: {
+        type: String,
+        required: true,
+        trim: true
     },
-    image:{
-        type:String,
+    story: {
+        type: String,
+        trim: true,
+        default: ''
     },
-    shelter:{
-        type:Schema.Types.ObjectId,
-        ref:'Shelter'
+    image: {
+        type: String,
     },
 
+    
     status: {
         type: String,
         enum: ['Available', 'Pending', 'Adopted'],
@@ -56,10 +74,13 @@ const CatSchema=new Schema({
         default: Date.now
     },
     adoption_fee: {
-        type: mongoose.Types.Decimal128,  // or Number if you prefer
+        type: mongoose.Types.Decimal128,
         default: 0.00,
         min: 0
     },
+
+
+    
     spayed_neutered: {
         type: Boolean,
         default: false
@@ -76,6 +97,9 @@ const CatSchema=new Schema({
         type: Boolean,
         default: false
     },
+
+
+    
     house_trained: {
         type: Boolean,
         default: false
@@ -90,6 +114,9 @@ const CatSchema=new Schema({
         enum: ['Short', 'Medium', 'Long'],
         default: 'Short'
     },
+
+
+    
     good_with_children: {
         type: Boolean,
         default: null
@@ -101,14 +128,9 @@ const CatSchema=new Schema({
     good_with_dogs: {
         type: Boolean,
         default: null
-    },
-    story: {
-        type: String,
-        trim: true,
-        default: ''
     }
-}, { timestamps: true }); // automatically adds createdAt and updatedAt fields
+}, { timestamps: true });
 
 
-//const Cat= mongoose.model('Cat', CatSchema);
-module.exports=CatSchema;
+
+module.exports = CatSchema;

@@ -1,28 +1,44 @@
+// =============================================================================
+// DEPENDENCIES
+// =============================================================================
 
-const { date } = require('joi');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// =============================================================================
+// APPLICATION SCHEMA
+// =============================================================================
+
 const ApplicationSchema = new Schema({
-        shelter:{
-        type:Schema.Types.ObjectId,
-        ref:'Shelter'
+    // =============================================================================
+    // RELATIONSHIPS
+    // =============================================================================
+    
+    shelter: {
+        type: Schema.Types.ObjectId,
+        ref: 'Shelter',
+        required: true
     },
-    cat:{
-        type:Schema.Types.ObjectId,
-        ref:'Cat'
+    cat: {
+        type: Schema.Types.ObjectId,
+        ref: 'Cat',
+        required: true
     },
-    user:{
-        type:Schema.Types.ObjectId,
-        ref:'User'
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
+    
+ 
+    
     status: {
         type: String,
         enum: ['Pending', 'Approved', 'Rejected'],
         default: 'Pending'
     },
 
-    //personal information
+    
     firstName: {
         type: String,
         required: true,
@@ -49,7 +65,7 @@ const ApplicationSchema = new Schema({
         trim: true,
         match: [/^\d{10}$/, "Please enter a valid phone number"]
     },
-    age:{
+    age: {
         type: Number,
         required: true,
         min: 18,
@@ -61,30 +77,31 @@ const ApplicationSchema = new Schema({
         trim: true
     },
 
-    //living situation
-    housingType:{
+    
+    housingType: {
         type: String,
         required: true,
         enum: ['House', 'Apartment', 'Condo', 'Other'],
         default: 'House'
     },
-    Numberofpeople:{
+    numberOfPeople: {
         type: Number,
         required: true,
         min: 1
     },
 
-    //pet experience
+    
     previousPetOwnership: {
         type: Boolean,
         default: false
     },
-
     descriptionCatExperience: {
         type: String,
         trim: true
     },
-    //care
+
+
+    
     veterinaryCareDescription: {
         type: String,
         trim: true
@@ -98,22 +115,23 @@ const ApplicationSchema = new Schema({
         type: Boolean,
         default: false
     },
-
     travelDescription: {
         type: String,
         trim: true
     },
 
+
+    
     whyAdoptThisCat: {
         type: String,
         required: true,
         trim: true
     },
-    //additional information
     additionalInfo: {
         type: String,
         trim: true
     }
 }, { timestamps: true });
 
-module.exports=ApplicationSchema;
+
+module.exports = ApplicationSchema;

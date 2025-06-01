@@ -1,12 +1,21 @@
+// =============================================================================
+// DEPENDENCIES
+// =============================================================================
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 
-let ExtractJwt = passportJWT.ExtractJwt;
-let JwtStrategy = passportJWT.Strategy;
+// =============================================================================
+// JWT STRATEGY CONFIGURATION
+// =============================================================================
 
-let jwtOptions = {
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+
+// JWT options configuration
+const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromExtractors([
     ExtractJwt.fromAuthHeaderAsBearerToken(),
     (req) => req.cookies?.token, // Extract from cookie
@@ -14,7 +23,8 @@ let jwtOptions = {
   secretOrKey: process.env.SECRET_KEY,
 };
 
-let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+// JWT strategy implementation
+const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
   console.log("payload received", jwt_payload);
 
   if (jwt_payload) {
@@ -30,10 +40,17 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
   }
 });
 
-// tell passport to use our "strategy"
+// Register strategy with passport
 passport.use(strategy);
 
+// =============================================================================
+// MIDDLEWARE FUNCTIONS
+// =============================================================================
 
+/**
+ * Optional JWT authentication middleware
+ * Attempts to authenticate user but doesn't block if no token is present
+ */
 const optionalJwtMiddleware = (req, res, next) => {
   console.log("🔍 Global middleware running for:", req.path);
 
@@ -54,8 +71,27 @@ const optionalJwtMiddleware = (req, res, next) => {
   })(req, res, next);
 };
 
+/**
+ * Admin authorization middleware
+ * Checks if user has admin role
+ */
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied" });
+  }
+};
+
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+
+/**
+ * Generate JWT token for user
+ */
 const generateToken = (user) => {
-  let payload = {
+  const payload = {
     _id: user._id,
     firstName: user.firstName,
     lastName: user.lastName,
@@ -66,17 +102,13 @@ const generateToken = (user) => {
   return jwt.sign(payload, jwtOptions.secretOrKey);
 };
 
+// =============================================================================
+// EXPORTS
+// =============================================================================
 
-
-const isAdmin=(req,res,next)=>{
-    if(req.user && req.user.role === 'admin'){
-        next();
-    }else{
-        res.status(403).json({message: "Access denied"});
-    }
+module.exports = { 
+  optionalJwtMiddleware, 
+  jwtOptions, 
+  generateToken, 
+  isAdmin 
 };
-
-
-
-module.exports = { optionalJwtMiddleware, jwtOptions, generateToken, isAdmin };
-

@@ -1,34 +1,64 @@
+// =============================================================================
+// Nested Routes
+// =============================================================================
+// Name: Kashish Verma
+// Technologies: Node.js, Express.js, MongoDB, EJS
+// Description: This file defines nested routes for managing cats within specific shelters.
+// =============================================================================
+
 require("dotenv").config();
 const express = require("express");
-const passport = require("passport");
-const { ValidateCatSchema } = require("../schemasSecurity"); //import Joi schema for cat
-//NOTE: This allows the :shelterId parameter from the parent route (/shelters/:shelterId/cats) to be accessible in the nested router.
-const router = express.Router({ mergeParams: true }); // Enable access to parent route parameters
-
-const AppError = require("../AppError"); //import AppError class
-
+const AppError = require("../AppError");
+const { ValidateCatSchema } = require("../schemasSecurity");
 const multer = require("multer");
-const { storage } = require("../config/cloudinary"); // your path may vary
-const upload = multer({ storage }); // multer middleware for handling file uploads
+const { storage } = require("../config/cloudinary");
+const upload = multer({ storage });
+
+// Enable access to parent route parameters
+const router = express.Router({ mergeParams: true });
+
+// =============================================================================
+// VALIDATION MIDDLEWARE
+// =============================================================================
+
+const ValidateCat = (req, res, next) => {
+  const { error } = ValidateCatSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new AppError(msg, 400);
+  }
+  next();
+};
+
+// =============================================================================
+// ROUTE MODULE
+// =============================================================================
 
 module.exports = (Cat, Shelter) => {
+  // =============================================================================
+  // FORM ROUTES
+  // =============================================================================
+
+  // Render new cat form for a specific shelter
   router.get("/new", async (req, res) => {
-    const { shelterId } = req.params; //get the shelter id from the url
-    const shelter = await Shelter.findById(shelterId); //find the shelter by id
-    res.render("cats/new.ejs", { shelter, shelters:null }); //render the new page for cats
+    try {
+      const { shelterId } = req.params;
+      const shelter = await Shelter.findById(shelterId);
+      if (!shelter) {
+        throw new AppError("Shelter not found", 404);
+      }
+      res.render("cats/new.ejs", { shelter, shelters: null });
+    } catch (err) {
+      console.error("Error rendering new cat form:", err);
+      res.status(500).send("Internal Server Error");
+    }
   });
 
-  const ValidateCat = (req, res, next) => {
-    const { error } = ValidateCatSchema.validate(req.body, {
-      abortEarly: false,
-    }); //validate the cat data
-    if (error) {
-      const msg = error.details.map((el) => el.message).join(",");
-      throw new AppError(msg, 400); //throw an error if the validation fails
-    }
-    next(); //if validation passes, call the next middleware
-  };
+  // =============================================================================
+  // CREATE ROUTES
+  // =============================================================================
 
+  // Create a new cat for a specific shelter
   router.post(
     "/",
     upload.single("image"),
@@ -46,36 +76,48 @@ module.exports = (Cat, Shelter) => {
     },
     ValidateCat,
     async (req, res) => {
-      const { shelterId } = req.params;
-      const newCat = new Cat(req.body);
-      newCat.shelter = shelterId;
-      if (req.file) {
-        newCat.image = req.file.path;
-      } else {
-        console.log("No file uploaded");
+      try {
+        const { shelterId } = req.params;
+        const newCat = new Cat(req.body);
+        newCat.shelter = shelterId;
+
+        if (req.file) {
+          newCat.image = req.file.path;
+        }
+
+        await newCat.save();
+        await Shelter.findByIdAndUpdate(shelterId, {
+          $push: { cats: newCat._id },
+        });
+
+        res.redirect("/admin/shelters");
+      } catch (err) {
+        console.error("Error creating new cat:", err);
+        res.status(500).send("Internal Server Error");
       }
-      await newCat.save();
-      const shelter = await Shelter.findByIdAndUpdate(shelterId, {
-        $push: { cats: newCat._id },
-      });
-      res.redirect("/admin/shelters");
     }
   );
 
-  router.delete(
-    "/:id",
-   
-    async (req, res) => {
-      const { shelterId, id } = req.params; //get the shelter id and cat id from the url
-      const shelter = await Shelter.findByIdAndUpdate(shelterId, {
+  // =============================================================================
+  // DELETE ROUTES
+  // =============================================================================
+
+  // Delete a cat from a specific shelter
+  router.delete("/:id", async (req, res) => {
+    try {
+      const { shelterId, id } = req.params;
+
+      await Shelter.findByIdAndUpdate(shelterId, {
         $pull: { cats: id },
-      }); //update the shelter by removing the cat id
-      await Cat.findByIdAndDelete(id); //delete the cat
-      res.redirect(`/admin/cats`); //redirect to the show page for the shelter
+      });
+
+      await Cat.findByIdAndDelete(id);
+      res.redirect(`/admin/cats`);
+    } catch (err) {
+      console.error("Error deleting cat:", err);
+      res.status(500).send("Internal Server Error");
     }
-  );
+  });
 
-  module.exports = router; //export the router
-
-  return router; //return the router
+  return router;
 };

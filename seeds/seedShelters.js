@@ -1,22 +1,24 @@
-//seed Shelters into the database
-const mongoose=require("mongoose");
-const {Schema}=mongoose;
-// const Shelter=require("../models/shelter"); //model for shelter
-const shelterData=require("../data/shelterData"); //array data for shelter
-// const connectDB=require("../config/database"); //connect to the database
-//connectDB(); //connect to the database
+// =============================================================================
+// DEPENDENCIES
+// =============================================================================
 
-module.exports=async(Shelter)=>{
-    try{
-    await Shelter.deleteMany({}); //delete all shelter in the database
-    await Shelter.insertMany(shelterData) //insert data into the database
-    console.log("Shelters Seeded Successfully")
-    }
-    catch(err){
-        console.log(err)
-    }
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const shelterData = require("../data/shelterData");
 
-}
+// =============================================================================
+// SHELTER SEEDING MODULE
+// =============================================================================
 
+module.exports = async (Shelter) => {
+  
+  try {
+    await Shelter.deleteMany({});
+    await Shelter.insertMany(shelterData);
+    console.log("Shelters seeded successfully");
 
-
+  } catch (err) {
+    console.error("Error seeding shelters:", err);
+    throw err;
+  }
+};

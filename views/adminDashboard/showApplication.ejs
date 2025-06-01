@@ -1,0 +1,206 @@
+<% layout("/layouts/boilerplateAdmin") %>
+
+<body class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center">
+          <h1 class="text-3xl font-bold text-gray-900">Application Details</h1>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= application.status === 'Approved' ? 'bg-green-100 text-green-800' : application.status === 'Rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>"
+          >
+            <%= application.status %>
+          </span>
+        </div>
+        <p class="text-gray-600 mt-2">Application ID: <%= application._id %></p>
+      </div>
+
+      <!-- Personal Information -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Personal Information
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >First Name</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.firstName %>
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Last Name</label
+            >
+            <p class="text-gray-900 font-medium"><%= application.lastName %></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Email</label
+            >
+            <p class="text-gray-900 font-medium"><%= application.email %></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Phone</label
+            >
+            <p class="text-gray-900 font-medium"><%= application.phone %></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Age</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.age %> years old
+            </p>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Address</label
+            >
+            <p class="text-gray-900 font-medium"><%= application.address %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Living Situation -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Living Situation
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Housing Type</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.housingType %>
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Number of People</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.Numberofpeople %> people
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pet Experience -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Pet Experience
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Previous Pet Ownership</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.previousPetOwnership ? 'Yes' : 'No' %>
+            </p>
+          </div>
+          <% if (application.descriptionCatExperience) { %>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Cat Experience Description</label
+            >
+            <p class="text-gray-900">
+              <%= application.descriptionCatExperience %>
+            </p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Care Information -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Care Information
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Monthly Expenses Budget</label
+            >
+            <p class="text-gray-900 font-medium">
+              $<%= application.monthlyExpenses %>
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Responsible Pet Ownership Agreement</label
+            >
+            <p class="text-gray-900 font-medium">
+              <%= application.responsiblePetOwnership ? 'Agreed' : 'Not Agreed'
+              %>
+            </p>
+          </div>
+          <% if (application.veterinaryCareDescription) { %>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Veterinary Care Plan</label
+            >
+            <p class="text-gray-900">
+              <%= application.veterinaryCareDescription %>
+            </p>
+          </div>
+          <% } %> <% if (application.travelDescription) { %>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Travel Arrangements</label
+            >
+            <p class="text-gray-900"><%= application.travelDescription %></p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Why Adopt This Cat -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Why Adopt This Cat
+        </h2>
+        <p class="text-gray-900"><%= application.whyAdoptThisCat %></p>
+      </div>
+
+      <!-- Additional Information -->
+      <% if (application.additionalInfo) { %>
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+          Additional Information
+        </h2>
+        <p class="text-gray-900"><%= application.additionalInfo %></p>
+      </div>
+      <% } %>
+
+      <!-- Action Buttons -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/admin/applications"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full sm:w-auto"
+          >
+            Back to Applications
+          </a>
+        </div>
+      </div>
+
+      <!-- Timestamps -->
+      <div class="mt-6 text-center text-sm text-gray-500">
+        <p>
+          Application submitted: <%= new
+          Date(application.createdAt).toLocaleDateString() %>
+        </p>
+        <p>
+          Last updated: <%= new Date(application.updatedAt).toLocaleDateString()
+          %>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>

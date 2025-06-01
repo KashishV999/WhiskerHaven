@@ -1,219 +1,555 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container px-4 md:px-6 mx-auto py-8 md:py-12">
-  <div class="flex items-center gap-2 mb-6">
-    <a href="/cats" class="flex items-center text-sm text-gray-500 hover:text-gray-900">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 h-4 w-4">
-        <path d="m15 18-6-6 6-6"></path>
-      </svg>
-      Back to Cats
-    </a>
-  </div>
-
-  <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
-    <!-- Left column: Image and basic info -->
-    <div class="space-y-6">
-      <figure class="overflow-hidden rounded-lg">
-        <img
-          src="<%= cat.image %>"
-          alt="Image of <%= cat.name %>, a <%= cat.breed %> breed cat."
-          class="aspect-[4/3] w-full object-cover rounded-lg"
-        />
-        <figcaption class="mt-2 text-sm text-gray-500"><%= cat.description %></figcaption>
-      </figure>
-
-      <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium"><%= cat.breed %></span>
-        <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium"><%= cat.gender %></span>
-        <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium"><%= cat.age %> years</span>
-        
-        <% if(cat.good_with_children) { %>
-          <span class="inline-flex items-center rounded-full bg-green-100 text-green-800 px-2.5 py-0.5 text-xs font-medium">Good with Children</span>
-        <% } else { %>
-          <span class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-2.5 py-0.5 text-xs font-medium">Not Good with Children</span>
-        <% } %>
-        
-        <% if(cat.good_with_cats) { %>
-          <span class="inline-flex items-center rounded-full bg-green-100 text-green-800 px-2.5 py-0.5 text-xs font-medium">Good with Cats</span>
-        <% } else { %>
-          <span class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-2.5 py-0.5 text-xs font-medium">Not Good with Cats</span>
-        <% } %>
-        
-        <% if(cat.good_with_dogs) { %>
-          <span class="inline-flex items-center rounded-full bg-green-100 text-green-800 px-2.5 py-0.5 text-xs font-medium">Good with Dogs</span>
-        <% } else { %>
-          <span class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-2.5 py-0.5 text-xs font-medium">Not Good with Dogs</span>
-        <% } %>
-      </div>
+<div
+  class="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50"
+>
+  <div class="container px-4 md:px-6 mx-auto py-8 md:py-12">
+    <!-- Back Navigation -->
+    <div class="flex items-center gap-2 mb-8">
+      <a
+        href="/cats"
+        class="group flex items-center text-sm text-gray-600 hover:text-orange-600 transition-colors duration-200"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        Back to Cats
+      </a>
     </div>
 
-    <!-- Right column: Details and tabs -->
-    <div class="space-y-6">
-      <div class="space-y-2">
-        <h1 class="text-3xl font-bold tracking-tight"><%= cat.name %></h1>
-        <div class="flex items-center text-sm text-gray-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 h-4 w-4">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <% if(cat.shelter) { %>
-            <span><%= cat.shelter.name %> • <%= cat.shelter.location %></span>
-          <% } else { %>
-            <span>Shelter information not available</span>
-          <% } %>
+    <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <!-- Left column: Image and basic info -->
+      <div class="space-y-8">
+        <!-- Cat Image -->
+        <div
+          class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative"
+        >
+          <figure class="overflow-hidden relative">
+            <img
+              src="<%= cat.image %>"
+              alt="Image of <%= cat.name %>, a <%= cat.breed %> breed cat."
+              class="aspect-[4/3] w-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+
+            <!-- Heart icon for favorited cats -->
+            <% if(user && isFavorite) { %>
+            <div
+              class="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full p-2 shadow-lg z-20"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="white"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                ></path>
+              </svg>
+            </div>
+            <% } %>
+
+            <figcaption class="p-4 text-sm text-gray-600 bg-gray-50 border-t">
+              <%= cat.description %>
+            </figcaption>
+          </figure>
         </div>
-      </div>
 
-      <!-- Tabs -->
-      <div class="border-b">
-        <nav class="flex gap-4" aria-label="Tabs">
-          <button 
-            onclick="showSection('about')" 
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="about-tab"
-          >
-            About
-          </button>
-          <button 
-            onclick="showSection('details')" 
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="details-tab"
-          >
-            Details
-          </button>
-          <button 
-            onclick="showSection('story')" 
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="story-tab"
-          >
-            Story
-          </button>
-        </nav>
-      </div>
+        <!-- Tags -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Info</h3>
+          <div class="flex flex-wrap gap-3">
+            <span
+              class="inline-flex items-center rounded-full bg-orange-100 text-orange-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              <%= cat.breed %>
+            </span>
+            <span
+              class="inline-flex items-center rounded-full bg-purple-100 text-purple-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              <%= cat.gender %>
+            </span>
+            <span
+              class="inline-flex items-center rounded-full bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              <%= cat.age %> years
+            </span>
 
-      <!-- Tab content -->
-      <div id="about" class="tab-content space-y-4">
-        <p class="text-gray-700"><%= cat.description %></p>
-      </div>
+            <% if(cat.good_with_children) { %>
+            <span
+              class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✓ Good with Children
+            </span>
+            <% } else { %>
+            <span
+              class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✗ Not Good with Children
+            </span>
+            <% } %> <% if(cat.good_with_cats) { %>
+            <span
+              class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✓ Good with Cats
+            </span>
+            <% } else { %>
+            <span
+              class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✗ Not Good with Cats
+            </span>
+            <% } %> <% if(cat.good_with_dogs) { %>
+            <span
+              class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✓ Good with Dogs
+            </span>
+            <% } else { %>
+            <span
+              class="inline-flex items-center rounded-full bg-red-100 text-red-800 px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              ✗ Not Good with Dogs
+            </span>
+            <% } %>
+          </div>
+        </div>
 
-      <div id="details" class="tab-content space-y-4 hidden">
-        <section aria-labelledby="cat-details">
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div class="space-y-1">
-              <p class="font-medium">Color</p>
-              <p class="text-gray-500"><%= cat.color %></p>
+        <!-- Favorites section -->
+        <%if(user){%>
+        <div
+          class="bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+        >
+          <form
+            action="/cats/<%=cat._id%>/favorites"
+            method="POST"
+            class="space-y-6"
+          >
+            <!-- Heart Icon & Checkbox Section -->
+            <div class="flex items-center justify-center">
+              <div class="relative">
+                <input
+                  type="checkbox"
+                  id="favorite"
+                  name="favorite"
+                  class="sr-only peer"
+                />
+                <label
+                  for="favorite"
+                  class="flex flex-col items-center space-y-3 cursor-pointer group"
+                >
+                  <div
+                    class="relative flex items-center justify-center w-20 h-20 rounded-full bg-white border-3 border-pink-200 group-hover:border-pink-400 transition-all duration-300 peer-checked:bg-red-500 peer-checked:border-red-500 shadow-lg group-hover:shadow-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-pink-400 group-hover:text-pink-600 peer-checked:text-white peer-checked:fill-current transition-all duration-300 group-hover:scale-110"
+                    >
+                      <path
+                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                      ></path>
+                    </svg>
+                  </div>
+
+                  <div class="text-center">
+                    <p
+                      class="font-bold text-lg text-gray-800 group-hover:text-pink-700 transition-colors duration-200"
+                    >
+                      <% if(user && user.favoriteCats &&
+                      user.favoriteCats.some(favCatId => favCatId.toString() ===
+                      cat._id.toString())) { %> Remove from Favorites <% } else
+                      { %> Like this Cat <% } %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 group-hover:text-pink-600 transition-colors duration-200"
+                    >
+                      <% if(user && user.favoriteCats &&
+                      user.favoriteCats.some(favCatId => favCatId.toString() ===
+                      cat._id.toString())) { %> Remove from your favorites <% }
+                      else { %> Add to your favorites <% } %>
+                    </p>
+                  </div>
+                </label>
+              </div>
             </div>
-            <div class="space-y-1">
-              <p class="font-medium">Weight</p>
-              <p class="text-gray-500"><%= cat.weight %> lbs</p>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-3 group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="group-hover:animate-pulse"
+              >
+                <path
+                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                ></path>
+              </svg>
+              <span>
+                <% if(user && user.favoriteCats &&
+                user.favoriteCats.some(favCatId => favCatId.toString() ===
+                cat._id.toString())) { %> Remove from Favorites <% } else { %>
+                Add to Favorites <% } %>
+              </span>
+            </button>
+          </form>
+        </div>
+        <%} else {%>
+        <div
+          class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-8 text-center shadow-lg"
+        >
+          <div class="flex flex-col items-center space-y-4">
+            <div
+              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center shadow-md"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-blue-500"
+              >
+                <path
+                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                ></path>
+              </svg>
             </div>
-            <div class="space-y-1">
-              <p class="font-medium">Spayed/Neutered</p>
-              <p class="text-gray-500"><%= cat.spayed_neutered ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Vaccinated</p>
-              <p class="text-gray-500"><%= cat.vaccinated ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Microchipped</p>
-              <p class="text-gray-500"><%= cat.microchipped ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">House Trained</p>
-              <p class="text-gray-500"><%= cat.house_trained ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Activity Level</p>
-              <p class="text-gray-500"><%= cat.activity_level %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Coat Length</p>
-              <p class="text-gray-500"><%= cat.coat_length %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Special Needs</p>
-              <p class="text-gray-500"><%= cat.special_needs ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Good with Children</p>
-              <p class="text-gray-500"><%= cat.good_with_children ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Good with Cats</p>
-              <p class="text-gray-500"><%= cat.good_with_cats ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium">Good with Dogs</p>
-              <p class="text-gray-500"><%= cat.good_with_dogs ? 'Yes' : 'No' %></p>
-            </div>
-            <div class="space-y-1 col-span-2">
-              <p class="font-medium">Adoption Fee</p>
-              <p class="text-gray-500">$<%= cat.adoption_fee %></p>
+            <div>
+              <p class="font-bold text-xl text-gray-800 mb-2">Love this cat?</p>
+              <p class="text-gray-600 mb-6">
+                Sign in to add it to your favorites!
+              </p>
+              <a
+                href="/login"
+                class="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                Sign In
+              </a>
             </div>
           </div>
-        </section>
+        </div>
+        <%}%>
       </div>
 
-      <div id="story" class="tab-content space-y-4">
-        <p class="text-gray-700"><%= cat.story %></p>
-      </div>
+      <!-- Right column: Details and tabs -->
+      <div class="space-y-8">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <div class="space-y-4">
+            <h1
+              class="text-4xl font-bold tracking-tight text-gray-900 leading-tight"
+            >
+              <%= cat.name %>
+            </h1>
+            <div
+              class="flex items-center text-gray-600 bg-gray-50 rounded-lg p-3"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="mr-2 text-orange-500"
+              >
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <% if(cat.shelter) { %>
+              <span class="font-medium"
+                ><%= cat.shelter.name %> • <%= cat.shelter.location %></span
+              >
+              <% } else { %>
+              <span>Shelter information not available</span>
+              <% } %>
+            </div>
+          </div>
+        </div>
 
-      <!-- Shelter information -->
-      <% if(cat.shelter) { %>
-      <div class="border-t pt-6 mt-6">
-        <section aria-labelledby="shelter-info" class="space-y-4">
-          <h2 class="text-lg font-medium">Shelter Information</h2>
-          <ul id="shelter-info" class="space-y-2 text-sm">
-            <li><strong>Shelter Name:</strong> <%= cat.shelter.name %></li>
-            <li><strong>Location:</strong> <%= cat.shelter.location %></li>
-            <li><strong>Phone:</strong> <%= cat.shelter.phone %></li>
-            <li><strong>Email:</strong> <%= cat.shelter.email %></li>
-          </ul>
-          <a 
-            href="/shelters/<%= cat.shelter._id %>" 
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div class="border-b border-gray-200 bg-gray-50">
+            <nav class="flex" aria-label="Tabs">
+              <button
+                onclick="showSection('about')"
+                class="tab-button flex-1 border-b-3 border-transparent px-6 py-4 text-sm font-semibold text-gray-500 hover:border-orange-300 hover:text-orange-600 transition-all duration-200 focus:outline-none focus:border-orange-500 focus:text-orange-600"
+                id="about-tab"
+              >
+                About
+              </button>
+              <button
+                onclick="showSection('details')"
+                class="tab-button flex-1 border-b-3 border-transparent px-6 py-4 text-sm font-semibold text-gray-500 hover:border-orange-300 hover:text-orange-600 transition-all duration-200 focus:outline-none focus:border-orange-500 focus:text-orange-600"
+                id="details-tab"
+              >
+                Details
+              </button>
+              <button
+                onclick="showSection('story')"
+                class="tab-button flex-1 border-b-3 border-transparent px-6 py-4 text-sm font-semibold text-gray-500 hover:border-orange-300 hover:text-orange-600 transition-all duration-200 focus:outline-none focus:border-orange-500 focus:text-orange-600"
+                id="story-tab"
+              >
+                Story
+              </button>
+            </nav>
+          </div>
+
+          <div class="p-8">
+            <div id="about" class="tab-content space-y-4">
+              <p class="text-gray-700 leading-relaxed text-lg">
+                <%= cat.description %>
+              </p>
+            </div>
+
+            <div id="details" class="tab-content space-y-6 hidden">
+              <section aria-labelledby="cat-details">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">Color</p>
+                    <p class="text-gray-600"><%= cat.color %></p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">Weight</p>
+                    <p class="text-gray-600"><%= cat.weight %> lbs</p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Spayed/Neutered
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.spayed_neutered ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">Vaccinated</p>
+                    <p class="text-gray-600">
+                      <%= cat.vaccinated ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">Microchipped</p>
+                    <p class="text-gray-600">
+                      <%= cat.microchipped ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      House Trained
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.house_trained ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Activity Level
+                    </p>
+                    <p class="text-gray-600"><%= cat.activity_level %></p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">Coat Length</p>
+                    <p class="text-gray-600"><%= cat.coat_length %></p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Special Needs
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.special_needs ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Good with Children
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.good_with_children ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Good with Cats
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.good_with_cats ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <p class="font-semibold text-gray-800 mb-1">
+                      Good with Dogs
+                    </p>
+                    <p class="text-gray-600">
+                      <%= cat.good_with_dogs ? 'Yes' : 'No' %>
+                    </p>
+                  </div>
+                  <div
+                    class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-200 md:col-span-2"
+                  >
+                    <p class="font-semibold text-orange-800 mb-1">
+                      Adoption Fee
+                    </p>
+                    <p class="text-2xl font-bold text-orange-600">
+                      $<%= cat.adoption_fee %>
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div id="story" class="tab-content space-y-4 hidden">
+              <p class="text-gray-700 leading-relaxed text-lg">
+                <%= cat.story %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shelter information -->
+        <% if(cat.shelter) { %>
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <section aria-labelledby="shelter-info" class="space-y-6">
+            <h2
+              class="text-2xl font-bold text-gray-800 border-b border-gray-200 pb-3"
+            >
+              Shelter Information
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-gray-50 rounded-lg p-4">
+                <strong class="text-gray-800">Shelter Name:</strong>
+                <p class="text-gray-600 mt-1"><%= cat.shelter.name %></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <strong class="text-gray-800">Location:</strong>
+                <p class="text-gray-600 mt-1"><%= cat.shelter.location %></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <strong class="text-gray-800">Phone:</strong>
+                <p class="text-gray-600 mt-1"><%= cat.shelter.phone %></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <strong class="text-gray-800">Email:</strong>
+                <p class="text-gray-600 mt-1"><%= cat.shelter.email %></p>
+              </div>
+            </div>
+            <a
+              href="/shelters/<%= cat.shelter._id %>"
+              class="inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 h-12 px-6 py-3 transition-all duration-200 hover:shadow-md"
+            >
+              Visit Shelter Page
+            </a>
+          </section>
+        </div>
+        <% } %>
+
+        <!-- Action buttons -->
+        <div class="space-y-6">
+          <!-- Main adoption button -->
+          <a
+            href="/cats/<%= cat._id %>/application/new"
+            class="block w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-center"
           >
-            Visit Shelter Page
+            🐾 Start Adoption Process
           </a>
-        </section>
-      </div>
-      <% } %>
 
-      <!-- Action buttons -->
-      <div class="flex flex-col gap-4 sm:flex-row">
-      
-        <a 
-          href="/cats/<%= cat._id %>/application/new"
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full sm:w-auto"
-        >
-          Start Adoption Process
-        </a>
-        
-        <a 
-          href="/cats" 
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full sm:w-auto"
-        >
-          Go Back
-        </a>
+          <!-- Back button -->
+          <a
+            href="/cats"
+            class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-4 px-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 text-center"
+          >
+            ← Go Back to All Cats
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-    function showSection(sectionId) {
-      // Hide all sections
-      document.getElementById("about").style.display = "none";
-      document.getElementById("details").style.display = "none";
-      document.getElementById("story").style.display = "none";
+  function showSection(sectionId) {
+    // Hide all sections
+    document.getElementById("about").style.display = "none";
+    document.getElementById("details").style.display = "none";
+    document.getElementById("story").style.display = "none";
 
-      // Show the selected section
-      document.getElementById(sectionId).style.display = "block";
-    }
+    // Remove active state from all tabs
+    document.querySelectorAll(".tab-button").forEach((tab) => {
+      tab.classList.remove("border-orange-500", "text-orange-600");
+      tab.classList.add("border-transparent", "text-gray-500");
+    });
 
-        // This runs when the page first loads
-        window.onload = function () {
-      showSection('about'); // Show only the "About" section by default
-    };
-  </script>
+    document.getElementById(sectionId).style.display = "block";
+
+    // Add active state to current tab
+    const activeTab = document.getElementById(sectionId + "-tab");
+    activeTab.classList.remove("border-transparent", "text-gray-500");
+    activeTab.classList.add("border-orange-500", "text-orange-600");
+  }
+
+  window.onload = function () {
+    showSection("about"); // Show only the "About" section by default
+  };
+</script>
