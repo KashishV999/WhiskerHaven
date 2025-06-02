@@ -13,8 +13,7 @@ require("./config/passportGoogle"); // should be registered before using passpor
 require("./config/passportFacebook");
 const cookieParser = require("cookie-parser");
 const ejsMate = require("ejs-mate");
-const cors = require('cors');
-
+const cors = require("cors");
 
 // Custom modules
 const AppError = require("./AppError");
@@ -112,13 +111,18 @@ db.connect()
         res.render("adoption/adoptionProcess.ejs");
       });
 
-
       app.get("/privacy", (req, res) => {
         res.json({
-          message: "Privacy Policy: Your data is safe with us. We do not share your personal information with third parties without your consent."
+          message:
+            "Privacy Policy: Your data is safe with us. We do not share your personal information with third parties without your consent.",
         });
       });
-
+      app.use("/dataDeletion", (req, res) => {
+        res.json({
+          message:
+            "Data Deletion Policy: You can request deletion of your data at any time by contacting us at your-email@example.com.",
+        });
+      });
 
       // =============================================================================
       // ERROR HANDLING
@@ -134,8 +138,6 @@ db.connect()
         const { statusCode = 500, message = "Something went wrong" } = err;
         res.status(statusCode).render("error.ejs", { message });
       });
-
-
 
       // =============================================================================
       // START SERVER
