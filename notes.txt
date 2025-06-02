@@ -1,50 +1,27 @@
-1. Work on displaying availble pets under Shelter
-2. Authenticaltion
-3. Image Upload
-4. Styling
-5. Datbase cleanup
-6. Deploy
 
+// =============================================================================
+// Authentication Notes
+// =============================================================================
 
+/register - POST 
+			-> call registerUser(req.body)
+			-> create new user if not exist
 
+/login - POST
+		   -> Call checkUser(req.body) if user exist in database
+		   -> if exist then generate the token
+		   -> attach to cookie
 
+/JWT configuration 
+		   -> install necessary dependencies
+		   -> define strategy for passport
+		   ->passport.use(srategy)
+		   -> app.js register that eg : require("./config/passportJwt"); //should be registered before using passport.authenticate() in routes.
 
-
-
-
-Edit and delete cat
-
-    <h3><a href="/cats/<%=cat._id%>/edit">Edit cat</a></h3>
-
-    <form action="/shelters/<%=cat.shelter._id%>/cats/<%=cat._id%>?_method=DELETE" method="POST">
-      <button>Delete</button>
-  </form>
-  <br>
-
-Edit and delete shelter
-
-    <h2> <a href="/shelters/<%=shelter._id%>/cats/new">Add a new Cat</a></h2>
-
-
-
-
-         <h3><a href="/shelters/<%=shelter._id%>/edit">Edit shelter</a></h3>
-
-      <form action="/shelters/<%=shelter._id%>?_method=DELETE" method="POST">
-      <button>Delete</button>
-      </form>
-
-
-      add shelter :
-          <a href="/shelters/new">Add Shelter</a>
-
-
-
-
-login:
-{
-
-  "email": "test123@gmail.com",
-  "password": "test123"
-
-}
+/GoogleAuth congiguration
+		  ->/api/auth/login -> redirect google page
+		  ->define google Startegy(checks in database any matching profile.id with googleId(user attribute))
+		  -> if no then creates new user
+		  ->passport.use(startegy)
+		  ->app.js register that eg : require("./config/passportGoogle"); // should be registered before using passport.authenticate() in routes.
+		  -> /auth/google/callback - generate the token and attach to cookie

@@ -47,7 +47,10 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: function() {
+            // password required only if no googleId or facebookId
+            return !this.googleId && !this.facebookId;
+        },
         minlength: 6
     },
 
@@ -56,7 +59,17 @@ const userSchema = new Schema({
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
-    }
+    },
+    googleId:{
+        type: String,
+        unique: true,
+        sparse: true // only apply the uniqueness check to documents where googleId is set (i.e., not null or undefined).
+    },
+    facebookId: {
+        type: String,
+        unique: true,
+        sparse: true // only apply the uniqueness check to documents where facebookId is set (i.e., not null or undefined).
+    },
 }, { timestamps: true });
 
 

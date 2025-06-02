@@ -8,7 +8,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { isAdmin } = require("../config/Auth");
+const { isAdmin } = require("../config/passportJwt");
 const AppError = require("../AppError");
 
 module.exports = (Cat, Shelter, Application) => {

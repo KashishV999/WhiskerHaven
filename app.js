@@ -8,13 +8,18 @@ const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
 const passport = require("passport");
+require("./config/passportJwt"); //should be registered before using passport.authenticate() in routes.
+require("./config/passportGoogle"); // should be registered before using passport.authenticate() in routes.
+require("./config/passportFacebook");
 const cookieParser = require("cookie-parser");
 const ejsMate = require("ejs-mate");
+const cors = require('cors');
+
 
 // Custom modules
 const AppError = require("./AppError");
 const db = require("./config/database");
-const { optionalJwtMiddleware } = require("./config/Auth");
+const { optionalJwtMiddleware } = require("./config/passportJwt");
 
 // =============================================================================
 // APP CONFIGURATION
@@ -27,7 +32,7 @@ const hostname = "localhost";
 // View engine setup
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "/views"));
-
+app.use(cors());
 // =============================================================================
 // MIDDLEWARE SETUP
 // =============================================================================
@@ -107,6 +112,14 @@ db.connect()
         res.render("adoption/adoptionProcess.ejs");
       });
 
+
+      app.get("/privacy", (req, res) => {
+        res.json({
+          message: "Privacy Policy: Your data is safe with us. We do not share your personal information with third parties without your consent."
+        });
+      });
+
+
       // =============================================================================
       // ERROR HANDLING
       // =============================================================================
@@ -121,6 +134,8 @@ db.connect()
         const { statusCode = 500, message = "Something went wrong" } = err;
         res.status(statusCode).render("error.ejs", { message });
       });
+
+
 
       // =============================================================================
       // START SERVER
