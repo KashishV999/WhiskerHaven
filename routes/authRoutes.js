@@ -31,7 +31,11 @@ router.post("/login", (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
       //res.redirect(user.role === "admin" ? "/admin/cats" : "/cats");
-      res.json({ message: "Login successful", user });
+      //res.json({ message: "Login successful", user });
+      res.json({
+  message: "Login successful",
+  redirectUrl: user.role === "admin" ? "/admin/cats" : "/cats",
+});
     })
     .catch((msg) => res.status(422).json({ message: msg }));
 });
