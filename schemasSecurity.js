@@ -1,3 +1,10 @@
+// =============================================================================
+// Server-Side Validation Schemas
+// =============================================================================
+// Name: Kashish Verma
+// Technologies: Joi, Express.js, MongoDB
+// Description: This file defines validation schemas for shelter and cat data using Joi.
+// =============================================================================
 const Joi = require('joi');
 
 module.exports.ValidateShelterSchema = Joi.object({

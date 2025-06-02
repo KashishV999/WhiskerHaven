@@ -53,6 +53,12 @@ module.exports = (Cat, Shelter) => {
     }
   });
 
+    // Render new shelter form
+  router.get("/new", (req, res) => {
+    res.render("shelters/new.ejs");
+  });
+
+
   // Show details of a shelter
   router.get("/:id", async (req, res, next) => {
     try {
@@ -67,10 +73,6 @@ module.exports = (Cat, Shelter) => {
     }
   });
 
-  // Render new shelter form
-  router.get("/new", (req, res) => {
-    res.render("shelters/new.ejs");
-  });
 
   // Render edit form
   router.get("/:id/edit", async (req, res, next) => {

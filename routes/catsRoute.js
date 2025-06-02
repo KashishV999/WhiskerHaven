@@ -107,6 +107,14 @@ module.exports = (Cat, Shelter, Application, User) => {
     }
   });
 
+  
+  // Render new cat form
+  router.get("/new", async (req, res) => {
+    const shelters = await Shelter.find({});
+    res.render("cats/new.ejs", { shelters, shelter: null });
+  });
+
+  
   // Show one cat
   router.get("/:id", async (req, res, next) => {
     try {
@@ -126,12 +134,6 @@ module.exports = (Cat, Shelter, Application, User) => {
     } catch (e) {
       next(e);
     }
-  });
-
-  // Render new cat form
-  router.get("/new", async (req, res) => {
-    const shelters = await Shelter.find({});
-    res.render("cats/new.ejs", { shelters, shelter: null });
   });
 
   // Render edit form

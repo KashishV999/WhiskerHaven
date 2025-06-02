@@ -22,9 +22,7 @@ module.exports = (Application, User) => {
       const applications = await Application.find({ user: req.user._id })
         .populate("cat")
         .populate("shelter");
-      if (!applications || applications.length === 0) {
-        throw new AppError("No applications found for this user", 404);
-      }
+
       res.render("users/index.ejs", { applications });
     } catch (e) {
       next(e);
