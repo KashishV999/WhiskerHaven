@@ -64,10 +64,6 @@
               </svg>
             </div>
             <% } %>
-
-            <figcaption class="p-4 text-sm text-gray-600 bg-gray-50 border-t">
-              <%= cat.description %>
-            </figcaption>
           </figure>
         </div>
 
@@ -131,142 +127,15 @@
           </div>
         </div>
 
-        <!-- Favorites section -->
-        <%if(user){%>
-        <div
-          class="bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-        >
-          <form
-            action="/cats/<%=cat._id%>/favorites"
-            method="POST"
-            class="space-y-6"
+                <!-- Back button -->
+        <div class="space-y-6">
+          <a
+            href="/cats"
+            class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-4 px-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 text-center"
           >
-            <!-- Heart Icon & Checkbox Section -->
-            <div class="flex items-center justify-center">
-              <div class="relative">
-                <input
-                  type="checkbox"
-                  id="favorite"
-                  name="favorite"
-                  class="sr-only peer"
-                />
-                <label
-                  for="favorite"
-                  class="flex flex-col items-center space-y-3 cursor-pointer group"
-                >
-                  <div
-                    class="relative flex items-center justify-center w-20 h-20 rounded-full bg-white border-3 border-pink-200 group-hover:border-pink-400 transition-all duration-300 peer-checked:bg-red-500 peer-checked:border-red-500 shadow-lg group-hover:shadow-xl"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="text-pink-400 group-hover:text-pink-600 peer-checked:text-white peer-checked:fill-current transition-all duration-300 group-hover:scale-110"
-                    >
-                      <path
-                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-                      ></path>
-                    </svg>
-                  </div>
-
-                  <div class="text-center">
-                    <p
-                      class="font-bold text-lg text-gray-800 group-hover:text-pink-700 transition-colors duration-200"
-                    >
-                      <% if(user && user.favoriteCats &&
-                      user.favoriteCats.some(favCatId => favCatId.toString() ===
-                      cat._id.toString())) { %> Remove from Favorites <% } else
-                      { %> Like this Cat <% } %>
-                    </p>
-                    <p
-                      class="text-sm text-gray-500 group-hover:text-pink-600 transition-colors duration-200"
-                    >
-                      <% if(user && user.favoriteCats &&
-                      user.favoriteCats.some(favCatId => favCatId.toString() ===
-                      cat._id.toString())) { %> Remove from your favorites <% }
-                      else { %> Add to your favorites <% } %>
-                    </p>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- Submit Button -->
-            <button
-              type="submit"
-              class="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-3 group"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="group-hover:animate-pulse"
-              >
-                <path
-                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-                ></path>
-              </svg>
-              <span>
-                <% if(user && user.favoriteCats &&
-                user.favoriteCats.some(favCatId => favCatId.toString() ===
-                cat._id.toString())) { %> Remove from Favorites <% } else { %>
-                Add to Favorites <% } %>
-              </span>
-            </button>
-          </form>
+            ← Go Back to All Cats
+          </a>
         </div>
-        <%} else {%>
-        <div
-          class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-8 text-center shadow-lg"
-        >
-          <div class="flex flex-col items-center space-y-4">
-            <div
-              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center shadow-md"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-blue-500"
-              >
-                <path
-                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-                ></path>
-              </svg>
-            </div>
-            <div>
-              <p class="font-bold text-xl text-gray-800 mb-2">Love this cat?</p>
-              <p class="text-gray-600 mb-6">
-                Sign in to add it to your favorites!
-              </p>
-              <a
-                href="/login"
-                class="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-              >
-                Sign In
-              </a>
-            </div>
-          </div>
-        </div>
-        <%}%>
       </div>
 
       <!-- Right column: Details and tabs -->
@@ -306,6 +175,28 @@
             </div>
           </div>
         </div>
+
+
+        <!-- Include the login modal -->
+      <%- include('../loginRequiredModal') %> 
+
+        <!-- Main adoption button - moved up -->
+
+        <div class="space-y-4">
+          <button
+          <% if (user && user.role === "user") { %>
+            onclick="window.location.href='/cats/<%= cat._id %>/application/new'"
+          <% } else { %>
+            onclick="loginRequiredModal.showModal()"
+          <% } %>
+            class="block w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-center"
+          >
+            🐾 Start Adoption Process
+          </button>
+        </div>
+
+
+
 
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div class="border-b border-gray-200 bg-gray-50">
@@ -505,24 +396,7 @@
         </div>
         <% } %>
 
-        <!-- Action buttons -->
-        <div class="space-y-6">
-          <!-- Main adoption button -->
-          <a
-            href="/cats/<%= cat._id %>/application/new"
-            class="block w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-center"
-          >
-            🐾 Start Adoption Process
-          </a>
 
-          <!-- Back button -->
-          <a
-            href="/cats"
-            class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-4 px-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 text-center"
-          >
-            ← Go Back to All Cats
-          </a>
-        </div>
       </div>
     </div>
   </div>

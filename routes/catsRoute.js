@@ -153,11 +153,9 @@ module.exports = (Cat, Shelter, Application, User) => {
   router.get("/:id/application/new", async (req, res) => {
     const { id } = req.params;
     const cat = await Cat.findById(id).populate("shelter");
-    if (req.user) {
+    
       res.render("adoption/adoptionForm.ejs", { cat });
-    } else {
-      res.render("isLoginError.ejs");
-    }
+    
   });
 
   // =============================================================================
@@ -217,7 +215,9 @@ module.exports = (Cat, Shelter, Application, User) => {
       }
 
       await user.save();
-     res.redirect(`/cats`);
+      const currentPage = req.query.page || 1; // Default to page 1 if no page query is provided
+
+      res.redirect(`/user/favorites`);
     } catch (error) {
       next(error);
     }
