@@ -375,7 +375,12 @@
           window.location.href = data.redirectUrl;
         } else {
           // Default redirect or close modal
-          window.location.href = '/cats'; // or wherever you want to redirect
+          if(user.role=="admin"){
+            window.location.href = '/admin/cats'; // Redirect to admin dashboard
+          } else {
+            window.location.href = '/cats'; // Redirect to user dashboard or cats page
+          }
+         
         }
       } else {
         // Login failed - show the backend error message
