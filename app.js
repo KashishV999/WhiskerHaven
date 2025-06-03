@@ -59,6 +59,7 @@ db.connect()
       const Shelter = db.getShelterModel();
       const Application = db.getApplicationModel();
       const User = db.getUserModel();
+      const Comment = db.getCommentModel();
 
       // Import routes
       const catRoutes = require("./routes/catsRoute")(
@@ -76,6 +77,11 @@ db.connect()
         Application
       );
       const userRoutes = require("./routes/userRoutes")(Application, User);
+      const commentRoutes = require("./routes/commentRoutes")(
+        Comment,
+        Shelter,
+        User
+      );
 
       // Seed database if empty
       const seedShelter = require("./seeds/seedShelters");
@@ -106,6 +112,8 @@ db.connect()
       app.use("/api", authRoutes);
       app.use("/admin", adminRoutes);
       app.use("/user", userRoutes);
+
+      app.use("/comment", commentRoutes);
 
       app.get("/adoptionProcess", (req, res) => {
         res.render("adoption/adoptionProcess.ejs");

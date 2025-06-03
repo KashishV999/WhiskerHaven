@@ -1,7 +1,5 @@
 
-// =============================================================================
-// Authentication Notes
-// =============================================================================
+
 
 /register - POST 
 			-> call registerUser(req.body)
@@ -25,3 +23,20 @@
 		  ->passport.use(startegy)
 		  ->app.js register that eg : require("./config/passportGoogle"); // should be registered before using passport.authenticate() in routes.
 		  -> /auth/google/callback - generate the token and attach to cookie
+
+
+// =============================================================================
+// Recursive Comment Routing
+// =============================================================================
+
+Add a parent comment to a particular shelter
+POST -  /comment/shelterId
+
+Add a reply to a comment
+POST - /comment/commentId/reply/shelterId
+
+Delete a comment
+Delete- /comment/commentId/delete/shelterId
+
+Get all comments in a  shelter
+Get- /comment/shelterId

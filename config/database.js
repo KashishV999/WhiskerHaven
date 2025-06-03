@@ -8,6 +8,7 @@ const CatSchema = require("../models/cat");
 const ShelterSchema = require("../models/shelter");
 const userSchema = require("../models/user");
 const ApplicationSchema = require("../models/application");
+const CommentSchema = require("../models/comments");
 
 // =============================================================================
 // MODEL VARIABLES
@@ -17,6 +18,7 @@ let User;
 let Cat;
 let Shelter;
 let Application;
+let Comment;
 
 // =============================================================================
 // DATABASE CONNECTION
@@ -38,7 +40,7 @@ function connect() {
             if (!Cat) Cat = db.model("Cat", CatSchema, "cats");
             if (!Shelter) Shelter = db.model("Shelter", ShelterSchema, "shelters");
             if (!Application) Application = db.model("Application", ApplicationSchema, "applications");
-
+            if (!Comment) Comment = db.model("Comment", CommentSchema, "comments");
             resolve();
         });
     });
@@ -108,6 +110,15 @@ function checkUser(userData) {
     });
 }
 
+
+function isLoggedIn(req, res, next) {
+  if (req.user) {
+    return next(); // user is logged in, allow the request
+  }
+  res.status(401).json({ message: "Unauthorized" });
+}
+
+
 // =============================================================================
 // EXPORTS
 // =============================================================================
@@ -116,8 +127,10 @@ module.exports = {
     connect,
     registerUser,
     checkUser,
+    isLoggedIn,
     getCatModel: () => Cat,
     getShelterModel: () => Shelter,
     getUserModel: () => User,
-    getApplicationModel: () => Application
+    getApplicationModel: () => Application,
+    getCommentModel: () => Comment
 };

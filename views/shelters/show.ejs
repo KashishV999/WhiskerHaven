@@ -576,19 +576,335 @@
   </div>
 </div>
 
+
+
+  <%- include('../loginRequiredModal') %> 
+
+<!-- Comments Section -->
+<div class="container px-4 md:px-6 mx-auto py-8">
+  <div class="max-w-4xl mx-auto">
+    
+    <!-- Comment Form -->
+    <% if(user) { %>
+    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+      <form action="/comment/<%= shelter._id %>" method="POST">
+        <div class="flex items-start space-x-3">
+          <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-medium">
+            <%= user.firstName.charAt(0).toUpperCase() %>
+          </div>
+          <div class="flex-1">
+            <textarea 
+              name="comment" 
+              required 
+              rows="3"
+              class="w-full px-4 py-3 border-0 bg-white rounded-lg resize-none focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              placeholder="Add comment..."
+            ></textarea>
+            <div class="flex justify-end mt-3">
+              <button 
+                type="submit"
+                class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-medium transition-colors"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <% } else { %>
+    <div class="bg-gray-50 rounded-lg p-4 mb-6 text-center">
+      <p class="text-gray-600 mb-3">Join the conversation!</p>
+
+<button
+  class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-full font-medium transition-colors"
+  onclick="loginRequiredModal.show()"
+>
+  Sign In to Comment
+</button>
+    </div>
+    <% } %>
+
+    <!-- Comments Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-2">
+        <h3 class="text-xl font-semibold text-gray-900">Comments</h3>
+        <span class="bg-primary text-white text-sm px-2.5 py-1 rounded-full font-medium" id="comment-count">0</span>
+      </div>
+      <div class="flex items-center space-x-2 text-sm text-gray-500">
+
+
+      </div>
+    </div>
+
+    <!-- Comments Display -->
+    <div class="display space-y-4"></div>
+  </div>
+</div>
+
+
+
+
+
 <script>
+  const user = <%- JSON.stringify(user) %>;
+
+function updateCommentCount() {
+  const commentCount = document.querySelectorAll('.comment-container').length;
+  document.getElementById('comment-count').textContent = `${commentCount} comment${commentCount !== 1 ? 's' : ''}`;
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now - date);
+  const diffMinutes = Math.floor(diffTime / (1000 * 60));
+  const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffMinutes < 1) return 'Just now';
+  if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  if (diffDays === 1) return `Yesterday at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  if (diffDays < 7) return `${diffDays} days ago at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  
+  return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+}
+function recursiveDisplay(element, outerBody, depth = 0) {
+  const commentContainer = document.createElement('div');
+  commentContainer.className = `comment-container ${depth > 0 ? 'ml-6 border-l border-gray-200 pl-3' : ''} mb-2`;
+  
+  const commentCard = document.createElement('div');
+  commentCard.className = 'overflow-hidden border rounded-lg bg-white p-3 hover:shadow-md transition-shadow';
+  
+  // Comment header with user info and timestamp
+  const commentHeader = document.createElement('div');
+  commentHeader.className = 'flex items-center justify-between mb-2';
+  
+  const userInfo = document.createElement('div');
+  userInfo.className = 'flex items-center space-x-2';
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-medium';
+  avatar.textContent = element.postedBy.firstName.charAt(0).toUpperCase();
+  
+  const userDetails = document.createElement('div');
+  userDetails.innerHTML = `
+    <div class="font-medium text-foreground text-sm">${element.postedBy.firstName}</div>
+    <div class="text-xs text-muted-foreground">${formatDate(element.createdAt)}</div>
+  `;
+  
+  userInfo.appendChild(avatar);
+  userInfo.appendChild(userDetails);
+  
+  // Comment actions (inline with header)
+  const commentActions = document.createElement('div');
+  commentActions.className = 'flex items-center space-x-2 text-xs';
+  
+  // Reply button
+  if (user && user.role === "user") {
+    const replyButton = document.createElement('button');
+    replyButton.className = 'text-[#000] hover:text-[#000]/80 font-medium transition-colors';
+    replyButton.textContent = 'Reply';
+    
+    replyButton.addEventListener('click', function () {
+      // Remove existing reply forms
+      const existingForms = commentCard.querySelectorAll('.reply-form');
+      existingForms.forEach(form => form.remove());
+      
+      const replyForm = document.createElement('div');
+      replyForm.className = 'reply-form mt-2 p-2 bg-muted rounded border';
+      replyForm.innerHTML = `
+        <form action="/comment/${element._id}/reply/<%= shelter._id %>" method="POST" class="space-y-2">
+          <textarea 
+            name="reply" 
+            required 
+            rows="2"
+            class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:ring-2 focus:ring-[#FF7A45]/20 focus:border-[#FF7A45] resize-none"
+            placeholder="Reply to ${element.postedBy.firstName}..."
+          ></textarea>
+          <div class="flex space-x-2">
+            <button 
+              type="submit"
+              class="bg-primary hover:bg-primary/90 text-white px-2 py-1 text-xs font-medium rounded transition-colors"
+            >
+              Reply
+            </button>
+            <button 
+              type="button"
+              onclick="this.closest('.reply-form').remove()"
+              class="border border-gray-200 hover:bg-gray-50 px-2 py-1 text-xs font-medium rounded transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      `;
+      
+      commentCard.appendChild(replyForm);
+    });
+    
+    commentActions.appendChild(replyButton);
+  }
+  
+  // Delete button (only for comment owner)
+  if (user?.role === "user" && user._id === element.postedBy._id) {
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'text-red-600 hover:text-red-800 font-medium transition-colors';
+    deleteButton.textContent = 'Delete';
+    
+    deleteButton.addEventListener('click', function () {
+      if (confirm('Delete this comment?')) {
+        fetch(`/comment/${element._id}/delete/<%= shelter._id %>`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (response.ok) {
+            commentContainer.remove();
+            updateCommentCount();
+          } else {
+            alert('Failed to delete comment');
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting comment:', error);
+          alert('Error deleting comment');
+        });
+      }
+    });
+    
+    commentActions.appendChild(deleteButton);
+  }
+  
+  commentHeader.appendChild(userInfo);
+  commentHeader.appendChild(commentActions);
+  
+  // Comment content
+  const commentContent = document.createElement('div');
+  commentContent.className = 'text-secondary-foreground text-sm leading-relaxed';
+  commentContent.textContent = element.text;
+  
+  // Assemble comment card
+  commentCard.appendChild(commentHeader);
+  commentCard.appendChild(commentContent);
+  commentContainer.appendChild(commentCard);
+  
+  // Add replies with collapsible functionality
+  if (element.replies && element.replies.length > 0) {
+    // Create toggle button for replies
+    const toggleContainer = document.createElement('div');
+    toggleContainer.className = 'mt-2';
+    
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'flex items-center space-x-1 text-xs text-gray-600 hover:text-gray-800 transition-colors';
+    
+    const arrow = document.createElement('span');
+    arrow.className = 'transform transition-transform duration-200';
+    arrow.innerHTML = '▼'; // Down arrow (expanded state)
+    
+    const toggleText = document.createElement('span');
+    toggleText.textContent = `${element.replies.length} ${element.replies.length === 1 ? 'reply' : 'replies'}`;
+    
+    toggleButton.appendChild(arrow);
+    toggleButton.appendChild(toggleText);
+    
+    // Create replies container
+    const repliesContainer = document.createElement('div');
+    repliesContainer.className = 'mt-2 space-y-2 transition-all duration-200';
+    
+    // Initially expanded
+    let isExpanded = true;
+    
+    // Toggle functionality
+    toggleButton.addEventListener('click', function() {
+      isExpanded = !isExpanded;
+      
+      if (isExpanded) {
+        repliesContainer.style.display = 'block';
+        arrow.style.transform = 'rotate(0deg)';
+        arrow.innerHTML = '▼';
+      } else {
+        repliesContainer.style.display = 'none';
+        arrow.style.transform = 'rotate(-90deg)';
+        arrow.innerHTML = '▶';
+      }
+    });
+    
+    // Add replies to container
+    element.replies.forEach(reply => {
+      recursiveDisplay(reply, repliesContainer, depth + 1);
+    });
+    
+    toggleContainer.appendChild(toggleButton);
+    commentContainer.appendChild(toggleContainer);
+    commentContainer.appendChild(repliesContainer);
+  }
+  
+  outerBody.appendChild(commentContainer);
+}
+
+
+// Load comments when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+  const displayComments = document.querySelector(".display");
+  
+  fetch('/comment/<%= shelter._id %>')
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        data.forEach(comment => {
+          recursiveDisplay(comment, displayComments);
+        });
+        updateCommentCount();
+      } else {
+        displayComments.innerHTML = `
+          <div class="text-center py-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-muted-foreground mb-2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <p class="text-sm text-muted-foreground">No comments yet. Be the first to share your thoughts!</p>
+          </div>
+        `;
+        document.getElementById('comment-count').textContent = '0 comments';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching comments:', error);
+      displayComments.innerHTML = `
+        <div class="text-center py-6 text-red-600">
+          <p class="text-sm">Error loading comments. Please try again later.</p>
+        </div>
+      `;
+    });
+});
+
+
   function showSection(sectionId) {
     // Hide all sections
     document.getElementById("about").style.display = "none";
     document.getElementById("available").style.display = "none";
     document.getElementById("process").style.display = "none";
     document.getElementById("contact").style.display = "none";
+    
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-button').forEach(tab => {
+      tab.classList.remove('border-blue-500', 'text-blue-600');
+      tab.classList.add('border-transparent', 'text-gray-500');
+    });
+    
     // Show the selected section
     document.getElementById(sectionId).style.display = "block";
+    
+    // Add active class to selected tab
+    const activeTab = document.getElementById(sectionId + '-tab');
+    if (activeTab) {
+      activeTab.classList.remove('border-transparent', 'text-gray-500');
+      activeTab.classList.add('border-blue-500', 'text-blue-600');
+    }
   }
 
   // This runs when the page first loads
   window.onload = function () {
-    showSection("available"); // Show only the "About" section by default
+    showSection("available");
   };
 </script>

@@ -33,7 +33,7 @@ router.post("/login", (req, res) => {
       //res.redirect(user.role === "admin" ? "/admin/cats" : "/cats");
       //res.json({ message: "Login successful", user });
       res.json({
-  message: "Login successful",
+  message: `Login successful ${token}`,
   redirectUrl: user.role === "admin" ? "/admin/cats" : "/cats",
 });
     })

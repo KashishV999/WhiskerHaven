@@ -9,25 +9,38 @@ const { Schema } = mongoose;
 // COMMENT SCHEMA
 // =============================================================================
 
-const commentSchema = new Schema({
-    // =============================================================================
-    // RELATIONSHIPS
-    // =============================================================================
-    
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-
-    
-    content: {
-        type: String,
-        required: true,
-        trim: true
-    }
+const CommentSchema = new Schema({
+postedBy:{
+    type: Schema.Types.ObjectId,
+    required:true,
+    ref:"User"
+},
+shelterId:{
+type:Schema.Types.ObjectId,
+required:true,
+ref:"Shelter"
+},
+text:{
+    type:String,
+    required:true
+},
+parentComment:{
+    type:Schema.Types.ObjectId,
+    ref:"Comment",
+    default:null
+},
+replies:[{
+    type: Schema.Types.ObjectId,
+    ref: "Comment"
+}]
 }, { timestamps: true });
 
+CommentSchema.pre("find", function( next){
+    this.populate({path:"replies",
+populate:{path:"postedBy"}
+})
+    next()
+})
 
 
-module.exports = commentSchema;
+module.exports = CommentSchema;
