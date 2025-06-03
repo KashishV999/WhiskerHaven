@@ -25,13 +25,18 @@ router.post("/:shelterId", isLoggedIn, [body("comment").trim().escape().notEmpty
         replies: []
     };
 
-    try {
-        await new Comment(commentObj).save();
-        //res.json({ message: "Comment posted successfully" }); // Send success response
-        res.redirect(`/shelters/${shelterId}`); // Redirect to the shelter page after posting the comment
+try {
+      // Save the comment to the database
+      const newComment = await new Comment(commentObj).save();
+
+      // Populate the 'postedBy' field with user details
+      const populatedComment = await Comment.findById(newComment._id).populate("postedBy", "firstName email");
+
+      // Return the populated comment as JSON
+      res.status(201).json(populatedComment);
     } catch (er) {
-        console.log(er.message);
-        res.status(500).json({ message: "Failed to post comment" }); // Handle server error
+      console.error(er.message);
+      res.status(500).json({ message: "Failed to post comment" });
     }
 });
 
@@ -54,22 +59,19 @@ router.post(
         parentComment: commentId,
       };
 
-      try {
-        const newReply = await new Comment(replyObj).save();
-        await Comment.findOneAndUpdate(
-          { _id: commentId, shelterId },
-          { $push: { replies: newReply._id } }
-        );
-        // res.json({
-        //   message: "Reply posted successfully",
-        //   commentId: commentId,
-        //   shelterId: shelterId,
-        // });
-        res.redirect(`/shelters/${shelterId}`); // Redirect to the shelter page after posting the reply
-      } catch (er) {
-        console.error(er.message);
-        res.status(500).json({ message: "Failed to post reply" });
-      }
+try {
+  const newReply = await new Comment(replyObj).save();
+  await Comment.findOneAndUpdate(
+    { _id: commentId, shelterId },
+    { $push: { replies: newReply._id } }
+  );
+  const populatedReply = await Comment.findById(newReply._id).populate("postedBy", "firstName email");
+  console.log(populatedReply);
+  res.json(populatedReply);
+} catch (er) {
+  console.error(er.message);
+  res.status(500).json({ message: "Failed to post reply" });
+}
     } else {
       res.status(400).json({ errors: errors.array() });
     }
