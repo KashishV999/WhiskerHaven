@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container px-4 md:px-6 mx-auto py-8 md:py-12">
+<div class="container px-4 md:px-6 mx-auto pt-8 md:pt-12 pb-0">
   <div class="flex items-center gap-2 mb-6">
     <a
       href="/shelters"
@@ -88,6 +88,13 @@
             id="contact-tab"
           >
             Contact
+          </button>
+          <button
+            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+            id="comments-tab"
+          >
+          <a href="#comments-section">Comment</a>
+            
           </button>
         </nav>
       </div>
@@ -389,26 +396,7 @@
 
       <!-- Action buttons -->
       <div class="flex flex-col gap-4 sm:flex-row pt-6 border-t">
-        <a
-          href="/shelters"
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="mr-2 h-4 w-4"
-          >
-            <path d="m15 18-6-6 6-6"></path>
-          </svg>
-          Go Back
-        </a>
+
       </div>
     </div>
 
@@ -583,7 +571,9 @@
 <%- include('../loginRequiredModal') %>
 
 <!-- Comments Section -->
-<div class="container px-4 md:px-6 mx-auto py-8">
+<div class="container px-4 md:px-6 mx-auto pt-0 pb-12" id="comments-section">
+   <h2 class="text-xl font-semibold mb-4">Leave a Comment</h2>
+  <p class="mb-6 text-gray-600">We'd love to hear your thoughts! Share your feedback or ask a question below.</p>
   <div class="max-w-4xl mx-auto">
     <!-- Comment Form -->
     <% if(user) { %>
@@ -646,6 +636,8 @@
     <div class="display space-y-4"></div>
   </div>
 </div>
+
+
 
 <!-- Toast notification for feedback -->
 <div id="toast" class="fixed top-4 right-4 z-50 hidden">
@@ -1094,7 +1086,6 @@
     document.getElementById("available").style.display = "none";
     document.getElementById("process").style.display = "none";
     document.getElementById("contact").style.display = "none";
-
     // Remove active class from all tabs
     document.querySelectorAll('.tab-button').forEach(tab => {
       tab.classList.remove('border-blue-500', 'text-blue-600');
