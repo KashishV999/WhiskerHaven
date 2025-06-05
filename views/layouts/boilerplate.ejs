@@ -40,11 +40,16 @@
 
         autocomplete.addListener("place_changed", function () {
           const place = autocomplete.getPlace();
-          if (!place.geometry) return;
+          if (place.geometry){
 
           document.getElementById("lat").value = place.geometry.location.lat();
           document.getElementById("lng").value = place.geometry.location.lng();
+          } else {
+            console.error("No geometry found for the selected place.");
+          }
         });
+
+        
       }
     </script>
 

@@ -56,10 +56,9 @@ module.exports = (Cat, Shelter) => {
   // Render new shelter form
   router.get("/new", (req, res) => {
     res.render("shelters/new.ejs", {
-      GOOGLE_API_KEY: process.env.GOOGLE_MAPS_API
+      GOOGLE_API_KEY: process.env.GOOGLE_MAPS_API,
     });
   });
-
 
   // Show details of a shelter
   router.get("/:id", async (req, res, next) => {
@@ -74,7 +73,6 @@ module.exports = (Cat, Shelter) => {
       next(e);
     }
   });
-
 
   // Render edit form
   router.get("/:id/edit", async (req, res, next) => {
@@ -95,53 +93,60 @@ module.exports = (Cat, Shelter) => {
   // =============================================================================
 
   // Create a new shelter
-  router.post("/", upload.single("image"), validateShelter, async (req, res) => {
-    try {
-      const { name, location, lat, lng, ...rest } = req.body;
+  router.post(
+    "/",
+    upload.single("image"),
+    validateShelter,
+    async (req, res) => {
+      try {
+        const { name, location, lat, lng, ...rest } = req.body;
 
-      const newShelter = new Shelter({
-        name,
-        location,
-        coordinates: {
-          lat: parseFloat(lat),
-          lng: parseFloat(lng)
-        },
-        ...rest
-      });
-      if (req.file) {
-        newShelter.image = req.file.path;
+        const newShelter = new Shelter({
+          name,
+          location,
+          coordinates: {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+          },
+          ...rest,
+        });
+        if (req.file) {
+          newShelter.image = req.file.path;
+        }
+        await newShelter.save();
+        res.redirect(`/shelters/${newShelter._id}`);
+      } catch (e) {
+        console.error("Error creating shelter:", e);
+        res.status(500).send("Internal Server Error");
       }
-      await newShelter.save();
-      res.redirect(`/shelters/${newShelter._id}`);
-    } catch (e) {
-      console.error("Error creating shelter:", e);
-      res.status(500).send("Internal Server Error");
     }
-  });
+  );
 
   // =============================================================================
   // UPDATE ROUTES (PUT)
   // =============================================================================
 
-  // Update a shelter
+  // Update a shelter 
   router.put("/:id", upload.single("image"), async (req, res, next) => {
     try {
       const { id } = req.params;
 
-       const { name, location, lat, lng, ...rest } = req.body;
+      //updated data
+      let updatedData = { ...req.body };
+      const shelter = await Shelter.findById(id);
 
-      const shelter = await Shelter.findByIdAndUpdate(id, {
-        name,
-        location,
-        coordinates: {
-          lat: parseFloat(lat),
-          lng: parseFloat(lng)
-        },
-        ...rest
-      }, {
+      if (shelter.location !== req.body.location) {
+        updatedData.location = req.body.location;
+        updatedData.coordinates = {
+          lat: parseFloat(req.body.lat),
+          lng: parseFloat(req.body.lng),
+        };
+      }
+
+      await Shelter.findByIdAndUpdate(id, updatedData, {
         new: true,
       });
-      
+
       if (!shelter) {
         throw new AppError("Shelter not found", 404);
       }

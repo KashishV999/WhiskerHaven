@@ -25,6 +25,14 @@ module.exports.ValidateShelterSchema = Joi.object({
   cats: Joi.array().items(Joi.string().regex(/^[0-9a-fA-F]{24}$/)).default([]),
   hours: Joi.object().default({}), // flexible JSON object for hours
   mission: Joi.string().trim().allow('').default(''),
+    lat: Joi.number().messages({
+    'number.base': 'Latitude must be a number',
+    'any.required': 'Latitude is required',
+  }),
+  lng: Joi.number().messages({
+    'number.base': 'Longitude must be a number',
+    'any.required': 'Longitude is required',
+  }),
 }).required();
 
 module.exports.ValidateCatSchema = Joi.object({
