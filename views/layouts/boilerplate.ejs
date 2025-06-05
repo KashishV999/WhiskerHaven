@@ -5,52 +5,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <title>HEADER</title>
   </head>
   <body>
+    <!-----Autocomplete Feature Address Google maps-->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API %>&libraries=places&callback=initAutocomplete"
+      async
+      defer
+    ></script>
 
-<%-include('../partials/header')%>
+    <%-include('../partials/header')%>
 
     <main>
-      <%- body %> <!-- The page-specific content will be injected here -->
+      <%- body %>
+      <!-- The page-specific content will be injected here -->
     </main>
-    
-<%-include('../partials/footer')%>
 
+    <%-include('../partials/footer')%>
 
-<!-----Autocomplete Feature Address Google maps-->
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API %>&libraries=places&callback=initAutocomplete"
-  async
-  defer
-></script>
+    <script>
+      function initAutocomplete() {
+        console.log("Autocomplete initialized");
+        const input = document.getElementById("location");
+        const options = {
+          types: ["geocode"],
+          componentRestrictions: { country: "ca" },
+        };
+        const autocomplete = new google.maps.places.Autocomplete(
+          input,
+          options
+        );
 
+        autocomplete.addListener("place_changed", function () {
+          const place = autocomplete.getPlace();
+          if (!place.geometry) return;
 
-
-<script>
-
-function initAutocomplete() {
-  console.log('Autocomplete initialized');
-  const input = document.getElementById('location');
-  const options={
-    types: ['geocode'],
-    componentRestrictions: { country: 'ca' },
-  };
-  const autocomplete = new google.maps.places.Autocomplete(input, options);
-
-  autocomplete.addListener('place_changed', function () {
-    const place = autocomplete.getPlace();
-    if (!place.geometry) return;
-
-    document.getElementById('lat').value = place.geometry.location.lat();
-    document.getElementById('lng').value = place.geometry.location.lng();
-  });
-}
-
-</script>
-
-
+          document.getElementById("lat").value = place.geometry.location.lat();
+          document.getElementById("lng").value = place.geometry.location.lng();
+        });
+      }
+    </script>
 
   </body>
 </html>
