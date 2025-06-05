@@ -26,16 +26,12 @@
   defer
 ></script>
 
-<script
-  async
-  defer
-  src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API %>&callback=initMap"
-></script>
 
 
 <script>
 
 function initAutocomplete() {
+  console.log('Autocomplete initialized');
   const input = document.getElementById('location');
   const options={
     types: ['geocode'],

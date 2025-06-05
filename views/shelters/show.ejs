@@ -3,6 +3,16 @@
 
 <% layout("/layouts/boilerplate") %>
 
+<!-----Script for Google Maps integration-->
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API %>&callback=initMap"
+></script>
+
+
+
+
 <div class="container px-4 md:px-6 mx-auto pt-8 md:pt-12 pb-0">
   <div class="flex items-center gap-2 mb-6">
     <a
