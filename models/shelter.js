@@ -36,12 +36,10 @@ const ShelterSchema = new Schema({
     },
     coordinates: {
         lat: {
-            type: Number,
-            required: true
+            type: Number
         },
         lng: {
-            type: Number,
-            required: true
+            type: Number
         }
     },
     description: {
