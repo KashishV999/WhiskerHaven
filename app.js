@@ -47,6 +47,16 @@ app.use(passport.initialize());
 app.use(cookieParser());
 app.use(optionalJwtMiddleware);
 
+
+//Google API globally available
+app.use((req, res, next) => {
+  res.locals.GOOGLE_MAPS_API = process.env.GOOGLE_MAPS_API;
+  next();
+});
+
+
+
+
 // =============================================================================
 // DATABASE CONNECTION & ROUTE SETUP
 // =============================================================================

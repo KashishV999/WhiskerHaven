@@ -53,9 +53,11 @@ module.exports = (Cat, Shelter) => {
     }
   });
 
-    // Render new shelter form
+  // Render new shelter form
   router.get("/new", (req, res) => {
-    res.render("shelters/new.ejs");
+    res.render("shelters/new.ejs", {
+      GOOGLE_API_KEY: process.env.GOOGLE_MAPS_API
+    });
   });
 
 
@@ -95,7 +97,17 @@ module.exports = (Cat, Shelter) => {
   // Create a new shelter
   router.post("/", upload.single("image"), validateShelter, async (req, res) => {
     try {
-      const newShelter = new Shelter(req.body);
+      const { name, location, lat, lng, ...rest } = req.body;
+
+      const newShelter = new Shelter({
+        name,
+        location,
+        coordinates: {
+          lat: parseFloat(lat),
+          lng: parseFloat(lng)
+        },
+        ...rest
+      });
       if (req.file) {
         newShelter.image = req.file.path;
       }
@@ -115,9 +127,21 @@ module.exports = (Cat, Shelter) => {
   router.put("/:id", upload.single("image"), async (req, res, next) => {
     try {
       const { id } = req.params;
-      const shelter = await Shelter.findByIdAndUpdate(id, req.body, {
+
+       const { name, location, lat, lng, ...rest } = req.body;
+
+      const shelter = await Shelter.findByIdAndUpdate(id, {
+        name,
+        location,
+        coordinates: {
+          lat: parseFloat(lat),
+          lng: parseFloat(lng)
+        },
+        ...rest
+      }, {
         new: true,
       });
+      
       if (!shelter) {
         throw new AppError("Shelter not found", 404);
       }
