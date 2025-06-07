@@ -25,33 +25,90 @@
 
     <%-include('../partials/footer')%>
 
+
+
     <script>
-      function initAutocomplete() {
-        console.log("Autocomplete initialized");
-        const input = document.getElementById("location");
-        const options = {
-          types: ["geocode"],
-          componentRestrictions: { country: "ca" },
-        };
-        const autocomplete = new google.maps.places.Autocomplete(
-          input,
-          options
-        );
+      //Google Maps Autocomplete Initialization
+        function initAutocomplete() {
+          console.log("Autocomplete initialized");
+          const input = document.getElementById("location");
+          const options = {
+            types: ["geocode"],
+            componentRestrictions: { country: "ca" },
+          };
+          const autocomplete = new google.maps.places.Autocomplete(
+            input,
+            options
+          );
 
-        autocomplete.addListener("place_changed", function () {
-          const place = autocomplete.getPlace();
-          if (place.geometry){
+          autocomplete.addListener("place_changed", function () {
+            const place = autocomplete.getPlace();
+            if (place.geometry){
 
-          document.getElementById("lat").value = place.geometry.location.lat();
-          document.getElementById("lng").value = place.geometry.location.lng();
-          } else {
-            console.error("No geometry found for the selected place.");
+            document.getElementById("lat").value = place.geometry.location.lat();
+            document.getElementById("lng").value = place.geometry.location.lng();
+            } else {
+              console.error("No geometry found for the selected place.");
+            }
+          });
+
+
+        }
+
+      //Payment Processing
+
+      const button1= document.getElementById("donate-25");
+      const button2= document.getElementById("donate-50");
+      const button3= document.getElementById("donate-100");
+      const customAmountInput = document.getElementById("custom-amount");
+      const donateButton = document.getElementById("donate-button");
+
+      document.addEventListener("DOMContentLoaded", function() {
+          button1.addEventListener("click", function() {
+             customAmountInput.value=25;
+          });
+          button2.addEventListener("click", function() {
+              customAmountInput.value=50;
+          });
+          button3.addEventListener("click", function() {
+              customAmountInput.value=100;
+          });
+
+
+      donateButton.addEventListener("click", function(){
+        const user = <%- JSON.stringify(user || null) %>;
+
+          if(!user) {
+              loginRequiredModal.showModal();
+              return;
           }
-        });
 
-        
-      }
+          const amount= customAmountInput.value;
+          const amountIncents=Math.round(parseFloat(amount) * 100); // Convert to cents
+             fetch("/create-checkout-session", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+        // Send along all the information about the items
+                  body: JSON.stringify({ amount: amountIncents }) // Convert to cents
+
+          })
+        .then(res => {
+          if (res.ok) return res.json()
+          // If there is an error then make sure we catch that
+          return res.json().then(e => Promise.reject(e))
+        })
+        .then(({ url }) => {
+          // On success redirect the customer to the returned URL
+          window.location = url
+        })
+        .catch(e => {
+          console.error(e.error)
+        })
+      })
+
+      });
     </script>
-
   </body>
 </html>

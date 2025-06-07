@@ -14,6 +14,7 @@ require("./config/passportFacebook");
 const cookieParser = require("cookie-parser");
 const ejsMate = require("ejs-mate");
 const cors = require("cors");
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 // Custom modules
 const AppError = require("./AppError");
@@ -37,7 +38,7 @@ app.use(cors());
 // =============================================================================
 
 // Static files and parsing
-app.use(express.static(path.join(__dirname, "/public")));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
@@ -47,15 +48,11 @@ app.use(passport.initialize());
 app.use(cookieParser());
 app.use(optionalJwtMiddleware);
 
-
 //Google API globally available
 app.use((req, res, next) => {
   res.locals.GOOGLE_MAPS_API = process.env.GOOGLE_MAPS_API;
   next();
 });
-
-
-
 
 // =============================================================================
 // DATABASE CONNECTION & ROUTE SETUP
@@ -92,6 +89,8 @@ db.connect()
         Shelter,
         User
       );
+      const paymentRoutes = require("./routes/paymentRoutes");
+
 
       // Seed database if empty
       const seedShelter = require("./seeds/seedShelters");
@@ -107,7 +106,7 @@ db.connect()
       }
 
       // =============================================================================
-      // BASIC ROUTES
+      // ROUTES
       // =============================================================================
 
       // Home redirect
@@ -124,11 +123,16 @@ db.connect()
       app.use("/user", userRoutes);
 
       app.use("/comment", commentRoutes);
+      app.use("/", paymentRoutes);
 
       app.get("/adoptionProcess", (req, res) => {
         res.render("adoption/adoptionProcess.ejs");
       });
 
+
+      app.use(express.static(path.join(__dirname, "/public")));
+
+      //For setting up the privacy and data deletion policies
       app.get("/privacy", (req, res) => {
         res.json({
           message:
@@ -157,6 +161,7 @@ db.connect()
         res.status(statusCode).render("error.ejs", { message });
       });
 
+      
       // =============================================================================
       // START SERVER
       // =============================================================================

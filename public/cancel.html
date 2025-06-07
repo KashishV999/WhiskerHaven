@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Donation Cancelled</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+    <!-- Cancel Icon -->
+    <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg class="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+    
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Donation cancelled</h1>
+    <p class="text-lg text-gray-600 leading-relaxed mb-6">No worries — come back anytime!</p>
+    <p class="text-sm text-gray-500 mb-8">Your payment was not processed. The cats will still be here when you're ready to help. 🐱</p>
+    
+    <button class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mb-3">
+      <a href="/cats" class="text-white no-underline">Return to home</a>
+    </button>
+    
+    <button class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+      <a href="/donate" class="text-gray-700 no-underline">Try again</a>
+    </button>
+    
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <p class="text-xs text-gray-500">
+        Having trouble with your donation? 
+        <a href="mailto:support@example.com" class="text-orange-600 hover:underline">Contact our support team</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

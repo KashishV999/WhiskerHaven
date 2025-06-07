@@ -417,16 +417,19 @@
         </p>
         <div class="grid grid-cols-3 gap-2 mb-4">
           <button
+          id="donate-25"
             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
           >
             $25
           </button>
           <button
+            id="donate-50"
             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
           >
             $50
           </button>
           <button
+            id="donate-100"
             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
           >
             $100
@@ -434,12 +437,14 @@
         </div>
         <div class="mb-4">
           <input
+            id="custom-amount"
             type="number"
             placeholder="Other amount"
             class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
           />
         </div>
         <button
+            id="donate-button"
           class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
         >
           Donate Now
@@ -1085,26 +1090,46 @@
 
   async function initMap() {
     console.log("Initializing map...");
-    // The location of Uluru
+    // The location of shelter
     const position = { lat: <%=shelter.coordinates.lat%>, lng: <%=shelter.coordinates.lng%> };
-    // Request needed libraries.
-    //@ts-ignore
+
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-    // The map, centered at Uluru
+    // The map, centered at Shelter Location
     map = new Map(document.getElementById("map"), {
       zoom: 14,
       center: position,
       mapId: "DEMO_MAP_ID",
     });
 
-    // The marker, positioned at Uluru
+
     const marker = new AdvancedMarkerElement({
       map: map,
       position: position,
-      title: "Uluru",
+      title: "Shelter Location",
     });
   }
   initMap();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </script>
