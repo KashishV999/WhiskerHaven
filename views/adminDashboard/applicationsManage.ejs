@@ -64,12 +64,14 @@
                   </svg>
                 </a>
                 
-                <!-- Edit Button -->
-                <a href="#" id="editStatus" class="text-blue-600 hover:text-blue-900" title="Edit Cat">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      <!-- Edit Button -->
+                <button class="editStatusButtons  text-yellow-600 hover:text-yellow-800 transition" title="Edit Status">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
-                </a>
+                </button>
+
 
               </div>
             </td>
@@ -80,16 +82,71 @@
   </div>
 
 <!-----DO ITTTTT-->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const editStatusButtons = document.querySelectorAll("#editStatus");
-      editStatusButtons.forEach(button => {
-        button.addEventListener("click", function(event) {
-            //dropdown for status selection : pending , approved , rejected
-            console.log("Buttton clicked")
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const editStatusButtons = document.querySelectorAll(".editStatusButtons");
+
+    editStatusButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const applicationRow = button.closest("tr");
+        const statusDisplay = applicationRow.querySelector(".status-display");
+        const statusEdit = applicationRow.querySelector(".status-edit");
+        const saveStatus = applicationRow.querySelector(".save-status");
+        const cancelStatus = applicationRow.querySelector(".cancel-status");
+
+        // Toggle visibility
+        statusEdit.classList.toggle("hidden");
+        statusDisplay.classList.toggle("hidden");
+
+        saveStatus.addEventListener("click", function () {
+          const selectElement = statusEdit.querySelector(".status-select");
+          const newStatus = selectElement.value;
+          const applicationId = statusEdit.dataset.applicationId;
+
+          console.log("Application ID:", applicationId); // Debugging
+
+          fetch(`/admin/applications/${applicationId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: newStatus }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error("Failed to update status");
+              }
+            })
+            .then((data) => {
+              console.log(data.message); // Log success message
+              const statusSpan = statusDisplay.querySelector("span");
+              statusSpan.textContent = newStatus;
+              statusSpan.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                newStatus === "Pending"
+                  ? "bg-yellow-100 text-yellow-800"
+                  : newStatus === "Approved"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`;
+
+              // Toggle visibility
+              statusEdit.classList.add("hidden");
+              statusDisplay.classList.remove("hidden");
+            })
+            .catch((error) => {
+              console.error("Error updating status:", error);
+            });
+        });
+
+        cancelStatus.addEventListener("click", function () {
+          statusEdit.classList.add("hidden");
+          statusDisplay.classList.remove("hidden");
         });
       });
     });
-  </script>
-
+  });
+</script>

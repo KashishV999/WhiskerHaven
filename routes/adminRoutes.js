@@ -86,7 +86,9 @@ module.exports = (Cat, Shelter, Application) => {
       if (!application) {
         return next(new AppError("Application not found", 404));
       }
-      res.redirect("/admin/applications");
+        // Return a JSON response instead of redirecting
+    res.status(200).json({ message: "Application updated successfully", application });
+     // res.redirect("/admin/applications");
     } catch (err) {
       console.error("Error updating application:", err);
       res.status(500).send("Internal Server Error");
