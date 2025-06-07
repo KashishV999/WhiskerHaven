@@ -26,14 +26,13 @@
         Shelters
       </a>
 
-     <%if(!user || user.role!=="admin"){%>
+      <%if(!user || user.role!=="admin"){%>
       <a
         href="/adoptionProcess"
         class="text-sm font-medium hover:underline underline-offset-4"
       >
         Adoption Process
       </a>
-
 
       <!-- <a
         href="/resources"
@@ -49,15 +48,15 @@
       </a>
       <% } %>
 
-      <% if (user && user.role === 'user') { %>
-      <a
-        href="/user/applications"
+      <% if ( user?.role !== 'admin') { %>
+      <button
+        id="my-applications-button"
         class="text-sm font-medium hover:underline underline-offset-4"
       >
         My Applications
-      </a>
-
+      </button>
       <%}%>
+
       <% if (user && user.role === 'admin') { %>
       <a
         href="/admin/cats"
@@ -73,130 +72,122 @@
     </nav>
 
     <div class="flex items-center gap-4">
-      <% if (user) { %>
+      <% if(user?.role!=='admin'){ %>
 
-        <% if(user.role==='user'){ %>
-      <a href="/user/favorites" class="hidden md:flex items-center gap-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-5 w-5 text-muted-foreground"
-        >
-          <path
-            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-          ></path>
-        </svg>
-        <span class="text-sm">Favorites</span>
-      </a>  
-        <%}%>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5 text-muted-foreground"
+      >
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        ></path>
+      </svg>
+      <button id="favorites-button" class="text-sm font-medium hover:underline underline-offset-4">
+        Favorites
+      </button>
 
+      <%}%> <% if (user) { %>
 
-
-
-
-
-
-
-
-
-
-
-
-<div class="relative">
-  <!-- Avatar Button -->
-<!-- Avatar Button -->
-<button
-  id="dropdownDefaultButton"
-  data-dropdown-toggle="dropdown"
-  class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium hover:bg-muted/80 transition-colors"
->
-  <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-gray-300">
-    <span class="flex h-full w-full items-center justify-center rounded-full bg-white text-gray-800 font-semibold shadow-sm">
-      <%= user.firstName.charAt(0).toUpperCase() %>
-    </span>
-  </span>
-</button>
-  <!-- Dropdown Menu -->
-  <div
-    id="dropdown"
-    class="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10"
-  >
-    <div class="py-1">
-      <div class="px-4 py-2 text-sm">
-        <p class="font-medium"><%= user.firstName %></p>
-        <p class="text-gray-500"><%= user.email %></p>
-      </div>
-      <hr class="my-1" />
-      <a
-        href="/profile"
-        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-      >Profile</a>
-
-      <% if(user.role==='user'){ %>
-      <a
-        href="/user/favorites"
-        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-      >Favorites</a>
-      <% } %>
-
-      <%if(user.role==='user'){ %>
-      <a
-        href="/user/applications"
-        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-      >My Applications</a>
-      <% } %>
-
-      <% if (user.role === 'admin') { %>
-      <a
-        href="/admin/cats"
-        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-      >Admin Dashboard</a>
-      <% } %>
-      
-      <hr class="my-1" />
-
-      <form action="/api/logout" method="POST" class="block">
+      <div class="relative">
+        <!-- Avatar Button -->
+        <!-- Avatar Button -->
         <button
-          type="submit"
-          class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          id="dropdownDefaultButton"
+          data-dropdown-toggle="dropdown"
+          class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium hover:bg-muted/80 transition-colors"
         >
-          Log out
+          <span
+            class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-gray-300"
+          >
+            <span
+              class="flex h-full w-full items-center justify-center rounded-full bg-white text-gray-800 font-semibold shadow-sm"
+            >
+              <%= user.firstName.charAt(0).toUpperCase() %>
+            </span>
+          </span>
         </button>
-      </form>
-    </div>
-  </div>
-</div>
+        <!-- Dropdown Menu -->
+        <div
+          id="dropdown"
+          class="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10"
+        >
+          <div class="py-1">
+            <div class="px-4 py-2 text-sm">
+              <p class="font-medium"><%= user.firstName %></p>
+              <p class="text-gray-500"><%= user.email %></p>
+            </div>
+            <hr class="my-1" />
+            <a
+              href="/profile"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >Profile</a
+            >
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('dropdownDefaultButton');
-    const dropdown = document.getElementById('dropdown');
-    
-    if (button && dropdown) {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('hidden');
+            <% if(user.role==='user'){ %>
+            <a
+              href="/user/favorites"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >Favorites</a
+            >
+            <% } %> <%if(user.role==='user'){ %>
+            <a
+              href="/user/applications"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >My Applications</a
+            >
+            <% } %> <% if (user.role === 'admin') { %>
+            <a
+              href="/admin/cats"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >Admin Dashboard</a
+            >
+            <% } %>
+
+            <hr class="my-1" />
+
+            <form action="/api/logout" method="POST" class="block">
+              <button
+                type="submit"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Log out
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const button = document.getElementById("dropdownDefaultButton");
+          const dropdown = document.getElementById("dropdown");
+
+          if (button && dropdown) {
+            button.addEventListener("click", function (e) {
+              e.stopPropagation();
+              dropdown.classList.toggle("hidden");
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function () {
+              dropdown.classList.add("hidden");
+            });
+
+            // Prevent dropdown from closing when clicking inside it
+            dropdown.addEventListener("click", function (e) {
+              e.stopPropagation();
+            });
+          }
         });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function() {
-            dropdown.classList.add('hidden');
-        });
-        
-        // Prevent dropdown from closing when clicking inside it
-        dropdown.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-});
-</script>
+      </script>
 
       <% } else { %>
 
@@ -208,8 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </button>
 
       <!-- Include the login modal -->
-      <%- include('../loginModal') %> 
-      <%- include('../registerModal') %>
+      <%- include('../loginModal') %> <%- include('../registerModal') %>
 
       <button
         onclick="registerModal.showModal()"
@@ -285,14 +275,14 @@ document.addEventListener('DOMContentLoaded', function() {
         >Shelters</a
       >
 
-     <%if(!user || user.role!=="admin"){%>
+      <%if(!user || user.role!=="admin"){%>
       <a
         href="/adoptionProcess"
         class="block text-lg font-medium hover:text-primary"
         >Adoption Process</a
       >
       <%}%>
-<!-- 
+      <!-- 
       <a href="/resources" class="block text-lg font-medium hover:text-primary"
         >Resources</a
       > -->
@@ -304,14 +294,13 @@ document.addEventListener('DOMContentLoaded', function() {
       <a href="/admin/cats" class="block text-lg font-medium hover:text-primary"
         >Admin Dashboard</a
       >
-      <%} %>
-
-      <% if (user) { %>
-        <% if(user.role==='user'){ %>
-      <a href="/user/favorites" class="block text-lg font-medium hover:text-primary"
+      <%} %> <% if (user) { %> <% if(user.role==='user'){ %>
+      <a
+        href="/user/favorites"
+        class="block text-lg font-medium hover:text-primary"
         >Favorites</a
       >
-        <%}%>
+      <%}%>
       <a href="/profile" class="block text-lg font-medium hover:text-primary"
         >Profile</a
       >
@@ -354,12 +343,9 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </header>
 
-
- 
-
-
 <script>
   // Mobile menu toggle
+
   document
     .getElementById("mobile-menu-button")
     .addEventListener("click", function () {
@@ -373,4 +359,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+
+
+      // <button
+      //   id="my-applications-button"
+      //   class="text-sm font-medium hover:underline underline-offset-4"
+      // >
+      //   My Applications
+      // </button>
+
+
+const myApplicationsButton = document.getElementById("my-applications-button");
+  const favoritesButton = document.getElementById("favorites-button");
+
+  // My Applications button click event
+  if (myApplicationsButton) {
+    myApplicationsButton.addEventListener("click", function () {
+      if (user && user.role === "user") {
+        window.location.href = "/user/applications";
+      } else {
+        loginRequiredModal.showModal();
+      }
+    });
+  }
+
+  // Favorites button click event
+  if (favoritesButton) {
+    favoritesButton.addEventListener("click", function () {
+      if (user && user.role === "user") {
+        window.location.href = "/user/favorites";
+      } else {
+        loginRequiredModal.showModal();
+      }
+    });
+  }
 </script>

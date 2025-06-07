@@ -28,6 +28,7 @@
 
 
     <script>
+     const user = <%- JSON.stringify(user || null) %>;
       //Google Maps Autocomplete Initialization
         function initAutocomplete() {
           console.log("Autocomplete initialized");
@@ -76,7 +77,7 @@
 
 
       donateButton.addEventListener("click", function(){
-        const user = <%- JSON.stringify(user || null) %>;
+
 
 
           const amount= customAmountInput.value;
