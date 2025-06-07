@@ -34,7 +34,7 @@ router.post("/login", (req, res) => {
       //res.json({ message: "Login successful", user });
       res.json({
   message: `Login successful ${token}`,
-  redirectUrl: user.role === "admin" ? "/admin/cats" : "/cats",
+  redirectUrl: user.role === "admin" ? "/admin/dashboard" : "/cats",
 });
     })
     .catch((msg) => res.status(422).json({ message: msg }));

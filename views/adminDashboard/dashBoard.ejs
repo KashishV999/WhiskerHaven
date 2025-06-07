@@ -1,0 +1,212 @@
+<% layout("/layouts/boilerplateAdmin") %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Main Dashboard Container -->
+<div class="p-6 bg-gray-50 min-h-screen">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+  
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Number of Cats -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+      <div class="flex flex-col">
+        <span class="text-sm font-medium text-gray-500 mb-1">Total Cats</span>
+        <span class="text-2xl font-bold text-gray-900"><%= numCats %></span>
+      </div>
+    </div>
+    
+    <!-- Number of Shelters -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+      <div class="flex flex-col">
+        <span class="text-sm font-medium text-gray-500 mb-1">Total Shelters</span>
+        <span class="text-2xl font-bold text-gray-900"><%= numShelters %></span>
+      </div>
+    </div>
+    
+    <!-- Number of Applications -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+      <div class="flex flex-col">
+        <span class="text-sm font-medium text-gray-500 mb-1">Total Applications</span>
+        <span class="text-2xl font-bold text-gray-900"><%= numApplications %></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Charts Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Cat by Status Chart -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Cats by Status</h2>
+      <div class="h-64">
+        <canvas id="catByStatus"></canvas>
+      </div>
+    </div>
+    
+    <!-- Application Status Chart -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Application Status</h2>
+      <div class="h-64">
+        <canvas id="ApplicationStatus"></canvas>
+      </div>
+    </div>
+    
+    <!-- Cat by Shelter Chart -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Cats by Shelter</h2>
+      <div class="h-64">
+        <canvas id="catByShelter"></canvas>
+      </div>
+    </div>
+    
+    <!-- Cat Age Distribution Chart -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Cat Age Distribution</h2>
+      <div class="h-64">
+        <canvas id="catAgeDistribution"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    const labelsShelter = <%- labelsShelter %>;
+    const dataShelter = <%- dataShelter %>;
+    const labelStatus = <%- labelStatus %>;
+    const dataStatus = <%- dataStatus %>;
+    const labelApplicationStatus = <%- labelApplicationStatus %>;
+    const dataApplicationStatus = <%- dataApplicationStatus %>;
+    const labelAge = <%- labelAge %>;
+    const dataAgeDistribution = <%- dataAgeDistribution %>;
+
+    let cts = document.getElementById('catByStatus').getContext('2d'); //cat by status
+    let cts2 = document.getElementById('ApplicationStatus').getContext('2d'); //application status
+    let cts3 = document.getElementById('catByShelter').getContext('2d'); //cat by shelter
+    let cts4 = document.getElementById('catAgeDistribution').getContext('2d'); //cat age distribution
+
+    // Chart colors
+    const chartColors = [
+      '#3B82F6', // blue-500
+      '#10B981', // green-500
+      '#F59E0B', // amber-500
+      '#EF4444', // red-500
+      '#8B5CF6', // violet-500
+      '#EC4899', // pink-500
+      '#06B6D4', // cyan-500
+      '#F97316'  // orange-500
+    ];
+
+    //Cat by Status Chart
+    let myChart1 = new Chart(cts, {
+        type: 'pie',
+        data: {
+            labels: labelStatus,
+            datasets: [{
+                label: 'Cats by Status',
+                data: dataStatus,
+                backgroundColor: chartColors,
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    //Application Status Chart
+    let myChart2 = new Chart(cts2, {
+        type: 'pie',
+        data: {
+            labels: labelApplicationStatus,
+            datasets: [{
+                label: 'Application Status',
+                data: dataApplicationStatus,
+                backgroundColor: chartColors,
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    //Cats by Shelter Chart
+    let myChart3 = new Chart(cts3, {
+        type: 'bar',
+        data: {
+            labels: labelsShelter,
+            datasets: [{
+                label: 'Number of Cats',
+                data: dataShelter,
+                backgroundColor: '#3B82F6',
+                borderColor: '#2563EB',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    //Cats by Age Distribution Chart
+    let myChart4 = new Chart(cts4, {
+        type: 'bar',
+        data: {
+            labels: labelAge,
+            datasets: [{
+                label: 'Number of Cats',
+                data: dataAgeDistribution,
+                backgroundColor: '#10B981',
+                borderColor: '#059669',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
