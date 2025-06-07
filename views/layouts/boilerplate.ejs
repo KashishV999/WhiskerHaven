@@ -18,6 +18,11 @@
 
     <%-include('../partials/header')%>
 
+    <!---Include Modals to use-->
+    <%- include('../modals/loginRequiredModal') %>
+    <%- include('../modals/loginModal') %>
+    <%- include('../modals/registerModal') %>
+
     <main>
       <%- body %>
       <!-- The page-specific content will be injected here -->

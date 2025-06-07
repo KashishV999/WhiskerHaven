@@ -64,11 +64,9 @@
         >Admin Dashboard</a
       ><% } %>
 
-      <!-- <%if(user && user.role=="user"){%>
-  <p>Hello User</p>
-<%} else if(user && user.role=="admin"){%>
-  <p>Hello Admin</p>
-<%}%> -->
+      <a href="/about"  class="text-sm font-medium hover:underline underline-offset-4"
+        >About</a
+      >
     </nav>
 
     <div class="flex items-center gap-4">
@@ -198,8 +196,7 @@
         Sign In
       </button>
 
-      <!-- Include the login modal -->
-      <%- include('../loginModal') %> <%- include('../registerModal') %>
+    
 
       <button
         onclick="registerModal.showModal()"
@@ -309,11 +306,19 @@
         class="block text-lg font-medium hover:text-primary"
         >My Applications</a
       >
+
+
       <% if (user.role === 'admin') { %>
       <a href="/admin/cats" class="block text-lg font-medium hover:text-primary"
         >Admin Dashboard</a
       >
       <% } %>
+
+      <a href="/about"  class="text-sm font-medium hover:underline underline-offset-4"
+        >About</a
+      >
+
+
       <form action="/api/logout" method="POST">
         <button
           type="submit"
@@ -358,15 +363,6 @@
       document.getElementById("mobile-menu").classList.add("hidden");
     });
 
-
-
-
-      // <button
-      //   id="my-applications-button"
-      //   class="text-sm font-medium hover:underline underline-offset-4"
-      // >
-      //   My Applications
-      // </button>
 
 
 const myApplicationsButton = document.getElementById("my-applications-button");

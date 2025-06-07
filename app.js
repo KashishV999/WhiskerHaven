@@ -129,6 +129,9 @@ db.connect()
         res.render("adoption/adoptionProcess.ejs");
       });
 
+      app.get("/about", (req,res)=>{
+        res.render("about.ejs");
+      })
 
       app.use(express.static(path.join(__dirname, "/public")));
 
