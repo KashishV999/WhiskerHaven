@@ -19,6 +19,7 @@ router.post("/create-checkout-session", async (req, res) => {
             currency: "cad",
             product_data: {
               name: "Donation",
+              images:["https://i.pinimg.com/736x/e3/24/f7/e324f790cfe0a51d76f98356475cc408.jpg"]
             },
             unit_amount: amount,
           },
