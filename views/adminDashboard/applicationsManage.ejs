@@ -10,7 +10,7 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-white">
         <tr>
-          <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500">Applicant Name</th>
+          <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500">Applicant Email</th>
           <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500">Cat Name</th>
           <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500">Shelter Name</th>
           <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
@@ -22,8 +22,8 @@
       <tbody class="bg-white divide-y divide-gray-200">
         <% applications.forEach((application) => { %>
           <tr>
-            <%const fullname= application.firstName + " " + application.lastName %>
-            <td class="px-6 py-4 whitespace-nowrap font-medium"><%= fullname %></td>
+           
+            <td class="px-6 py-4 whitespace-nowrap font-medium"><%= application.email %></td>
             <td class="px-6 py-4 whitespace-nowrap"><%= application.cat.name %></td>
             <td class="px-6 py-4 whitespace-nowrap"><%= application.shelter.name %></td>
             <td class="px-6 py-4 whitespace-nowrap">
