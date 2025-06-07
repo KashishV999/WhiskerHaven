@@ -78,10 +78,6 @@
       donateButton.addEventListener("click", function(){
         const user = <%- JSON.stringify(user || null) %>;
 
-          if(!user) {
-              loginRequiredModal.showModal();
-              return;
-          }
 
           const amount= customAmountInput.value;
           const amountIncents=Math.round(parseFloat(amount) * 100); // Convert to cents
