@@ -10,162 +10,884 @@
   src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API %>&callback=initMap"
 ></script>
 
-<div class="container px-4 md:px-6 mx-auto pt-8 md:pt-12 pb-0">
-  <div class="flex items-center gap-2 mb-6">
-    <a
-      href="/shelters"
-      class="flex items-center text-sm text-gray-500 hover:text-gray-900"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="mr-1 h-4 w-4"
+<!-- Hero Section with Breadcrumb -->
+<div class="bg-gradient-to-r from-amber-50 to-orange-50 border-b">
+  <div class="container px-4 md:px-6 mx-auto py-6">
+    <nav class="flex items-center gap-2 mb-4">
+      <a
+        href="/shelters"
+        class="flex items-center text-sm text-gray-600 hover:text-amber-600 transition-colors"
       >
-        <path d="m15 18-6-6 6-6"></path>
-      </svg>
-      Back to Shelters
-    </a>
-  </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="mr-1"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        Back to Shelters
+      </a>
+      <span class="text-gray-400">/</span>
+      <span class="text-sm text-gray-900 font-medium"><%= shelter.name %></span>
+    </nav>
 
+    <div class="flex flex-col lg:flex-row lg:items-center gap-6">
+      <div
+        class="lg:w-32 lg:h-32 w-24 h-24 rounded-2xl overflow-hidden shadow-lg flex-shrink-0"
+      >
+        <img
+          src="<%= shelter.image %>"
+          alt="<%= shelter.name %>"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="flex-1">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">
+          <%= shelter.name %>
+        </h1>
+        <div class="flex items-center text-gray-600 mb-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mr-2"
+          >
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span><%= shelter.location %></span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+          >
+            <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+            Open Now
+          </span>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+          >
+            <%= shelter.cats ? shelter.cats.length : 0 %> Cats Available
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container px-4 md:px-6 mx-auto py-8">
   <div class="grid gap-8 lg:grid-cols-[2fr_1fr] lg:gap-12">
     <!-- Main content column -->
-    <div class="space-y-6">
-      <header class="space-y-4">
-        <div class="overflow-hidden rounded-lg">
-          <img
-            src="<%= shelter.image %>"
-            alt="Image of <%= shelter.name %>, a <%= shelter.location %> location"
-            class="aspect-[16/9] w-full object-cover rounded-lg"
-          />
+    <div class="space-y-8">
+      <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+        <nav class="flex border-b bg-gray-50" aria-label="Tabs">
+          <button
+            onclick="showSection('about')"
+            class="tab-button flex-1 px-6 py-4 text-sm font-medium text-gray-600 hover:text-amber-600 hover:bg-white transition-all duration-200 border-b-2 border-transparent"
+            id="about-tab"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 16v-4"></path>
+                <path d="M12 8h.01"></path>
+              </svg>
+              About
+            </div>
+          </button>
+          <button
+            onclick="showSection('available')"
+            class="tab-button flex-1 px-6 py-4 text-sm font-medium text-gray-600 hover:text-amber-600 hover:bg-white transition-all duration-200 border-b-2 border-transparent"
+            id="available-tab"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17.5 5.5C19 7 20.5 9 21 11c-2.5.5-5 .5-8.5-1"></path>
+                <path d="M5.5 17.5C7 19 9 20.5 11 21c.5-2.5.5-5-1-8.5"></path>
+                <path d="M16.5 11.5c1 2 1 3.5 1 6-2.5 0-4 0-6-1"></path>
+                <path d="M20 11.5c1 1.5 2 3.5 2 4.5-1.5.5-3 0-4.5-.5"></path>
+                <path d="M11.5 20c1.5 1 3.5 2 4.5 2 .5-1.5 0-3-.5-4.5"></path>
+                <path
+                  d="M20.5 16.5c1 2 1.5 3.5 1.5 5.5-2 0-3.5-.5-5.5-1.5"
+                ></path>
+                <path
+                  d="M4.783 4.782C1.073 8.492 1 14.5 5 18c3.5-5-2-12-2-12 0 0 7 5.5 12 2-3.5-4-9.508-3.927-13.217-.218Z"
+                ></path>
+                <path d="M4.5 4.5 3 3c0 0 6 6 4 8-2-2-8-4-8-4l1.5-1.5"></path>
+              </svg>
+              Available Pets
+            </div>
+          </button>
+          <button
+            onclick="showSection('process')"
+            class="tab-button flex-1 px-6 py-4 text-sm font-medium text-gray-600 hover:text-amber-600 hover:bg-white transition-all duration-200 border-b-2 border-transparent"
+            id="process-tab"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 12l2 2 4-4"></path>
+                <path
+                  d="M21 12c.552 0 1-.448 1-1V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v3c0 .552.448 1 1 1"
+                ></path>
+                <path d="M21 16c.552 0 1-.448 1-1v-3c0-.552-.448-1-1-1"></path>
+                <path d="M3 16c-.552 0-1-.448-1-1v-3c0-.552.448-1 1-1"></path>
+              </svg>
+              Process
+            </div>
+          </button>
+          <button
+            onclick="showSection('contact')"
+            class="tab-button flex-1 px-6 py-4 text-sm font-medium text-gray-600 hover:text-amber-600 hover:bg-white transition-all duration-200 border-b-2 border-transparent"
+            id="contact-tab"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                ></path>
+              </svg>
+              Contact
+            </div>
+          </button>
+          <button
+            class="tab-button flex-1 px-6 py-4 text-sm font-medium text-gray-600 hover:text-amber-600 hover:bg-white transition-all duration-200 border-b-2 border-transparent"
+            id="comments-tab"
+          >
+            <a
+              href="#comments-section"
+              class="flex items-center justify-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                ></path>
+              </svg>
+              Comments
+            </a>
+          </button>
+        </nav>
+
+        <div class="p-8">
+          <div id="about" class="tab-content space-y-8">
+            <section class="space-y-6">
+              <div class="prose max-w-none">
+                <p class="text-gray-700 text-lg leading-relaxed">
+                  <%= shelter.description %>
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100"
+              >
+                <h2
+                  class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-amber-600"
+                  >
+                    <path
+                      d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"
+                    ></path>
+                  </svg>
+                  Our Mission
+                </h2>
+                <p class="text-gray-700 text-lg leading-relaxed">
+                  <%= shelter.mission %>
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <div id="available" class="tab-content space-y-8 hidden">
+            <div class="flex items-center justify-between">
+              <h2 class="text-3xl font-bold text-gray-900">Available Cats</h2>
+              <div class="text-sm text-gray-500">
+                <%= shelter.cats ? shelter.cats.length : 0 %> cats looking for
+                homes
+              </div>
+            </div>
+
+            <% if (shelter.cats && shelter.cats.length > 0) { %>
+            <div
+              class="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
+            >
+              <% shelter.cats.forEach((cat) => { %>
+              <div
+                class="group overflow-hidden rounded-2xl border bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+              >
+                <div class="relative overflow-hidden">
+                  <img
+                    src="<%= cat.image %>"
+                    alt="<%= cat.name %>"
+                    class="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div class="absolute top-3 right-3">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-800 backdrop-blur-sm"
+                    >
+                      <%= cat.age %> years
+                    </span>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <div class="space-y-3">
+                    <div>
+                      <h3 class="font-bold text-xl text-gray-900">
+                        <%= cat.name %>
+                      </h3>
+                      <p class="text-sm text-gray-500 font-medium">
+                        <%= cat.breed %> • <%= cat.gender %>
+                      </p>
+                    </div>
+                    <p
+                      class="text-sm text-gray-600 line-clamp-2 leading-relaxed"
+                    >
+                      <%= cat.description %>
+                    </p>
+                  </div>
+                  <div class="mt-6">
+                    <a
+                      href="/cats/<%= cat._id %>"
+                      class="inline-flex w-full items-center justify-center rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 px-4 transition-colors"
+                    >
+                      Meet <%= cat.name %>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+            </div>
+            <% } else { %>
+            <div
+              class="flex flex-col items-center justify-center py-16 text-center bg-gray-50 rounded-2xl"
+            >
+              <div
+                class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-gray-400"
+                >
+                  <path
+                    d="M17.5 5.5C19 7 20.5 9 21 11c-2.5.5-5 .5-8.5-1"
+                  ></path>
+                  <path d="M5.5 17.5C7 19 9 20.5 11 21c.5-2.5.5-5-1-8.5"></path>
+                  <path d="M16.5 11.5c1 2 1 3.5 1 6-2.5 0-4 0-6-1"></path>
+                  <path d="M20 11.5c1 1.5 2 3.5 2 4.5-1.5.5-3 0-4.5-.5"></path>
+                  <path d="M11.5 20c1.5 1 3.5 2 4.5 2 .5-1.5 0-3-.5-4.5"></path>
+                  <path
+                    d="M20.5 16.5c1 2 1.5 3.5 1.5 5.5-2 0-3.5-.5-5.5-1.5"
+                  ></path>
+                  <path
+                    d="M4.783 4.782C1.073 8.492 1 14.5 5 18c3.5-5-2-12-2-12 0 0 7 5.5 12 2-3.5-4-9.508-3.927-13.217-.218Z"
+                  ></path>
+                  <path d="M4.5 4.5 3 3c0 0 6 6 4 8-2-2-8-4-8-4l1.5-1.5"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                No cats available right now
+              </h3>
+              <p class="text-gray-500 max-w-md">
+                All our cats have found loving homes! Check back soon or contact
+                us to learn about upcoming arrivals.
+              </p>
+            </div>
+            <% } %>
+          </div>
+
+          <div id="process" class="tab-content space-y-8 hidden">
+            <h2 class="text-3xl font-bold text-gray-900">
+              Our Adoption Process
+            </h2>
+
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div
+                class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200"
+              >
+                <div
+                  class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">1</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">
+                  Browse & Discover
+                </h3>
+                <p class="text-gray-600 text-sm">
+                  Browse our available pets online or visit our shelter to meet
+                  them in person.
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 border border-green-200"
+              >
+                <div
+                  class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">2</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Apply</h3>
+                <p class="text-gray-600 text-sm">
+                  Fill out our comprehensive adoption application form.
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 border border-purple-200"
+              >
+                <div
+                  class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">3</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Interview</h3>
+                <p class="text-gray-600 text-sm">
+                  Meet with our adoption counselors for a friendly interview.
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200"
+              >
+                <div
+                  class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">4</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Meet & Greet</h3>
+                <p class="text-gray-600 text-sm">
+                  Spend quality time with your potential new family member.
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200"
+              >
+                <div
+                  class="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">5</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Finalize</h3>
+                <p class="text-gray-600 text-sm">
+                  Complete paperwork and pay the adoption fee.
+                </p>
+              </div>
+
+              <div
+                class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-6 border border-amber-200"
+              >
+                <div
+                  class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <span class="text-white font-bold text-lg">6</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Welcome Home!</h3>
+                <p class="text-gray-600 text-sm">
+                  Take your new family member home and start your journey
+                  together.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8 border border-amber-200"
+            >
+              <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+                Ready to Start Your Adoption Journey?
+              </h3>
+              <p class="text-gray-700 mb-6 text-lg">
+                Every cat deserves a loving home. Begin by exploring our
+                available cats or reaching out to our team.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <button
+                  onclick="showSection('available')"
+                  class="inline-flex items-center justify-center rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 px-6 transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="mr-2"
+                  >
+                    <path
+                      d="M17.5 5.5C19 7 20.5 9 21 11c-2.5.5-5 .5-8.5-1"
+                    ></path>
+                    <path
+                      d="M5.5 17.5C7 19 9 20.5 11 21c.5-2.5.5-5-1-8.5"
+                    ></path>
+                    <path d="M16.5 11.5c1 2 1 3.5 1 6-2.5 0-4 0-6-1"></path>
+                    <path
+                      d="M20 11.5c1 1.5 2 3.5 2 4.5-1.5.5-3 0-4.5-.5"
+                    ></path>
+                    <path
+                      d="M11.5 20c1.5 1 3.5 2 4.5 2 .5-1.5 0-3-.5-4.5"
+                    ></path>
+                    <path
+                      d="M20.5 16.5c1 2 1.5 3.5 1.5 5.5-2 0-3.5-.5-5.5-1.5"
+                    ></path>
+                    <path
+                      d="M4.783 4.782C1.073 8.492 1 14.5 5 18c3.5-5-2-12-2-12 0 0 7 5.5 12 2-3.5-4-9.508-3.927-13.217-.218Z"
+                    ></path>
+                    <path
+                      d="M4.5 4.5 3 3c0 0 6 6 4 8-2-2-8-4-8-4l1.5-1.5"
+                    ></path>
+                  </svg>
+                  View Available Cats
+                </button>
+                <button
+                  onclick="showSection('contact')"
+                  class="inline-flex items-center justify-center rounded-xl border-2 border-amber-500 text-amber-600 hover:bg-amber-50 font-medium py-3 px-6 transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="mr-2"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                    ></path>
+                  </svg>
+                  Contact Us
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="contact" class="tab-content space-y-8 hidden">
+            <h2 class="text-3xl font-bold text-gray-900">Get in Touch</h2>
+
+            <div class="grid gap-8 lg:grid-cols-2">
+              <div class="space-y-6">
+                <div class="bg-white rounded-2xl p-6 border shadow-sm">
+                  <h3 class="font-semibold text-gray-900 mb-4 text-lg">
+                    Contact Information
+                  </h3>
+                  <div class="space-y-4">
+                    <div class="flex items-start space-x-4">
+                      <div
+                        class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="text-blue-600"
+                        >
+                          <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-medium text-gray-900">Phone</h4>
+                        <p class="text-gray-600"><%= shelter.phone %></p>
+                      </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                      <div
+                        class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="text-green-600"
+                        >
+                          <rect
+                            width="20"
+                            height="16"
+                            x="2"
+                            y="4"
+                            rx="2"
+                          ></rect>
+                          <path
+                            d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-medium text-gray-900">Email</h4>
+                        <p class="text-gray-600"><%= shelter.email %></p>
+                      </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                      <div
+                        class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="text-red-600"
+                        >
+                          <path
+                            d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                          ></path>
+                          <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-medium text-gray-900">Address</h4>
+                        <p class="text-gray-600"><%= shelter.location %></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 border shadow-sm">
+                <h3 class="font-semibold text-gray-900 mb-4 text-lg">
+                  Hours of Operation
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Monday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Monday %></span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Tuesday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Tuesday %></span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Wednesday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Wednesday %></span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Thursday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Thursday %></span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Friday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Friday %></span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center py-2 border-b border-gray-100"
+                  >
+                    <span class="font-medium text-gray-900">Saturday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Saturday %></span
+                    >
+                  </div>
+                  <div class="flex justify-between items-center py-2">
+                    <span class="font-medium text-gray-900">Sunday</span>
+                    <span class="text-gray-600"
+                      ><%= shelter.hours.Sunday %></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="space-y-2">
-          <h1 class="text-3xl font-bold tracking-tight"><%= shelter.name %></h1>
-          <div class="flex items-center text-sm text-gray-500">
+      </div>
+
+      <!--  Comments Section -->
+      <div class="bg-gray-50 py-12" id="comments-section">
+        <div class="container px-4 md:px-6 mx-auto">
+          <div class="max-w-4xl mx-auto">
+            <!-- Comment Form -->
+            <% if(user) { %>
+            <div class="bg-white rounded-2xl p-6 mb-8 shadow-sm border">
+              <form id="comment-form">
+                <div class="flex items-start space-x-4">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                  >
+                    <%= user.firstName.charAt(0).toUpperCase() %>
+                  </div>
+                  <div class="flex-1">
+                    <textarea
+                      name="comment"
+                      required
+                      rows="3"
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 focus:outline-none transition-colors"
+                      placeholder="Share your thoughts about this shelter..."
+                    ></textarea>
+                    <div class="flex justify-end mt-4">
+                      <button
+                        type="submit"
+                        class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-xl font-medium transition-colors disabled:opacity-50 shadow-lg"
+                        id="comment-submit-btn"
+                      >
+                        Post Comment
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <% } else { %>
+            <div
+              class="bg-white rounded-2xl p-8 mb-8 text-center shadow-sm border"
+            >
+              <div
+                class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-amber-600"
+                >
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Join the Conversation!
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Share your experience and connect with other pet lovers.
+              </p>
+              <button
+                class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg"
+                onclick="loginRequiredModal.show()"
+              >
+                Sign In to Comment
+              </button>
+            </div>
+            <% } %>
+
+            <!-- Comments Header -->
+            <div class="flex items-center justify-between mb-8">
+              <div class="flex items-center space-x-3">
+                <h3 class="text-2xl font-bold text-gray-900">
+                  Community Comments
+                </h3>
+                <span
+                  class="bg-amber-500 text-white text-sm px-3 py-1 rounded-full font-medium shadow-sm"
+                  id="comment-count"
+                  >0</span
+                >
+              </div>
+            </div>
+
+            <!-- Comments Display -->
+            <div class="display space-y-6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="space-y-6">
+      <!-- Donation Card -->
+      <div
+        class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200 shadow-sm"
+      >
+        <div class="text-center mb-6">
+          <div
+            class="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="28"
+              height="28"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="mr-1 h-4 w-4"
+              class="text-white"
             >
-              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
+              <path
+                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"
+              ></path>
             </svg>
-            <span><%= shelter.location %></span>
           </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">
+            Support Our Mission
+          </h3>
+          <p class="text-sm text-gray-600">
+            Your donation helps us rescue, care for, and rehome cats in need.
+          </p>
         </div>
-      </header>
 
-      <!-- Tabs -->
-      <div class="border-b">
-        <nav class="flex gap-4" aria-label="Tabs">
+        <div class="grid grid-cols-3 gap-3 mb-4">
           <button
-            onclick="showSection('about')"
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="about-tab"
+            id="donate-25"
+            class="bg-white hover:bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl py-3 px-2 text-center font-semibold text-gray-900 transition-all"
           >
-            About
+            $25
           </button>
           <button
-            onclick="showSection('available')"
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="available-tab"
+            id="donate-50"
+            class="bg-white hover:bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl py-3 px-2 text-center font-semibold text-gray-900 transition-all"
           >
-            Available Pets
+            $50
           </button>
           <button
-            onclick="showSection('process')"
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="process-tab"
+            id="donate-100"
+            class="bg-white hover:bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl py-3 px-2 text-center font-semibold text-gray-900 transition-all"
           >
-            Adoption Process
+            $100
           </button>
-          <button
-            onclick="showSection('contact')"
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="contact-tab"
-          >
-            Contact
-          </button>
-          <button
-            class="tab-button border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            id="comments-tab"
-          >
-            <a href="#comments-section">Comment</a>
-          </button>
-        </nav>
+        </div>
+
+        <div class="mb-6">
+          <input
+            id="custom-amount"
+            type="number"
+            placeholder="Other amount"
+            class="w-full rounded-xl border-2 border-amber-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-amber-400 focus:outline-none"
+          />
+        </div>
+
+        <button
+          id="donate-button"
+          class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-lg"
+        >
+          Donate Now ❤️
+        </button>
       </div>
 
-      <!-- Tab content -->
-      <div id="about" class="tab-content space-y-6">
-        <section aria-labelledby="shelter-details" class="space-y-6">
-          <div class="prose max-w-none">
-            <p class="text-gray-700"><%= shelter.description %></p>
-          </div>
-
-          <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Our Mission</h2>
-            <p class="text-gray-700"><%= shelter.mission %></p>
-          </div>
-        </section>
-      </div>
-
-      <div id="available" class="tab-content space-y-6 hidden">
-        <h2 class="text-2xl font-bold">Available Cats</h2>
-
-        <% if (shelter.cats && shelter.cats.length > 0) { %>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <% shelter.cats.forEach((cat) => { %>
-          <div
-            class="overflow-hidden rounded-lg border bg-white shadow-sm transition-all hover:shadow-md"
-          >
-            <div class="relative">
-              <img
-                src="<%= cat.image %>"
-                alt="<%= cat.name %>"
-                class="aspect-[4/3] w-full object-cover"
-              />
-            </div>
-            <div class="p-4">
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <h3 class="font-bold"><%= cat.name %></h3>
-                  <span class="text-sm text-gray-500"
-                    ><%= cat.age %> years</span
-                  >
-                </div>
-                <p class="text-sm text-gray-500">
-                  <%= cat.breed %> • <%= cat.gender %>
-                </p>
-                <p class="text-sm line-clamp-2"><%= cat.description %></p>
-              </div>
-            </div>
-            <div class="p-4 pt-0">
-              <a
-                href="/cats/<%= cat._id %>"
-                class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-              >
-                View Details
-              </a>
-            </div>
-          </div>
-          <% }) %>
-        </div>
-        <% } else { %>
-        <div
-          class="flex flex-col items-center justify-center py-12 text-center bg-gray-50 rounded-lg"
+      <!-- Location Card -->
+      <div class="bg-white rounded-2xl p-6 border shadow-sm">
+        <h3
+          class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -177,915 +899,654 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="h-16 w-16 text-gray-400 mb-4"
+            class="text-blue-500"
           >
-            <path d="M17.5 5.5C19 7 20.5 9 21 11c-2.5.5-5 .5-8.5-1"></path>
-            <path d="M5.5 17.5C7 19 9 20.5 11 21c.5-2.5.5-5-1-8.5"></path>
-            <path d="M16.5 11.5c1 2 1 3.5 1 6-2.5 0-4 0-6-1"></path>
-            <path d="M20 11.5c1 1.5 2 3.5 2 4.5-1.5.5-3 0-4.5-.5"></path>
-            <path d="M11.5 20c1.5 1 3.5 2 4.5 2 .5-1.5 0-3-.5-4.5"></path>
-            <path d="M20.5 16.5c1 2 1.5 3.5 1.5 5.5-2 0-3.5-.5-5.5-1.5"></path>
-            <path
-              d="M4.783 4.782C1.073 8.492 1 14.5 5 18c3.5-5-2-12-2-12 0 0 7 5.5 12 2-3.5-4-9.508-3.927-13.217-.218Z"
-            ></path>
-            <path d="M4.5 4.5 3 3c0 0 6 6 4 8-2-2-8-4-8-4l1.5-1.5"></path>
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          <h3 class="text-lg font-medium mb-2">No cats available</h3>
-          <p class="text-gray-500 max-w-md">
-            This shelter currently doesn't have any cats available for adoption.
-            Please check back later or contact the shelter for more information.
-          </p>
-        </div>
-        <% } %>
-      </div>
+          Visit Our Shelter
+        </h3>
 
-      <div id="process" class="tab-content space-y-6 hidden">
-        <h2 class="text-2xl font-bold">Our Adoption Process</h2>
-        <ol class="space-y-4 ml-6 list-decimal">
-          <li class="text-gray-700 pl-2">
-            Browse our available pets online or visit our shelter
-          </li>
-          <li class="text-gray-700 pl-2">Fill out an adoption application</li>
-          <li class="text-gray-700 pl-2">
-            Meet with our adoption counselors for an interview
-          </li>
-          <li class="text-gray-700 pl-2">Meet your potential new pet</li>
-          <li class="text-gray-700 pl-2">
-            Complete the adoption paperwork and pay the adoption fee
-          </li>
-          <li class="text-gray-700 pl-2">Take your new family member home!</li>
-        </ol>
-
-        <div class="mt-6 p-6 bg-gray-50 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Ready to adopt?</h3>
-          <p class="text-gray-700 mb-4">
-            Start the process by browsing our available cats or contacting us
-            directly.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a
-              href="#"
-              onclick="showSection('available')"
-              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-            >
-              View Available Cats
-            </a>
-            <a
-              href="#"
-              onclick="showSection('contact')"
-              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div id="contact" class="tab-content space-y-6 hidden">
-        <h2 class="text-2xl font-bold">Contact Information</h2>
-
-        <div class="grid gap-6 md:grid-cols-2">
-          <div class="space-y-4">
-            <div class="flex items-start space-x-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-5 w-5 text-gray-500 mt-0.5"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                ></path>
-              </svg>
-              <div>
-                <h3 class="font-medium">Phone</h3>
-                <p class="text-gray-700"><%= shelter.phone %></p>
-              </div>
-            </div>
-
-            <div class="flex items-start space-x-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-5 w-5 text-gray-500 mt-0.5"
-              >
-                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-              </svg>
-              <div>
-                <h3 class="font-medium">Email</h3>
-                <p class="text-gray-700"><%= shelter.email %></p>
-              </div>
-            </div>
-
-            <div class="flex items-start space-x-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-5 w-5 text-gray-500 mt-0.5"
-              >
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <div>
-                <h3 class="font-medium">Address</h3>
-                <p class="text-gray-700"><%= shelter.location %></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <h3 class="font-medium">Hours of Operation</h3>
-            <div class="space-y-2 text-sm">
-              <div class="flex justify-between">
-                <span class="font-medium">Monday</span>
-                <span class="text-gray-500"><%= shelter.hours.Monday %></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Tuesday</span>
-                <span class="text-gray-500"><%= shelter.hours.Tuesday %></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Wednesday</span>
-                <span class="text-gray-500"
-                  ><%= shelter.hours.Wednesday %></span
-                >
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Thursday</span>
-                <span class="text-gray-500"><%= shelter.hours.Thursday %></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Friday</span>
-                <span class="text-gray-500"><%= shelter.hours.Friday %></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Saturday</span>
-                <span class="text-gray-500"><%= shelter.hours.Saturday %></span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">Sunday</span>
-                <span class="text-gray-500"><%= shelter.hours.Sunday %></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 p-6 bg-gray-50 rounded-lg">
-          <h3 class="text-lg font-medium mb-4">Send us a message</h3>
-          <form class="space-y-4" id="contact-form">
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div class="space-y-2">
-                <label for="name" class="text-sm font-medium">Name</label>
-                <input
-                  id="name"
-                  name="name"
-                  class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                  placeholder="Your name"
-                />
-              </div>
-              <div class="space-y-2">
-                <label for="email" class="text-sm font-medium">Email</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                  placeholder="Your email"
-                />
-              </div>
-            </div>
-            <div class="space-y-2">
-              <label for="subject" class="text-sm font-medium">Subject</label>
-              <input
-                id="subject"
-                name="subject"
-                class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                placeholder="Message subject"
-              />
-            </div>
-            <div class="space-y-2">
-              <label for="message" class="text-sm font-medium">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                class="w-full min-h-[120px] rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                placeholder="Your message"
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- Action buttons -->
-      <div class="flex flex-col gap-4 sm:flex-row pt-6 border-t"></div>
-    </div>
-
-    <!-- Sidebar column -->
-    <div class="space-y-6">
-      <div class="rounded-lg border bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-medium mb-4">Support This Shelter</h3>
-        <p class="text-sm text-gray-500 mb-4">
-          Your donation helps us continue our mission of rescuing and rehoming
-          cats in need.
-        </p>
-        <div class="grid grid-cols-3 gap-2 mb-4">
-          <button
-          id="donate-25"
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-          >
-            $25
-          </button>
-          <button
-            id="donate-50"
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-          >
-            $50
-          </button>
-          <button
-            id="donate-100"
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-          >
-            $100
-          </button>
-        </div>
-        <div class="mb-4">
-          <input
-            id="custom-amount"
-            type="number"
-            placeholder="Other amount"
-            class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-          />
-        </div>
-        <button
-            id="donate-button"
-          class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-        >
-          Donate Now
-        </button>
-      </div>
-
-      <!----- Map Display (Google Maps Integration)-->
-
-      <div class="rounded-lg border bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-medium mb-4">Find Our Location</h3>
-        <p class="text-sm text-gray-500 mb-4">
-          Visit our shelter at the address below or use the map for directions.
-        </p>
         <div
           id="map"
-          class="w-full h-64 rounded-md border border-gray-200 mb-4"
+          class="w-full h-48 rounded-xl border border-gray-200 mb-4 overflow-hidden"
         ></div>
-        <div class="space-y-2 text-sm mb-4">
-          <div class="flex items-center">
+
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center text-sm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="mr-2 h-4 w-4 text-blue-500"
+              class="mr-3 text-blue-500 flex-shrink-0"
             >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <%=shelter.location%>
+            <span class="text-gray-700"><%=shelter.location%></span>
           </div>
-          <div class="flex items-center">
+          <div class="flex items-center text-sm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="mr-2 h-4 w-4 text-blue-500"
+              class="mr-3 text-green-500 flex-shrink-0"
             >
               <path
                 d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
               ></path>
             </svg>
-            <%=shelter.phone%>
+            <span class="text-gray-700"><%=shelter.phone%></span>
           </div>
         </div>
+
         <a
           href="https://www.google.com/maps/dir/?api=1&destination=<%=encodeURIComponent(shelter.location) %>"
           onclick="getDirections()"
-          class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+          class="inline-flex w-full items-center justify-center rounded-xl border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-medium py-3 px-4 transition-colors"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mr-2"
+          >
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
           Get Directions
         </a>
       </div>
 
-      <!----- Shelter Stats ------>
-
-      <div class="rounded-lg border bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-medium mb-4">Shelter Stats</h3>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">Cats Available</span>
-            <span class="text-sm font-bold"
-              ><%= shelter.cats ? shelter.cats.length : 0 %></span
-            >
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">Adoptions This Month</span>
-            <span class="text-sm font-bold">12</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">Years in Operation</span>
-            <span class="text-sm font-bold">8</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">Volunteers</span>
-            <span class="text-sm font-bold">25+</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- Comments Section -->
-<div class="container px-4 md:px-6 mx-auto pt-0 pb-12" id="comments-section">
-  <h2 class="text-xl font-semibold mb-4">Leave a Comment</h2>
-  <p class="mb-6 text-gray-600">
-    We'd love to hear your thoughts! Share your feedback or ask a question
-    below.
-  </p>
-  <div class="max-w-4xl mx-auto">
-    <!-- Comment Form -->
-    <% if(user) { %>
-    <div class="bg-gray-50 rounded-lg p-4 mb-6">
-      <form id="comment-form">
-        <div class="flex items-start space-x-3">
-          <div
-            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-medium"
-          >
-            <%= user.firstName.charAt(0).toUpperCase() %>
-          </div>
-          <div class="flex-1">
-            <textarea
-              name="comment"
-              required
-              rows="3"
-              class="w-full px-4 py-3 border-0 bg-white rounded-lg resize-none focus:ring-2 focus:ring-primary/20 focus:outline-none"
-              placeholder="Add comment..."
-            ></textarea>
-            <div class="flex justify-end mt-3">
-              <button
-                type="submit"
-                class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-medium transition-colors disabled:opacity-50"
-                id="comment-submit-btn"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <% } else { %>
-    <div class="bg-gray-50 rounded-lg p-4 mb-6 text-center">
-      <p class="text-gray-600 mb-3">Join the conversation!</p>
-
-      <button
-        class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-full font-medium transition-colors"
-        onclick="loginRequiredModal.show()"
-      >
-        Sign In to Comment
-      </button>
-    </div>
-    <% } %>
-
-    <!-- Comments Header -->
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center space-x-2">
-        <h3 class="text-xl font-semibold text-gray-900">Comments</h3>
-        <span
-          class="bg-primary text-white text-sm px-2.5 py-1 rounded-full font-medium"
-          id="comment-count"
-          >0</span
+      <!-- Stats Card -->
+      <div class="bg-white rounded-2xl p-6 border shadow-sm">
+        <h3
+          class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2"
         >
-      </div>
-      <div class="flex items-center space-x-2 text-sm text-gray-500"></div>
-    </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-purple-500"
+          >
+            <path d="M3 3v18h18"></path>
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+          </svg>
+          Shelter Impact
+        </h3>
 
-    <!-- Comments Display -->
-    <div class="display space-y-4"></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            class="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200"
+          >
+            <div class="text-2xl font-bold text-blue-600 mb-1">
+              <%= shelter.cats ? shelter.cats.length : 0 %>
+            </div>
+            <div class="text-xs text-blue-700 font-medium">Cats Available</div>
+          </div>
+
+          <div
+            class="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200"
+          >
+            <div class="text-2xl font-bold text-green-600 mb-1">12</div>
+            <div class="text-xs text-green-700 font-medium">This Month</div>
+          </div>
+
+          <div
+            class="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200"
+          >
+            <div class="text-2xl font-bold text-purple-600 mb-1">8</div>
+            <div class="text-xs text-purple-700 font-medium">Years Active</div>
+          </div>
+
+          <div
+            class="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200"
+          >
+            <div class="text-2xl font-bold text-orange-600 mb-1">25+</div>
+            <div class="text-xs text-orange-700 font-medium">Volunteers</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Toast notification for feedback -->
-<div id="toast" class="fixed top-4 right-4 z-50 hidden">
-  <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
-    <span id="toast-message">Success!</span>
+<!--  Toast notification -->
+<div id="toast" class="fixed top-6 right-6 z-50 hidden">
+  <div
+    class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-green-400"
+  >
+    <div class="flex items-center gap-3">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M9 12l2 2 4-4"></path>
+        <path
+          d="M21 12c.552 0 1-.448 1-1V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v3c0 .552.448 1 1 1"
+        ></path>
+      </svg>
+      <span id="toast-message" class="font-medium">Success!</span>
+    </div>
   </div>
 </div>
 
 <script>
-    
-    const shelterId = '<%= shelter._id %>';
+  const shelterId = '<%= shelter._id %>';
 
-    // Toast notification function
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      const toastDiv = toast.querySelector('div');
+  // Toast notification function
+  function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    const toastDiv = toast.querySelector('div');
 
-      toastMessage.textContent = message;
+    toastMessage.textContent = message;
 
-      // Set color based on type
-      if (type === 'success') {
-        toastDiv.className = 'bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
-      } else if (type === 'error') {
-        toastDiv.className = 'bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg';
-      }
-
-      toast.classList.remove('hidden');
-
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 3000);
+    // Set color based on type
+    if (type === 'success') {
+      toastDiv.className = 'bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-green-400';
+    } else if (type === 'error') {
+      toastDiv.className = 'bg-red-500 text-white px-6 py-4 rounded-xl shadow-2xl border border-red-400';
     }
 
-    // Handle main comment form submission
-    document.getElementById('comment-form')?.addEventListener('submit', async function(e) {
+    toast.classList.remove('hidden');
+
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 4000);
+  }
+
+  // Handle main comment form submission
+  document.getElementById('comment-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById('comment-submit-btn');
+    const textarea = this.querySelector('textarea[name="comment"]');
+    const comment = textarea.value.trim();
+
+    if (!comment) return;
+
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting...';
+
+    try {
+      const response = await fetch(`/comment/${shelterId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ comment: comment })
+      });
+
+      if (response.ok) {
+        const newComment = await response.json();
+
+        // Clear the form
+        textarea.value = '';
+
+        // Add the new comment to the display
+        const displayComments = document.querySelector(".display");
+
+        // If this is the first comment, remove the "no comments" message
+        const noCommentsMsg = displayComments.querySelector('.text-center.py-8');
+        if (noCommentsMsg) {
+          noCommentsMsg.remove();
+        }
+
+        // Add new comment at the top
+        recursiveDisplay(newComment, displayComments, 0, true);
+        updateCommentCount();
+
+        showToast('Comment posted successfully!');
+      } else {
+        const errorData = await response.json();
+        showToast(errorData.message || 'Failed to post comment', 'error');
+      }
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+      showToast('Error posting comment', 'error');
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Post Comment';
+    }
+  });
+
+  // Handle reply form submissions (delegated event handling)
+  document.addEventListener('submit', async function(e) {
+    if (e.target.closest('.reply-form form')) {
       e.preventDefault();
 
-      const submitBtn = document.getElementById('comment-submit-btn');
-      const textarea = this.querySelector('textarea[name="comment"]');
-      const comment = textarea.value.trim();
+      const form = e.target;
+      const textarea = form.querySelector('textarea[name="reply"]');
+      const reply = textarea.value.trim();
 
-      if (!comment) return;
+      if (!reply) return;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Get comment ID from the data attribute we'll add to the form
+      const commentId = form.dataset.commentId;
 
       // Disable button and show loading state
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+      submitBtn.textContent = 'Replying...';
 
       try {
-        const response = await fetch(`/comment/${shelterId}`, {
+        const response = await fetch(`/comment/${commentId}/reply/${shelterId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ comment: comment })
+          body: JSON.stringify({ reply: reply })
         });
 
         if (response.ok) {
-          const newComment = await response.json();
+          const newReply = await response.json();
 
-          // Clear the form
-          textarea.value = '';
+          // Remove the reply form
+          form.closest('.reply-form').remove();
 
-          // Add the new comment to the display
-          const displayComments = document.querySelector(".display");
+          // Find the comment container and add the new reply
+          const commentContainers = document.querySelectorAll('.comment-container');
+          for (let container of commentContainers) {
+            const commentCard = container.querySelector('.comment-card');
+            if (commentCard && commentCard.dataset.commentId === commentId) {
+              // Find or create replies container
+              let repliesContainer = container.querySelector('.replies-container');
+              let toggleContainer = container.querySelector('.toggle-container');
 
-          // If this is the first comment, remove the "no comments" message
-          const noCommentsMsg = displayComments.querySelector('.text-center.py-8');
-          if (noCommentsMsg) {
-            noCommentsMsg.remove();
+              if (!repliesContainer) {
+                // Create new replies section
+                toggleContainer = document.createElement('div');
+                toggleContainer.className = 'toggle-container mt-4';
+
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-800 transition-colors font-medium';
+
+                const arrow = document.createElement('span');
+                arrow.className = 'transform transition-transform duration-200';
+                arrow.innerHTML = '▼';
+
+                const toggleText = document.createElement('span');
+                toggleText.textContent = '1 reply';
+
+                toggleButton.appendChild(arrow);
+                toggleButton.appendChild(toggleText);
+
+                repliesContainer = document.createElement('div');
+                repliesContainer.className = 'replies-container mt-4 space-y-4 transition-all duration-200';
+
+                // Toggle functionality
+                let isExpanded = true;
+                toggleButton.addEventListener('click', function() {
+                  isExpanded = !isExpanded;
+                  if (isExpanded) {
+                    repliesContainer.style.display = 'block';
+                    arrow.style.transform = 'rotate(0deg)';
+                    arrow.innerHTML = '▼';
+                  } else {
+                    repliesContainer.style.display = 'none';
+                    arrow.style.transform = 'rotate(-90deg)';
+                    arrow.innerHTML = '▶';
+                  }
+                });
+
+                toggleContainer.appendChild(toggleButton);
+                container.appendChild(toggleContainer);
+                container.appendChild(repliesContainer);
+              } else {
+                // Update existing toggle text
+                const toggleText = toggleContainer.querySelector('span:last-child');
+                const currentCount = repliesContainer.children.length + 1;
+                toggleText.textContent = `${currentCount} ${currentCount === 1 ? 'reply' : 'replies'}`;
+              }
+
+              // Add the new reply to the replies container
+              recursiveDisplay(newReply, repliesContainer, 1);
+              break;
+            }
           }
 
-          // Add new comment at the top
-          recursiveDisplay(newComment, displayComments, 0, true);
-          updateCommentCount();
-
-          showToast('Comment added successfully!');
+          showToast('Reply posted successfully!');
         } else {
           const errorData = await response.json();
-          showToast(errorData.message || 'Failed to add comment', 'error');
+          showToast(errorData.message || 'Failed to post reply', 'error');
         }
       } catch (error) {
-        console.error('Error submitting comment:', error);
-        showToast('Error submitting comment', 'error');
+        console.error('Error submitting reply:', error);
+        showToast('Error posting reply', 'error');
       } finally {
         // Re-enable button
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit';
+        submitBtn.textContent = 'Reply';
       }
-    });
-
-    // Handle reply form submissions (delegated event handling)
-    document.addEventListener('submit', async function(e) {
-      if (e.target.closest('.reply-form form')) {
-        e.preventDefault();
-
-        const form = e.target;
-        const textarea = form.querySelector('textarea[name="reply"]');
-        const reply = textarea.value.trim();
-
-        if (!reply) return;
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-
-        // Get comment ID from the data attribute we'll add to the form
-        const commentId = form.dataset.commentId;
-
-        // Disable button and show loading state
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Replying...';
-
-        try {
-          const response = await fetch(`/comment/${commentId}/reply/${shelterId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ reply: reply })
-          });
-
-          if (response.ok) {
-            const newReply = await response.json();
-
-            // Remove the reply form
-            form.closest('.reply-form').remove();
-
-            // Find the comment container and add the new reply
-            const commentContainers = document.querySelectorAll('.comment-container');
-            for (let container of commentContainers) {
-              const commentCard = container.querySelector('.comment-card');
-              if (commentCard && commentCard.dataset.commentId === commentId) {
-                // Find or create replies container
-                let repliesContainer = container.querySelector('.replies-container');
-                let toggleContainer = container.querySelector('.toggle-container');
-
-                if (!repliesContainer) {
-                  // Create new replies section
-                  toggleContainer = document.createElement('div');
-                  toggleContainer.className = 'toggle-container mt-2';
-
-                  const toggleButton = document.createElement('button');
-                  toggleButton.className = 'flex items-center space-x-1 text-xs text-gray-600 hover:text-gray-800 transition-colors';
-
-                  const arrow = document.createElement('span');
-                  arrow.className = 'transform transition-transform duration-200';
-                  arrow.innerHTML = '▼';
-
-                  const toggleText = document.createElement('span');
-                  toggleText.textContent = '1 reply';
-
-                  toggleButton.appendChild(arrow);
-                  toggleButton.appendChild(toggleText);
-
-                  repliesContainer = document.createElement('div');
-                  repliesContainer.className = 'replies-container mt-2 space-y-2 transition-all duration-200';
-
-                  // Toggle functionality
-                  let isExpanded = true;
-                  toggleButton.addEventListener('click', function() {
-                    isExpanded = !isExpanded;
-                    if (isExpanded) {
-                      repliesContainer.style.display = 'block';
-                      arrow.style.transform = 'rotate(0deg)';
-                      arrow.innerHTML = '▼';
-                    } else {
-                      repliesContainer.style.display = 'none';
-                      arrow.style.transform = 'rotate(-90deg)';
-                      arrow.innerHTML = '▶';
-                    }
-                  });
-
-                  toggleContainer.appendChild(toggleButton);
-                  container.appendChild(toggleContainer);
-                  container.appendChild(repliesContainer);
-                } else {
-                  // Update existing toggle text
-                  const toggleText = toggleContainer.querySelector('span:last-child');
-                  const currentCount = repliesContainer.children.length + 1;
-                  toggleText.textContent = `${currentCount} ${currentCount === 1 ? 'reply' : 'replies'}`;
-                }
-
-                // Add the new reply to the replies container
-                recursiveDisplay(newReply, repliesContainer, 1);
-                break;
-              }
-            }
-
-            showToast('Reply added successfully!');
-          } else {
-            const errorData = await response.json();
-            showToast(errorData.message || 'Failed to add reply', 'error');
-          }
-        } catch (error) {
-          console.error('Error submitting reply:', error);
-          showToast('Error submitting reply', 'error');
-        } finally {
-          // Re-enable button
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Reply';
-        }
-      }
-    });
-
-    function updateCommentCount() {
-      const commentCount = document.querySelectorAll('.comment-container').length;
-      document.getElementById('comment-count').textContent = `${commentCount} comment${commentCount !== 1 ? 's' : ''}`;
     }
+  });
 
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffTime = Math.abs(now - date);
-      const diffMinutes = Math.floor(diffTime / (1000 * 60));
-      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  function updateCommentCount() {
+    const commentCount = document.querySelectorAll('.comment-container').length;
+    document.getElementById('comment-count').textContent = `${commentCount}`;
+  }
 
-      if (diffMinutes < 1) return 'Just now';
-      if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
-      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-      if (diffDays === 1) return `Yesterday at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-      if (diffDays < 7) return `${diffDays} days ago at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffMinutes = Math.floor(diffTime / (1000 * 60));
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-      return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    }
+    if (diffMinutes < 1) return 'Just now';
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
 
-    function recursiveDisplay(element, outerBody, depth = 0, prepend = false, beforeElement = null) {
-      const commentContainer = document.createElement('div');
-      commentContainer.className = `comment-container ${depth > 0 ? 'ml-6 border-l border-gray-200 pl-3' : ''} mb-2`;
+    return date.toLocaleDateString();
+  }
 
-      const commentCard = document.createElement('div');
-      commentCard.className = 'comment-card overflow-hidden border rounded-lg bg-white p-3 hover:shadow-md transition-shadow';
-      commentCard.dataset.commentId = element._id;
+  function recursiveDisplay(element, outerBody, depth = 0, prepend = false, beforeElement = null) {
+    const commentContainer = document.createElement('div');
+    commentContainer.className = `comment-container ${depth > 0 ? 'ml-8 border-l-2 border-gray-200 pl-6' : ''} mb-6`;
 
-      // Comment header with user info and timestamp
-      const commentHeader = document.createElement('div');
-      commentHeader.className = 'flex items-center justify-between mb-2';
+    const commentCard = document.createElement('div');
+    commentCard.className = 'comment-card bg-white rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-200';
+    commentCard.dataset.commentId = element._id;
 
-      const userInfo = document.createElement('div');
-      userInfo.className = 'flex items-center space-x-2';
+    // Comment header with user info and timestamp
+    const commentHeader = document.createElement('div');
+    commentHeader.className = 'flex items-center justify-between mb-4';
 
-      const avatar = document.createElement('div');
-      avatar.className = 'w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-medium';
-      avatar.textContent = element.postedBy.firstName.charAt(0).toUpperCase();
+    const userInfo = document.createElement('div');
+    userInfo.className = 'flex items-center space-x-3';
 
-      const userDetails = document.createElement('div');
-      userDetails.innerHTML = `
-        <div class="font-medium text-foreground text-sm">${element.postedBy.firstName}</div>
-        <div class="text-xs text-muted-foreground">${formatDate(element.createdAt)}</div>
+    const avatar = document.createElement('div');
+    avatar.className = 'w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold';
+    avatar.textContent = element.postedBy.firstName.charAt(0).toUpperCase();
+
+    const userDetails = document.createElement('div');
+    userDetails.innerHTML = `
+      <div class="font-semibold text-gray-900">${element.postedBy.firstName}</div>
+      <div class="text-sm text-gray-500">${formatDate(element.createdAt)}</div>
+    `;
+
+    userInfo.appendChild(avatar);
+    userInfo.appendChild(userDetails);
+
+    // Comment actions
+    const commentActions = document.createElement('div');
+    commentActions.className = 'flex items-center space-x-3 text-sm';
+
+    // Reply button
+    if (user && user.role === "user") {
+      const replyButton = document.createElement('button');
+      replyButton.className = 'text-amber-600 hover:text-amber-700 font-medium transition-colors flex items-center gap-1';
+      replyButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        Reply
       `;
 
-      userInfo.appendChild(avatar);
-      userInfo.appendChild(userDetails);
+      replyButton.addEventListener('click', function () {
+        // Remove existing reply forms
+        const existingForms = commentCard.querySelectorAll('.reply-form');
+        existingForms.forEach(form => form.remove());
 
-      // Comment actions (inline with header)
-      const commentActions = document.createElement('div');
-      commentActions.className = 'flex items-center space-x-2 text-xs';
-
-      // Reply button
-      if (user && user.role === "user") {
-        const replyButton = document.createElement('button');
-        replyButton.className = 'text-[#000] hover:text-[#000]/80 font-medium transition-colors';
-        replyButton.textContent = 'Reply';
-
-        replyButton.addEventListener('click', function () {
-          // Remove existing reply forms
-          const existingForms = commentCard.querySelectorAll('.reply-form');
-          existingForms.forEach(form => form.remove());
-
-          const replyForm = document.createElement('div');
-          replyForm.className = 'reply-form mt-2 p-2 bg-muted rounded border';
-          replyForm.innerHTML = `
-            <form data-comment-id="${element._id}" class="space-y-2">
-              <textarea
-                name="reply"
-                required
-                rows="2"
-                class="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:ring-2 focus:ring-[#FF7A45]/20 focus:border-[#FF7A45] resize-none"
-                placeholder="Reply to ${element.postedBy.firstName}..."
-              ></textarea>
-              <div class="flex space-x-2">
-                <button
-                  type="submit"
-                  class="bg-primary hover:bg-primary/90 text-white px-2 py-1 text-xs font-medium rounded transition-colors"
-                >
-                  Reply
-                </button>
-                <button
-                  type="button"
-                  onclick="this.closest('.reply-form').remove()"
-                  class="border border-gray-200 hover:bg-gray-50 px-2 py-1 text-xs font-medium rounded transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          `;
-
-          commentCard.appendChild(replyForm);
-        });
-
-        commentActions.appendChild(replyButton);
-      }
-
-      // Delete button (only for comment owner)
-      if (user?.role === "user" && user._id === element.postedBy._id) {
-        const deleteButton = document.createElement('button');
-        deleteButton.className = 'text-red-600 hover:text-red-800 font-medium transition-colors';
-        deleteButton.textContent = 'Delete';
-
-        deleteButton.addEventListener('click', async function () {
-          if (confirm('Delete this comment?')) {
-            try {
-              const response = await fetch(`/comment/${element._id}/delete/${shelterId}`, {
-                method: 'DELETE'
-              });
-
-              if (response.ok) {
-                commentContainer.remove();
-                updateCommentCount();
-                showToast('Comment deleted successfully!');
-              } else {
-                const errorData = await response.json();
-                showToast(errorData.message || 'Failed to delete comment', 'error');
-              }
-            } catch (error) {
-              console.error('Error deleting comment:', error);
-              showToast('Error deleting comment', 'error');
-            }
-          }
-        });
-
-        commentActions.appendChild(deleteButton);
-      }
-
-      commentHeader.appendChild(userInfo);
-      commentHeader.appendChild(commentActions);
-
-      // Comment content
-      const commentContent = document.createElement('div');
-      commentContent.className = 'text-secondary-foreground text-sm leading-relaxed';
-      commentContent.textContent = element.text;
-
-      // Assemble comment card
-      commentCard.appendChild(commentHeader);
-      commentCard.appendChild(commentContent);
-      commentContainer.appendChild(commentCard);
-
-      // Add replies with collapsible functionality
-      if (element.replies && element.replies.length > 0) {
-        // Create toggle button for replies
-        const toggleContainer = document.createElement('div');
-        toggleContainer.className = 'toggle-container mt-2';
-
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'flex items-center space-x-1 text-xs text-gray-600 hover:text-gray-800 transition-colors';
-
-        const arrow = document.createElement('span');
-        arrow.className = 'transform transition-transform duration-200';
-        arrow.innerHTML = '▼'; // Down arrow (expanded state)
-
-        const toggleText = document.createElement('span');
-        toggleText.textContent = `${element.replies.length} ${element.replies.length === 1 ? 'reply' : 'replies'}`;
-
-        toggleButton.appendChild(arrow);
-        toggleButton.appendChild(toggleText);
-
-        // Create replies container
-        const repliesContainer = document.createElement('div');
-        repliesContainer.className = 'replies-container mt-2 space-y-2 transition-all duration-200';
-
-        // Initially expanded
-        let isExpanded = true;
-
-        // Toggle functionality
-        toggleButton.addEventListener('click', function() {
-          isExpanded = !isExpanded;
-
-          if (isExpanded) {
-            repliesContainer.style.display = 'block';
-            arrow.style.transform = 'rotate(0deg)';
-            arrow.innerHTML = '▼';
-          } else {
-            repliesContainer.style.display = 'none';
-            arrow.style.transform = 'rotate(-90deg)';
-            arrow.innerHTML = '▶';
-          }
-        });
-
-        // Add replies to container
-        element.replies.forEach(reply => {
-          recursiveDisplay(reply, repliesContainer, depth + 1);
-        });
-
-        toggleContainer.appendChild(toggleButton);
-        commentContainer.appendChild(toggleContainer);
-        commentContainer.appendChild(repliesContainer);
-      }
-
-      // Insert the comment container
-      if (prepend) {
-        outerBody.insertBefore(commentContainer, outerBody.firstChild);
-      } else if (beforeElement) {
-        outerBody.insertBefore(commentContainer, beforeElement);
-      } else {
-        outerBody.appendChild(commentContainer);
-      }
-    }
-
-    // Load comments when DOM is ready
-    document.addEventListener('DOMContentLoaded', function () {
-      const displayComments = document.querySelector(".display");
-
-      fetch(`/comment/${shelterId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.length > 0) {
-            data.forEach(comment => {
-              recursiveDisplay(comment, displayComments);
-            });
-            updateCommentCount();
-          } else {
-            displayComments.innerHTML = `
-              <div class="text-center py-8">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-muted-foreground mb-2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                <p class="text-sm text-muted-foreground">No comments yet. Be the first to share your thoughts!</p>
-              </div>
-            `;
-            document.getElementById('comment-count').textContent = '0 comments';
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching comments:', error);
-          displayComments.innerHTML = `
-            <div class="text-center py-6 text-red-600">
-              <p class="text-sm">Error loading comments. Please try again later.</p>
+        const replyForm = document.createElement('div');
+        replyForm.className = 'reply-form mt-4 p-4 bg-gray-50 rounded-xl border';
+        replyForm.innerHTML = `
+          <form data-comment-id="${element._id}" class="space-y-3">
+            <textarea
+              name="reply"
+              required
+              rows="2"
+              class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 resize-none transition-colors"
+              placeholder="Reply to ${element.postedBy.firstName}..."
+            ></textarea>
+            <div class="flex space-x-2">
+              <button
+                type="submit"
+                class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 text-sm font-medium rounded-xl transition-colors"
+              >
+                Reply
+              </button>
+              <button
+                type="button"
+                onclick="this.closest('.reply-form').remove()"
+                class="border-2 border-gray-200 hover:bg-gray-50 px-4 py-2 text-sm font-medium rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
             </div>
-          `;
-        });
-    });
+          </form>
+        `;
 
-    function showSection(sectionId) {
-      // Hide all sections
-      document.getElementById("about").style.display = "none";
-      document.getElementById("available").style.display = "none";
-      document.getElementById("process").style.display = "none";
-      document.getElementById("contact").style.display = "none";
-      // Remove active class from all tabs
-      document.querySelectorAll('.tab-button').forEach(tab => {
-        tab.classList.remove('border-blue-500', 'text-blue-600');
-        tab.classList.add('border-transparent', 'text-gray-500');
+        commentCard.appendChild(replyForm);
       });
 
-      // Show the selected section
-      document.getElementById(sectionId).style.display = "block";
-
-      // Add active class to selected tab
-      const activeTab = document.getElementById(sectionId + '-tab');
-      if (activeTab) {
-        activeTab.classList.remove('border-transparent', 'text-gray-500');
-        activeTab.classList.add('border-blue-500', 'text-blue-600');
-      }
+      commentActions.appendChild(replyButton);
     }
 
-    // This runs when the page first loads
-    window.onload = function () {
-      showSection("available");
-    };
+    // Delete button (only for comment owner)
+    if (user?.role === "user" && user._id === element.postedBy._id) {
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'text-red-600 hover:text-red-700 font-medium transition-colors flex items-center gap-1';
+      deleteButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+        </svg>
+        Delete
+      `;
 
+      deleteButton.addEventListener('click', async function () {
+        if (confirm('Are you sure you want to delete this comment?')) {
+          try {
+            const response = await fetch(`/comment/${element._id}/delete/${shelterId}`, {
+              method: 'DELETE'
+            });
 
+            if (response.ok) {
+              commentContainer.remove();
+              updateCommentCount();
+              showToast('Comment deleted successfully!');
+            } else {
+              const errorData = await response.json();
+              showToast(errorData.message || 'Failed to delete comment', 'error');
+            }
+          } catch (error) {
+            console.error('Error deleting comment:', error);
+            showToast('Error deleting comment', 'error');
+          }
+        }
+      });
 
+      commentActions.appendChild(deleteButton);
+    }
 
-  //Maps
+    commentHeader.appendChild(userInfo);
+    commentHeader.appendChild(commentActions);
 
-  // // Initialize and add the map
+    // Comment content
+    const commentContent = document.createElement('div');
+    commentContent.className = 'text-gray-700 leading-relaxed';
+    commentContent.textContent = element.text;
+
+    // Assemble comment card
+    commentCard.appendChild(commentHeader);
+    commentCard.appendChild(commentContent);
+    commentContainer.appendChild(commentCard);
+
+    // Add replies with collapsible functionality
+    if (element.replies && element.replies.length > 0) {
+      // Create toggle button for replies
+      const toggleContainer = document.createElement('div');
+      toggleContainer.className = 'toggle-container mt-4';
+
+      const toggleButton = document.createElement('button');
+      toggleButton.className = 'flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-800 transition-colors font-medium';
+
+      const arrow = document.createElement('span');
+      arrow.className = 'transform transition-transform duration-200';
+      arrow.innerHTML = '▼'; // Down arrow (expanded state)
+
+      const toggleText = document.createElement('span');
+      toggleText.textContent = `${element.replies.length} ${element.replies.length === 1 ? 'reply' : 'replies'}`;
+
+      toggleButton.appendChild(arrow);
+      toggleButton.appendChild(toggleText);
+
+      // Create replies container
+      const repliesContainer = document.createElement('div');
+      repliesContainer.className = 'replies-container mt-4 space-y-4 transition-all duration-200';
+
+      // Initially expanded
+      let isExpanded = true;
+
+      // Toggle functionality
+      toggleButton.addEventListener('click', function() {
+        isExpanded = !isExpanded;
+
+        if (isExpanded) {
+          repliesContainer.style.display = 'block';
+          arrow.style.transform = 'rotate(0deg)';
+          arrow.innerHTML = '▼';
+        } else {
+          repliesContainer.style.display = 'none';
+          arrow.style.transform = 'rotate(-90deg)';
+          arrow.innerHTML = '▶';
+        }
+      });
+
+      // Add replies to container
+      element.replies.forEach(reply => {
+        recursiveDisplay(reply, repliesContainer, depth + 1);
+      });
+
+      toggleContainer.appendChild(toggleButton);
+      commentContainer.appendChild(toggleContainer);
+      commentContainer.appendChild(repliesContainer);
+    }
+
+    // Insert the comment container
+    if (prepend) {
+      outerBody.insertBefore(commentContainer, outerBody.firstChild);
+    } else if (beforeElement) {
+      outerBody.insertBefore(commentContainer, beforeElement);
+    } else {
+      outerBody.appendChild(commentContainer);
+    }
+  }
+
+  // Load comments when DOM is ready
+  document.addEventListener('DOMContentLoaded', function () {
+    const displayComments = document.querySelector(".display");
+
+    fetch(`/comment/${shelterId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          data.forEach(comment => {
+            recursiveDisplay(comment, displayComments);
+          });
+          updateCommentCount();
+        } else {
+          displayComments.innerHTML = `
+            <div class="text-center py-12 bg-white rounded-2xl border shadow-sm">
+              <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">No comments yet</h3>
+              <p class="text-gray-500">Be the first to share your thoughts about this shelter!</p>
+            </div>
+          `;
+          document.getElementById('comment-count').textContent = '0';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching comments:', error);
+        displayComments.innerHTML = `
+          <div class="text-center py-8 bg-white rounded-2xl border shadow-sm">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <p class="text-red-600 font-medium">Error loading comments</p>
+            <p class="text-gray-500 text-sm mt-1">Please try again later</p>
+          </div>
+        `;
+      });
+  });
+
+  function showSection(sectionId) {
+    // Hide all sections
+    document.getElementById("about").style.display = "none";
+    document.getElementById("available").style.display = "none";
+    document.getElementById("process").style.display = "none";
+    document.getElementById("contact").style.display = "none";
+
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-button').forEach(tab => {
+      tab.classList.remove('border-amber-500', 'text-amber-600', 'bg-white');
+      tab.classList.add('border-transparent', 'text-gray-600');
+    });
+
+    // Show the selected section
+    document.getElementById(sectionId).style.display = "block";
+
+    // Add active class to selected tab
+    const activeTab = document.getElementById(sectionId + '-tab');
+    if (activeTab) {
+      activeTab.classList.remove('border-transparent', 'text-gray-600');
+      activeTab.classList.add('border-amber-500', 'text-amber-600', 'bg-white');
+    }
+  }
+
+  // This runs when the page first loads
+  window.onload = function () {
+    showSection("available");
+  };
+
+  // Maps
   let map;
 
   async function initMap() {
@@ -1103,15 +1564,12 @@
       mapId: "DEMO_MAP_ID",
     });
 
-
     const marker = new AdvancedMarkerElement({
       map: map,
       position: position,
       title: "Shelter Location",
     });
   }
+
   initMap();
-
-
-
 </script>

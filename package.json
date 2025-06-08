@@ -31,12 +31,12 @@
     "mongoose": "^8.14.1",
     "multer": "^2.0.0",
     "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-google-oidc": "^0.1.0",
     "passport-jwt": "^4.0.1",
-    "socket.io": "^4.8.1",
     "stripe": "^18.2.1"
   },
   "devDependencies": {

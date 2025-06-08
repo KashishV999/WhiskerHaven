@@ -90,7 +90,7 @@ db.connect()
         User
       );
       const paymentRoutes = require("./routes/paymentRoutes");
-
+      const contactRoutes = require("./routes/contactRoutes");
 
       // Seed database if empty
       const seedShelter = require("./seeds/seedShelters");
@@ -124,7 +124,8 @@ db.connect()
 
       app.use("/comment", commentRoutes);
       app.use("/", paymentRoutes);
-
+      app.use("/contact", contactRoutes);
+      
       app.get("/adoptionProcess", (req, res) => {
         res.render("adoption/adoptionProcess.ejs");
       });

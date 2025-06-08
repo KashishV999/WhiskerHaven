@@ -58,6 +58,15 @@
         >Admin Dashboard</a
       ><% } %>
 
+      <button
+        onclick=contactModal.showModal()
+        id="contact-button"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
+      >
+        Contact
+      </button>
+
+     
       <a href="/about" class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
         >About</a
       >
@@ -117,12 +126,12 @@
               <p class="font-medium truncate"><%= user.firstName %></p>
               <p class="text-gray-500 truncate"><%= user.email %></p>
             </div>
-            <hr class="my-1" />
+            <!-- <hr class="my-1" />
             <a
               href="/profile"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >Profile</a
-            >
+            > -->
 
             <% if(user.role==='user'){ %>
             <a
@@ -275,6 +284,15 @@
         >
         <%} %>
 
+      <button
+        onclick=contactModal.showModal()
+        id="contact-button"
+        class="block w-full text-left text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+      >
+        Contact
+      </button>
+
+
         <a href="/about" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
           >About</a
         >
@@ -287,9 +305,9 @@
           >Favorites</a
         >
         <%}%>
-        <a href="/profile" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+        <!-- <a href="/profile" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
           >Profile</a
-        >
+        > -->
 
         <div class="pt-4 mt-4 border-t border-gray-200">
           <div class="px-2 py-2 text-sm text-gray-600">
