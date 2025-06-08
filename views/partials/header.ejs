@@ -59,7 +59,7 @@
 
       <% if (user && user.role === 'admin') { %>
       <a
-        href="/admin/cats"
+        href="/admin/dashboard"
         class="text-sm font-medium hover:underline underline-offset-4"
         >Admin Dashboard</a
       ><% } %>
@@ -143,7 +143,7 @@
             >
             <% } %> <% if (user.role === 'admin') { %>
             <a
-              href="/admin/cats"
+              href="/admin/dashboard"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >Admin Dashboard</a
             >
@@ -288,7 +288,7 @@
       >
 
       <%if(user && user.role==="admin"){%>
-      <a href="/admin/cats" class="block text-lg font-medium hover:text-primary"
+      <a href="/admin/dashboard" class="block text-lg font-medium hover:text-primary"
         >Admin Dashboard</a
       >
       <%} %> <% if (user) { %> <% if(user.role==='user'){ %>
@@ -309,7 +309,7 @@
 
 
       <% if (user.role === 'admin') { %>
-      <a href="/admin/cats" class="block text-lg font-medium hover:text-primary"
+      <a href="/admin/dashboard" class="block text-lg font-medium hover:text-primary"
         >Admin Dashboard</a
       >
       <% } %>
