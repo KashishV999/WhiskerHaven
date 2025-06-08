@@ -1,5 +1,4 @@
 <% layout("/layouts/boilerplate") %>
-
   <!-- All cats -->
 
   <div class="container mx-auto px-4 py-8 max-w-7xl">
@@ -370,6 +369,8 @@
 
 
   <script>
+
+
     function toggleFavorite(catId) {
       fetch(`/cats/${catId}/favorites`, {
         method: "POST",

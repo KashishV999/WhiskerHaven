@@ -172,8 +172,11 @@ db.connect()
       app.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}/`);
       });
+
+
     })();
   })
   .catch((err) => {
     console.error("Database connection failed:", err);
   });
+

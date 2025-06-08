@@ -1,27 +1,28 @@
 <header class="bg-white border-b sticky top-0 z-10">
-  <div
-    class="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto"
-  >
-    <a href="/" class="flex items-center gap-2">
+  <div class="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto max-w-7xl">
+    <!-- Logo and Brand -->
+    <a href="/" class="flex items-center gap-2 flex-shrink-0">
       <img
         src="https://www.shutterstock.com/image-vector/vector-cat-face-minimalist-adorable-600nw-2426797721.jpg"
         alt="Whisker Haven Logo"
         width="40"
         height="40"
-        class="h-10 w-10"
+        class="h-8 w-8 sm:h-10 sm:w-10"
       />
-      <span class="font-bold text-xl">Whisker Haven</span>
+      <span class="font-bold text-lg sm:text-xl">Whisker Haven</span>
     </a>
-    <nav class="hidden md:flex gap-6">
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex gap-4 xl:gap-6 flex-1 justify-center">
       <a
         href="/cats"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
       >
         Find a Cat
       </a>
       <a
         href="/shelters"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
       >
         Shelters
       </a>
@@ -29,20 +30,13 @@
       <%if(!user || user.role!=="admin"){%>
       <a
         href="/adoptionProcess"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
       >
         Adoption Process
       </a>
-
-      <!-- <a
-        href="/resources"
-        class="text-sm font-medium hover:underline underline-offset-4"
-      >
-        Resources
-      </a> -->
       <a
         href="/donate"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
       >
         Donate
       </a>
@@ -51,7 +45,7 @@
       <% if ( user?.role !== 'admin') { %>
       <button
         id="my-applications-button"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
       >
         My Applications
       </button>
@@ -60,42 +54,43 @@
       <% if (user && user.role === 'admin') { %>
       <a
         href="/admin/dashboard"
-        class="text-sm font-medium hover:underline underline-offset-4"
+        class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
         >Admin Dashboard</a
       ><% } %>
 
-      <a href="/about"  class="text-sm font-medium hover:underline underline-offset-4"
+      <a href="/about" class="text-sm font-medium hover:underline underline-offset-4 whitespace-nowrap"
         >About</a
       >
     </nav>
 
-    <div class="flex items-center gap-4">
+    <!-- Desktop Actions -->
+    <div class="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0">
       <% if(user?.role!=='admin'){ %>
+      <div class="hidden lg:flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4 text-muted-foreground"
+        >
+          <path
+            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+          ></path>
+        </svg>
+        <button id="favorites-button" class="text-sm font-medium hover:underline underline-offset-4">
+          Favorites
+        </button>
+      </div>
+      <%}%> 
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="h-5 w-5 text-muted-foreground"
-      >
-        <path
-          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-        ></path>
-      </svg>
-      <button id="favorites-button" class="text-sm font-medium hover:underline underline-offset-4">
-        Favorites
-      </button>
-
-      <%}%> <% if (user) { %>
-
+      <% if (user) { %>
       <div class="relative">
-        <!-- Avatar Button -->
         <!-- Avatar Button -->
         <button
           id="dropdownDefaultButton"
@@ -103,10 +98,10 @@
           class="flex items-center gap-2 rounded-full bg-muted p-1.5 text-sm font-medium hover:bg-muted/80 transition-colors"
         >
           <span
-            class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-gray-300"
+            class="relative flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full border-2 border-gray-300"
           >
             <span
-              class="flex h-full w-full items-center justify-center rounded-full bg-white text-gray-800 font-semibold shadow-sm"
+              class="flex h-full w-full items-center justify-center rounded-full bg-white text-gray-800 font-semibold shadow-sm text-xs sm:text-sm"
             >
               <%= user.firstName.charAt(0).toUpperCase() %>
             </span>
@@ -115,12 +110,12 @@
         <!-- Dropdown Menu -->
         <div
           id="dropdown"
-          class="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10"
+          class="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20"
         >
           <div class="py-1">
             <div class="px-4 py-2 text-sm">
-              <p class="font-medium"><%= user.firstName %></p>
-              <p class="text-gray-500"><%= user.email %></p>
+              <p class="font-medium truncate"><%= user.firstName %></p>
+              <p class="text-gray-500 truncate"><%= user.email %></p>
             </div>
             <hr class="my-1" />
             <a
@@ -135,13 +130,14 @@
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >Favorites</a
             >
-            <% } %> <%if(user.role==='user'){ %>
             <a
               href="/user/applications"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >My Applications</a
             >
-            <% } %> <% if (user.role === 'admin') { %>
+            <% } %> 
+            
+            <% if (user.role === 'admin') { %>
             <a
               href="/admin/dashboard"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -163,88 +159,67 @@
         </div>
       </div>
 
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const button = document.getElementById("dropdownDefaultButton");
-          const dropdown = document.getElementById("dropdown");
-
-          if (button && dropdown) {
-            button.addEventListener("click", function (e) {
-              e.stopPropagation();
-              dropdown.classList.toggle("hidden");
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener("click", function () {
-              dropdown.classList.add("hidden");
-            });
-
-            // Prevent dropdown from closing when clicking inside it
-            dropdown.addEventListener("click", function (e) {
-              e.stopPropagation();
-            });
-          }
-        });
-      </script>
-
       <% } else { %>
 
-      <button
-        onclick="loginModal.showModal()"
-        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-      >
-        Sign In
-      </button>
+      <div class="flex items-center gap-2">
+        <button
+          onclick="loginModal.showModal()"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 px-3 sm:h-9 sm:px-4 py-2"
+        >
+          Sign In
+        </button>
 
-    
-
-      <button
-        onclick="registerModal.showModal()"
-        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2"
-      >
-        Sign Up
-      </button>
+        <button
+          onclick="registerModal.showModal()"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-8 px-3 sm:h-9 sm:px-4 py-2"
+        >
+          Sign Up
+        </button>
+      </div>
 
       <% } %>
-      <button
-        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-10 w-10 md:hidden"
-        id="mobile-menu-button"
-        aria-label="Toggle menu"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-6 w-6"
-        >
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
-        </svg>
-      </button>
     </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-9 w-9 md:hidden"
+      id="mobile-menu-button"
+      aria-label="Toggle menu"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+      >
+        <line x1="4" x2="20" y1="12" y2="12"></line>
+        <line x1="4" x2="20" y1="6" y2="6"></line>
+        <line x1="4" x2="20" y1="18" y2="18"></line>
+      </svg>
+    </button>
   </div>
 
-  <!-- Mobile menu, hidden by default -->
+  <!-- Mobile menu overlay -->
   <div class="fixed inset-0 z-50 bg-white md:hidden hidden" id="mobile-menu">
-    <div class="flex h-16 items-center justify-between px-4">
+    <div class="flex h-16 items-center justify-between px-4 border-b">
       <a href="/" class="flex items-center gap-2">
         <img
-          src="/images/logo.png"
+          src="https://www.shutterstock.com/image-vector/vector-cat-face-minimalist-adorable-600nw-2426797721.jpg"
           alt="Whisker Haven Logo"
           width="40"
           height="40"
+          class="h-8 w-8"
         />
-        <span class="font-bold text-xl">Whisker Haven</span>
+        <span class="font-bold text-lg">Whisker Haven</span>
       </a>
       <button
-        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-10 w-10"
+        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:text-accent-foreground h-9 w-9"
         id="mobile-menu-close"
       >
         <svg
@@ -257,136 +232,206 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="h-6 w-6"
+          class="h-5 w-5"
         >
           <path d="M18 6 6 18"></path>
           <path d="m6 6 12 12"></path>
         </svg>
       </button>
     </div>
-    <nav class="px-4 py-6 space-y-6">
-      <a href="/cats" class="block text-lg font-medium hover:text-primary"
-        >Find a Cat</a
-      >
-      <a href="/shelters" class="block text-lg font-medium hover:text-primary"
-        >Shelters</a
-      >
-
-      <%if(!user || user.role!=="admin"){%>
-      <a
-        href="/adoptionProcess"
-        class="block text-lg font-medium hover:text-primary"
-        >Adoption Process</a
-      >
-      <%}%>
-      <!-- 
-      <a href="/resources" class="block text-lg font-medium hover:text-primary"
-        >Resources</a
-      > -->
-      <a href="/donate" class="block text-lg font-medium hover:text-primary"
-        >Donate</a
-      >
-
-      <%if(user && user.role==="admin"){%>
-      <a href="/admin/dashboard" class="block text-lg font-medium hover:text-primary"
-        >Admin Dashboard</a
-      >
-      <%} %> <% if (user) { %> <% if(user.role==='user'){ %>
-      <a
-        href="/user/favorites"
-        class="block text-lg font-medium hover:text-primary"
-        >Favorites</a
-      >
-      <%}%>
-      <a href="/profile" class="block text-lg font-medium hover:text-primary"
-        >Profile</a
-      >
-      <a
-        href="/my-applications"
-        class="block text-lg font-medium hover:text-primary"
-        >My Applications</a
-      >
-
-
-      <% if (user.role === 'admin') { %>
-      <a href="/admin/dashboard" class="block text-lg font-medium hover:text-primary"
-        >Admin Dashboard</a
-      >
-      <% } %>
-
-      <a href="/about"  class="text-sm font-medium hover:underline underline-offset-4"
-        >About</a
-      >
-
-
-      <form action="/api/logout" method="POST">
-        <button
-          type="submit"
-          class="w-full text-left block text-lg font-medium hover:text-primary"
+    
+    <div class="flex-1 overflow-y-auto">
+      <nav class="px-4 py-6 space-y-4">
+        <a href="/cats" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Find a Cat</a
         >
-          Log out
-        </button>
-      </form>
-      <% } else { %>
-      <div class="flex flex-col gap-4">
-        <button
-          onclick="loginModal.showModal()"
-          class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+        <a href="/shelters" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Shelters</a
         >
-          Sign In
-        </button>
 
-        <button
-          onclick="registerModal.showModal()"
-          class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+        <%if(!user || user.role!=="admin"){%>
+        <a
+          href="/adoptionProcess"
+          class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Adoption Process</a
         >
-          Sign Up
+        <a href="/donate" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Donate</a
+        >
+        <%}%>
+
+        <% if ( user?.role !== 'admin') { %>
+        <button
+          id="mobile-my-applications-button"
+          class="block w-full text-left text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+        >
+          My Applications
         </button>
-      </div>
-      <% } %>
-    </nav>
+        <%}%>
+
+        <%if(user && user.role==="admin"){%>
+        <a href="/admin/dashboard" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Admin Dashboard</a
+        >
+        <%} %>
+
+        <a href="/about" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >About</a
+        >
+
+        <% if (user) { %>
+        <% if(user.role==='user'){ %>
+        <a
+          href="/user/favorites"
+          class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Favorites</a
+        >
+        <%}%>
+        <a href="/profile" class="block text-base font-medium hover:text-primary py-2 border-b border-gray-100"
+          >Profile</a
+        >
+
+        <div class="pt-4 mt-4 border-t border-gray-200">
+          <div class="px-2 py-2 text-sm text-gray-600">
+            <p class="font-medium"><%= user.firstName %></p>
+            <p class="text-gray-500 text-xs truncate"><%= user.email %></p>
+          </div>
+          
+          <form action="/api/logout" method="POST" class="mt-2">
+            <button
+              type="submit"
+              class="w-full text-left block text-base font-medium hover:text-primary py-2 text-red-600"
+            >
+              Log out
+            </button>
+          </form>
+        </div>
+        <% } else { %>
+        <div class="flex flex-col gap-3 pt-4 mt-4 border-t border-gray-200">
+          <button
+            onclick="loginModal.showModal(); document.getElementById('mobile-menu').classList.add('hidden');"
+            class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+          >
+            Sign In
+          </button>
+
+          <button
+            onclick="registerModal.showModal(); document.getElementById('mobile-menu').classList.add('hidden');"
+            class="w-full inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          >
+            Sign Up
+          </button>
+        </div>
+        <% } %>
+      </nav>
+    </div>
   </div>
 </header>
 
 <script>
-  // Mobile menu toggle
+  document.addEventListener("DOMContentLoaded", function () {
+    // Desktop dropdown functionality
+    const button = document.getElementById("dropdownDefaultButton");
+    const dropdown = document.getElementById("dropdown");
 
-  document
-    .getElementById("mobile-menu-button")
-    .addEventListener("click", function () {
-      document.getElementById("mobile-menu").classList.remove("hidden");
-    });
+    if (button && dropdown) {
+      button.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+      });
 
-  document
-    .getElementById("mobile-menu-close")
-    .addEventListener("click", function () {
-      document.getElementById("mobile-menu").classList.add("hidden");
-    });
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function () {
+        dropdown.classList.add("hidden");
+      });
 
+      // Prevent dropdown from closing when clicking inside it
+      dropdown.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    }
 
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-const myApplicationsButton = document.getElementById("my-applications-button");
-  const favoritesButton = document.getElementById("favorites-button");
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", function () {
+        mobileMenu.classList.remove("hidden");
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      });
+    }
 
-  // My Applications button click event
-  if (myApplicationsButton) {
-    myApplicationsButton.addEventListener("click", function () {
-      if (user && user.role === "user") {
-        window.location.href = "/user/applications";
-      } else {
-        loginRequiredModal.showModal();
+    if (mobileMenuClose && mobileMenu) {
+      mobileMenuClose.addEventListener("click", function () {
+        mobileMenu.classList.add("hidden");
+        document.body.style.overflow = ''; // Restore scroll
+      });
+    }
+
+    // Close mobile menu when clicking on overlay
+    if (mobileMenu) {
+      mobileMenu.addEventListener("click", function (e) {
+        if (e.target === mobileMenu) {
+          mobileMenu.classList.add("hidden");
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // Application and favorites button functionality
+    const myApplicationsButton = document.getElementById("my-applications-button");
+    const mobileMyApplicationsButton = document.getElementById("mobile-my-applications-button");
+    const favoritesButton = document.getElementById("favorites-button");
+
+    // Desktop My Applications button
+    if (myApplicationsButton) {
+      myApplicationsButton.addEventListener("click", function () {
+        <% if (user && user.role === "user") { %>
+          window.location.href = "/user/applications";
+        <% } else { %>
+          if (typeof loginRequiredModal !== 'undefined') {
+            loginRequiredModal.showModal();
+          }
+        <% } %>
+      });
+    }
+
+    // Mobile My Applications button
+    if (mobileMyApplicationsButton) {
+      mobileMyApplicationsButton.addEventListener("click", function () {
+        <% if (user && user.role === "user") { %>
+          window.location.href = "/user/applications";
+        <% } else { %>
+          mobileMenu.classList.add("hidden");
+          document.body.style.overflow = '';
+          if (typeof loginRequiredModal !== 'undefined') {
+            loginRequiredModal.showModal();
+          }
+        <% } %>
+      });
+    }
+
+    // Favorites button
+    if (favoritesButton) {
+      favoritesButton.addEventListener("click", function () {
+        <% if (user && user.role === "user") { %>
+          window.location.href = "/user/favorites";
+        <% } else { %>
+          if (typeof loginRequiredModal !== 'undefined') {
+            loginRequiredModal.showModal();
+          }
+        <% } %>
+      });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768 && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add("hidden");
+        document.body.style.overflow = '';
       }
     });
-  }
-
-  // Favorites button click event
-  if (favoritesButton) {
-    favoritesButton.addEventListener("click", function () {
-      if (user && user.role === "user") {
-        window.location.href = "/user/favorites";
-      } else {
-        loginRequiredModal.showModal();
-      }
-    });
-  }
+  });
 </script>

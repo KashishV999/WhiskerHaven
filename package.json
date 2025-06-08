@@ -2,10 +2,12 @@
   "name": "whiskerway",
   "version": "1.0.0",
   "description": "A modern cat adoption platform connecting feline friends with forever homes. WhiskerWay helps users browse adoptable cats from local shelters, view detailed profiles, and streamline the adoption process",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css"
+    "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +36,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-google-oidc": "^0.1.0",
     "passport-jwt": "^4.0.1",
+    "socket.io": "^4.8.1",
     "stripe": "^18.2.1"
   },
   "devDependencies": {
