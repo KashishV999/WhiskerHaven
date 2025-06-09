@@ -59,7 +59,9 @@
 
 ## Architecture
  ### The ER diagram below outlines the core data model of WhiskersHaven
-<div align="center"> <img src="https://github.com/user-attachments/assets/f7246361-af1c-4ac0-9b96-9cd270b0da7f" alt="WhiskersHaven ERD" width="800" style="border: 1px solid #ddd; border-radius: 8px;"/> </div>
+<div align="center">
+  <img src="./assets/ERD_Diagram.png" alt="WhiskersHaven ERD" width="800" style="border: 1px solid #ddd; border-radius: 8px;"/>
+</div>
 
 ## Installation
 
@@ -184,20 +186,19 @@ WhiskerWay/
 ## Feature Screenshot
 
 ### Role-Based Access Control (RBAC)
-| ![Screenshot 1](https://github.com/user-attachments/assets/963c3e52-c408-480b-aab4-5ac2aea91348) | ![Screenshot 2](https://github.com/user-attachments/assets/b6435b80-1ebd-4ddc-b5c6-abfff58d798c) |
+| ![User Dashboard](./assets/User.png) | ![Admin Dashboard](./assets/Admin_dashboard.png) |
 |:--:|:--:|
-| *User* | *Admin Dashboard with Real-Time Analytics* |
+| *User View* | *Admin Dashboard with Real-Time Analytics* |
 
 ### Social Login and Reddit-Style Nested Comments
-| ![Social Login](https://github.com/user-attachments/assets/1ba24505-687f-4d22-80fb-7500525fc988) | ![Reddit-Style Nested Comments](https://github.com/user-attachments/assets/8279f1d1-0aac-429b-a3c0-bb57e5213611)<br>[Try It Out](https://whisker-way.vercel.app/shelters/682bb915e21083b8b4b4a872#comments-section) |
+| ![Social Login](./assets/login.png) | ![Reddit-Style Comments](./assets/reddit.png)<br>[Try It Out](https://whisker-way.vercel.app/shelters/682bb915e21083b8b4b4a872#comments-section) |
 |:--:|:--:|
 | *User Social Login (Google & Facebook OAuth)* | *Recursive Reddit-Style Nested Comments* |
 
-### Google Maps integration and Stripe donation checkout
-
-| ![Google Maps Integration](https://github.com/user-attachments/assets/5bfb0727-da81-44ff-89af-27231ea90383) | ![Stripe Donation](https://github.com/user-attachments/assets/be9ac0e2-31fc-404a-b2f3-4dd99da38eb7) |
+### Google Maps Integration and Stripe Donation Checkout
+| ![Maps Integration](./assets/maps.png) | ![Stripe Donation](./assets/stripe.png) |
 |:--:|:--:|
-| *Google Maps Integration - Shelter Location* | *Stripe Integration - Donation Checkout* |
+| *Google Maps - Shelter Location* | *Stripe - Donation Checkout* |
 
 
 ## **Live Demo**  
