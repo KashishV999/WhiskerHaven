@@ -20,7 +20,7 @@ module.exports = (Application, User) => {
   router.get("/applications", async (req, res, next) => {
     try {
       const applications = await Application.find({ user: req.user._id })
-        .populate("cat")
+        .populate("cat", "image name")
         .populate("shelter");
 
       res.render("users/index.ejs", { applications });

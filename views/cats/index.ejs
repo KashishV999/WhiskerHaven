@@ -2,10 +2,49 @@
   <!-- All cats -->
 
   <div class="container mx-auto px-4 py-8 max-w-7xl">
-    <div class="text-center mb-10">
+      <div class="relative mb-10">
+    <!-- Main heading content - stays centered -->
+    <div class="text-center">
       <h2 class="text-3xl font-bold text-gray-900 mb-3">Cats Available for Adoption</h2>
       <p class="text-gray-600 max-w-2xl mx-auto">Browse our available cats and find your new feline companion.</p>
     </div>
+    
+    <!-- WhiskerBot AI button - positioned absolutely on the right -->
+    <div class="absolute top-0 right-0 flex flex-col items-end">
+      <a href="/chatbot" 
+         class="inline-flex items-center space-x-3 bg-gradient-to-r from-orange-400 to-amber-500 hover:from-orange-500 hover:to-amber-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-orange-300 hover:border-orange-400 relative overflow-hidden group">
+        
+        <!-- Animated background effect -->
+        <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+        
+        <!-- Star icon with animation -->
+        <div class="relative z-10">
+          <svg class="w-5 h-5 text-white group-hover:rotate-12 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        </div>
+        
+        <!-- Button text -->
+        <span class="relative z-10 font-bold">WhiskerBot AI</span>
+        
+        <!-- Pulsing dot indicator -->
+        <div class="relative z-10">
+          <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+        </div>
+        
+        <!-- Subtle glow effect -->
+        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 to-amber-500 blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300 -z-10"></div>
+      </a>
+      
+      <!-- Optional: Small helper text below button -->
+      <p class="text-xs text-gray-500 text-center mt-2 opacity-75">
+        🤖 AI-powered matching
+      </p>
+    </div>
+
+    
+  </div>
+
 
     <div class="lg:grid lg:grid-cols-4 gap-8">
 

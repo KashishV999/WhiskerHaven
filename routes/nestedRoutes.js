@@ -13,6 +13,7 @@ const { ValidateCatSchema } = require("../schemasSecurity");
 const multer = require("multer");
 const { storage } = require("../config/cloudinary");
 const upload = multer({ storage });
+const { generateCatEmbedding } = require('../services/openaiService');
 
 // Enable access to parent route parameters
 const router = express.Router({ mergeParams: true });
@@ -78,7 +79,11 @@ module.exports = (Cat, Shelter) => {
     async (req, res) => {
       try {
         const { shelterId } = req.params;
-        const newCat = new Cat(req.body);
+      const textToEmbed = `${req.body.description || ''} ${req.body.story || ''} ${req.body.breed || ''}`.trim();
+
+        const embedding = await generateCatEmbedding(textToEmbed);
+        const newCat = new Cat({...req.body, embedding });
+        
         newCat.shelter = shelterId;
 
         if (req.file) {

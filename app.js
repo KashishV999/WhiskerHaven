@@ -16,10 +16,21 @@ const ejsMate = require("ejs-mate");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
+const {
+  progressiveSearch,
+  fallbackSearch,
+  classifyUserIntent,
+  generateAdoptionResponse,
+  generateDonationResponse,
+  handleOffTopicQuery,
+  handleCatWellnessInfoQuery,
+} = require("./services/openaiService");
+
 // Custom modules
 const AppError = require("./AppError");
 const db = require("./config/database");
 const { optionalJwtMiddleware } = require("./config/passportJwt");
+const { name } = require("ejs");
 
 // =============================================================================
 // APP CONFIGURATION
@@ -125,14 +136,191 @@ db.connect()
       app.use("/comment", commentRoutes);
       app.use("/", paymentRoutes);
       app.use("/contact", contactRoutes);
-      
+
       app.get("/adoptionProcess", (req, res) => {
         res.render("adoption/adoptionProcess.ejs");
       });
 
-      app.get("/about", (req,res)=>{
+      app.get("/about", (req, res) => {
         res.render("about.ejs");
-      })
+      });
+
+
+
+      // =============================================================================
+      // OPEN-AI SEARCH ENDPOINT
+      // =============================================================================
+      // Main search endpoint with Atlas fallback
+      app.post("/search", async (req, res) => {
+        try {
+          const { query, language, limit = 3, useAtlas = true } = req.body;
+
+          console.log("--------------------------------------");
+          console.log(`${query} - ${language}`);
+          console.log("---------------------------------------");
+
+          // Validate input
+          if (
+            !query ||
+            typeof query !== "string" ||
+            query.trim().length === 0
+          ) {
+            return res.status(400).json({
+              error: "Invalid query",
+              details: "Query must be a non-empty string",
+            });
+          }
+
+          // Classify intent with error handling
+          let intent;
+          try {
+            intent = await classifyUserIntent(query.trim());
+            console.log("--------------------------------------");
+            console.log("User intent:", intent);
+            console.log("Query:", query);
+            console.log("--------------------------------------");
+          } catch (intentError) {
+            console.error("Intent classification failed:", intentError);
+            intent = "cat_search"; // Default to cat search if classification fails
+          }
+
+          // Handle different intents
+          switch (intent) {
+            case "cat_search":
+              try {
+                let results;
+
+                if (useAtlas) {
+                  try {
+                    results = await progressiveSearch(
+                      Cat,
+                      query,
+                      limit,
+                      language
+                    );
+                  } catch (atlasError) {
+                    console.warn(
+                      "Atlas search failed, falling back to basic search:",
+                      atlasError.message
+                    );
+                    results = await fallbackSearch(Cat, query, limit, language);
+                  }
+                } else {
+                  results = await fallbackSearch(Cat, query, limit, language);
+                }
+
+                // Remove embedding fields from results
+                const sanitizedResults = results.results.map((cat) => {
+                  const { embedding, __v, ...cleanCat } = cat.toObject
+                    ? cat.toObject()
+                    : cat;
+                  return cleanCat;
+                });
+
+                // Log results
+                console.log("--------------------------------------");
+                console.log("Found cats:", results.results.length);
+                results.results.forEach((cat, index) => {
+                  console.log(`${index + 1}. ${cat.name} (${cat._id})`);
+                });
+                console.log("Search explanation:", results.explanation);
+                console.log("--------------------------------------");
+
+                return res.json({
+                  intent: intent,
+                  results: sanitizedResults,
+                  explanation: results.explanation,
+                });
+              } catch (searchError) {
+                console.error("Search failed:", searchError);
+                return res.status(500).json({
+                  error: "Search failed",
+                  intent: intent,
+                  details: searchError.message,
+                });
+              }
+
+            case "adoption_question":
+              try {
+                const response = await generateAdoptionResponse(
+                  query,
+                  language
+                );
+                return res.json({
+                  intent: intent,
+                  response: response,
+                });
+              } catch (error) {
+                console.error("Adoption response failed:", error);
+                return res.status(500).json({
+                  error: "Failed to generate adoption response",
+                  intent: intent,
+                });
+              }
+
+            case "donation":
+              try {
+                const response = await generateDonationResponse(
+                  query,
+                  language
+                );
+                return res.json({
+                  intent: intent,
+                  response: response,
+                });
+              } catch (error) {
+                console.error("Donation response failed:", error);
+                return res.status(500).json({
+                  error: "Failed to generate donation response",
+                  intent: intent,
+                });
+              }
+
+            case "cat_wellnessInfo":
+              try {
+                const response = await handleCatWellnessInfoQuery(
+                  query,
+                  language
+                );
+                return res.json({
+                  intent: "cat_wellnessInfo",
+                  response: response,
+                });
+              } catch (error) {
+                console.error("Cat wellness info handler failed:", error);
+                return res.status(500).json({
+                  error: "Failed to generate cat wellness info",
+                  intent: intent,
+                });
+              }
+
+            default: // Handles "off_topic" and any unexpected intents
+              try {
+                const response = await handleOffTopicQuery(query, language);
+                return res.json({
+                  intent: "off_topic",
+                  response: response,
+                });
+              } catch (error) {
+                console.error("Off-topic handler failed:", error);
+                return res.json({
+                  intent: "off_topic",
+                  response: "Me-wow! Let's talk about cats instead! 😸",
+                });
+              }
+          }
+        } catch (error) {
+          console.error("Unexpected search endpoint error:", error);
+          return res.status(500).json({
+            error: "Internal server error",
+            details: error.message,
+          });
+        }
+      });
+
+      app.get("/chatbot", (req, res) => {
+        res.render("chatbot.ejs");
+      });
 
       app.use(express.static(path.join(__dirname, "/public")));
 
@@ -165,7 +353,6 @@ db.connect()
         res.status(statusCode).render("error.ejs", { message });
       });
 
-      
       // =============================================================================
       // START SERVER
       // =============================================================================
@@ -173,11 +360,8 @@ db.connect()
       app.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}/`);
       });
-
-
     })();
   })
   .catch((err) => {
     console.error("Database connection failed:", err);
   });
-

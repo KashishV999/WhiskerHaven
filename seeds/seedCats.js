@@ -4,7 +4,7 @@
 
 const mongoose = require("mongoose");
 const catData = require("../data/catData");
-
+const { generateCatEmbedding } = require('../services/openaiService');
 // =============================================================================
 // CAT SEEDING MODULE
 // =============================================================================
@@ -30,9 +30,10 @@ module.exports = async (Cat, Shelter) => {
     
     // Assign shelter to cat
     cat.shelter = shelters[randomShelterIndex]._id;
-    
+  const textToEmbed = `${cat.description || ''} ${cat.story || ''} ${cat.breed || ''}`.trim();
+  const embedding = await generateCatEmbedding(textToEmbed);
     // Create new cat
-    const newCat = await Cat.create(cat);
+    const newCat = await Cat.create({...cat, embedding });
 
     // Update shelter's cats array
     await Shelter.findByIdAndUpdate(shelters[randomShelterIndex]._id, {

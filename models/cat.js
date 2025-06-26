@@ -13,7 +13,13 @@ const CatSchema = new Schema({
     // =============================================================================
     // RELATIONSHIPS
     // =============================================================================
-    
+        
+    embedding: {
+    type: [Number],      // Array of numbers (floats)
+    required: true       // Embedding must be present
+    },
+
+
     shelter: {
         type: Schema.Types.ObjectId,
         ref: 'Shelter'

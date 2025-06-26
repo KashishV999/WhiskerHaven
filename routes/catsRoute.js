@@ -14,6 +14,7 @@ const { ValidateCatSchema } = require("../schemasSecurity");
 const multer = require("multer");
 const { storage } = require("../config/cloudinary");
 const upload = multer({ storage });
+const { generateCatEmbedding } = require('../services/openaiService');
 
 // =============================================================================
 // VALIDATION MIDDLEWARE
@@ -181,7 +182,11 @@ module.exports = (Cat, Shelter, Application, User) => {
     },
     ValidateCat,
     async (req, res) => {
-      const newCat = new Cat(req.body);
+      // Generate embedding vector for this cat
+      const textToEmbed = `${req.body.description || ''} ${req.body.story || ''} ${req.body.breed || ''}`.trim();
+      const embedding = await generateCatEmbedding(textToEmbed);
+
+      const newCat = new Cat({...req.body, embedding });
       newCat.shelter = req.body.shelter;
       if (req.file) {
         newCat.image = req.file.path;
@@ -267,7 +272,11 @@ module.exports = (Cat, Shelter, Application, User) => {
   router.put("/:id", upload.single("image"), async (req, res, next) => {
     try {
       const { id } = req.params;
-      const cat = await Cat.findByIdAndUpdate(id, req.body, { new: true });
+      const textToEmbed = `${req.body.description || ''} ${req.body.story || ''} ${req.body.breed || ''}`.trim();
+
+      const embedding = await generateCatEmbedding(textToEmbed);
+     
+      const cat = await Cat.findByIdAndUpdate(id, {...req.body, embedding}, { new: true });
       if (!cat) {
         throw new AppError("Cat not found", 404);
       }
