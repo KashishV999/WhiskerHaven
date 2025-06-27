@@ -7,13 +7,11 @@
 **Experience WhiskerBot:**  
 [![Chat Now](https://img.shields.io/badge/%F0%9F%A4%96-Try_WhiskerBot-FF6B6B?style=flat)](https://whisker-way.vercel.app/chatbot)
 
-<p align="center">
-  <a href="./assets/videos/whiskerBot.mp4">
-    <img src="./assets/whiskerbot-thumbnail.png" alt="WhiskerBot AI Demo" width="75%" />
-  </a>
-  <br />
-  <em>Click the image to watch WhiskerBot's AI matching demo (30 sec)</em>
-</p>
+## 📖 Overview  
+A **multi-modal AI adoption assistant** combining OpenAI's GPT-3.5 with MongoDB vector search to understand natural language queries and recommend perfect feline matches. Features multi-language support, intent classification, and vibe-based matching for faster adoptions.
+
+https://github.com/user-attachments/assets/15864752-e13d-4f6c-a547-936f6aaae8c9
+
 
 
 ## Table of Contents  
