@@ -92,7 +92,8 @@ A complete workflow diagram illustrating how WhiskerBot classifies intent, parse
 </div>
 
 
- ### DATA MODEL - The ER diagram below outlines the core data model of WhiskersHaven
+ ### DATA MODEL 
+The ER diagram below outlines the core data model of WhiskersHaven
 <div align="center">
   <img src="./assets/ERD_Diagram.png" alt="WhiskersHaven ERD" width="800" style="border: 1px solid #ddd; border-radius: 8px;"/>
 </div>
