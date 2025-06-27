@@ -7,13 +7,14 @@
 **Experience WhiskerBot:**  
 [![Chat Now](https://img.shields.io/badge/%F0%9F%A4%96-Try_WhiskerBot-FF6B6B?style=flat)](https://whisker-way.vercel.app/chatbot)
 
-<div align="center">
-  <a href="./assets/videos/whiskerBot.mp4" target="_blank">
-    <img src="./assets/whiskerbot-thumbnail.png" alt="WhiskerBot AI Demo" width="75%" style="border-radius: 8px; border: 1px solid #ddd;">
-    <br>
-    <em>Click to watch WhiskerBot's AI matching system (30 sec)</em>
+<p align="center">
+  <a href="./assets/videos/whiskerBot.mp4">
+    <img src="./assets/whiskerbot-thumbnail.png" alt="WhiskerBot AI Demo" width="75%" />
   </a>
-</div>
+  <br />
+  <em>Click the image to watch WhiskerBot's AI matching demo (30 sec)</em>
+</p>
+
 
 ## Table of Contents  
 - [Description](#description)
