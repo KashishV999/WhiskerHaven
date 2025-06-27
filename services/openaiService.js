@@ -258,7 +258,7 @@ function buildMongoFilters(parsedParams) {
   return filters;
 }
 
-// Progressive search using Atlas Search and Vector Search
+// Progressive search using Mongo Filter and Vector Search
 async function progressiveSearch(
   CatModel,
   naturalLanguageQuery,
