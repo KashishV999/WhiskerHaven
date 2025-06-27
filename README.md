@@ -1,28 +1,46 @@
-# WhiskersHaven [![Live Demo](https://img.shields.io/badge/%F0%9F%94%97-Live_Demo-2ea44f?style=flat)](https://whisker-way.vercel.app/)
+# WhiskersHaven - AI POWERED PET ADOPTION PLATFORM [![Live Demo](https://img.shields.io/badge/%F0%9F%94%97-Live_Demo-2ea44f?style=flat)](https://whisker-way.vercel.app/)
 
-> **Live Site:** [WhiskersHaven](https://whisker-way.vercel.app/)  
-> *A full-stack platform connecting cat lovers with shelters*
+**Live Site:** [WhiskersHaven](https://whisker-way.vercel.app/)  
+**AI-Powered Chatbot:** [WhiskerBot](https://whisker-way.vercel.app/chatbot)  
+*An AI-powered platform revolutionizing cat adoption through intelligent matching*
+
+**Experience WhiskerBot:**  
+[![Chat Now](https://img.shields.io/badge/%F0%9F%A4%96-Try_WhiskerBot-FF6B6B?style=flat)](https://whisker-way.vercel.app/chatbot)
+
+<div align="center">
+  <a href="./assets/videos/whiskerBot.mp4" target="_blank">
+    <img src="./assets/whiskerbot-thumbnail.png" alt="WhiskerBot AI Demo" width="75%" style="border-radius: 8px; border: 1px solid #ddd;">
+    <br>
+    <em>Click to watch WhiskerBot's AI matching system (30 sec)</em>
+  </a>
+</div>
 
 ## Table of Contents  
 - [Description](#description)
 - [Technology Stack](#technology-stack)  
-- [Features](#features)
-- [Architecture](#architecture)
+- [Core Features](#core-features)
+- [WhiskerBot AI System](#whiskerbot-ai-system)
+- [Architecture Diagrams](#architecture)
 - [Installation](#installation)  
 - [Usage](#usage)  
 - [Folder Structure](#folder-structure)
 - [Feature Screenshot](#feature-screenshot)
 - [Live Demo](#live-demo)
-- [Upcoming Features](#upcoming-features)
+- [Read Blog](#the-story-behind-whiskerBot)
 ##  🐾 Description  
 
-**WhiskersHaven** is a full-stack web application built to simplify and enhance the cat adoption experience. It bridges the gap between animal shelters and potential adopters through a secure, interactive platform  with secure authentication, real-time interactions, and an admin dashboard.
+**WhiskersHaven** combines full-stack development with cutting-edge AI to create a next-generation pet adoption platform. The star of the system is WhiskerBot - an intelligent chatbot that uses natural language processing and vector search to match adopters with their perfect feline companions.
 
  ## Technology Stack  
+ 
+- **AI Core**:  
+    - OpenAI GPT-3.5-turbo & vector text-embedding-3-small   
+    - MongoDB Atlas Vector Search  
+    - Natural Language Processing pipeline
 
 - **Backend**: Node.js, Express.js, Passport.js (local & OAuth), JWT, Bcrypt.js, Joi, Multer, Mongoose
 - **Frontend**: EJS, Tailwind CSS
-- **Database**: MongoDB Atlas (Cloud-hosted)
+- **Database**: MongoDB Atlas (with vector embeddings)
 - **APIs & Integration**:
     - Stripe (payments)
     - Nodemailer (email sending),
@@ -31,7 +49,15 @@
     - Cloudinary (image hosting)
 - **Deployment**: Vercel
 
-## Features  
+## Core Features
+
+#### WhiskerBot AI System
+  - Natural language understanding for smart serach and related queries
+  - Semantic vector search for "vibe-based" matching
+  - Multi-lingual response generation
+  - Intent classification to handle diverse questions
+  - Context-aware response generation
+
   #### User Authentication and Security  
   - User authentication with **Passport.js** and **JWT**
   - Social Login via **Google OAuth** and **Facebook**.
@@ -58,7 +84,16 @@
   - **Cloudinary + Multer** for optimized image uploading and cloud hosting
 
 ## Architecture
- ### The ER diagram below outlines the core data model of WhiskersHaven
+
+### WhiskerBot AI System
+
+A complete workflow diagram illustrating how WhiskerBot classifies intent, parses queries, performs vector search, and generates personalized cat recommendations.
+<div align="center">
+  <img src="./assets/workflow.png" alt="WhiskersHaven ERD" width="800" style="border: 1px solid #ddd; border-radius: 8px;"/>
+</div>
+
+
+ ### DATA MODEL - The ER diagram below outlines the core data model of WhiskersHaven
 <div align="center">
   <img src="./assets/ERD_Diagram.png" alt="WhiskersHaven ERD" width="800" style="border: 1px solid #ddd; border-radius: 8px;"/>
 </div>
@@ -106,6 +141,9 @@ STRIPE_PRIVATE_KEY=your_stripe_private_key
 # Email
 EMAIL_USER=your_email@example.com
 EMAIL_PASS=your_email_password
+
+#OPENAI
+OPENAI_API_KEY=your_open_ai_key
 ```
 ### Start the Application
 ```
@@ -155,7 +193,9 @@ WhiskerWay/
 │   ├── shelter.js                
 │   ├── application.js             
 │   ├── user.js                   
-│   └── comments.js               
+│   └── comments.js
+├── services/                      # Services layer for external integrations
+│   ├── openaiService.js           # Handles communication with OpenAI APIs (chat & embeddings)
 ├── public/                        # Static assets
 │   ├── css/                      
 │   ├── js/                       
@@ -180,6 +220,7 @@ WhiskerWay/
 │   ├── shelters/                  # Shelter views
 │   ├── adoption/                  # Adoption process views
 │   ├── adminDashboard/            # Admin dashboard views
+|   ├── chatBot.ejs                # EJS template for the chatbot interface
 │   └── error.ejs                  # Error page template
 ├── schemaSecurity.js              # Joi validation schemas
 ```
@@ -206,10 +247,21 @@ WhiskerWay/
 
 [![Explore WhiskersHaven](https://img.shields.io/badge/🚀_Explore_WhiskersHaven-Live_Demo-FF6B6B?style=for-the-badge&logo=vercel&logoColor=white)](https://whisker-way.vercel.app)
 
-## Upcoming Features
-### 🔮 Stay Tuned for Upcoming Features
+---
 
-Exciting updates coming soon:  
-AI integration, smarter interactions, LLM-powered features, extended pet shop, and more enhancements!
+## **The Story Behind WhiskerBot**  
+**Featured in my technical blog post:**  
+[Inside Whiskers Haven: How I Built an AI Chatbot for Pet Adoption](https://www.kashishverma.com/blog/whiskerBot/firstBlog)
+
+In this deep dive, I cover:
+- 🧠 Intent classification architecture
+- 🔍 Vector search implementation
+- 😸 Handling quirky user queries (like 3AM pizza cravings)
+- ❤️ Heartwarming adoption success stories
+
+*"The moment a user typed 'I found my soulmate cat!' after months of searching, I knew this was more than code."*
+
+[Read the full article →](https://www.kashishverma.com/blog/whiskerBot/firstBlog)
+
 
 
