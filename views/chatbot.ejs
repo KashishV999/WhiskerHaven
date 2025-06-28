@@ -1,1181 +1,1052 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WhiskersBot - Whisker Haven AI Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      .typing-indicator {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #9ca3af;
-        animation: typing 1.4s infinite ease-in-out;
-      }
-
-      .typing-indicator:nth-child(1) {
-        animation-delay: -0.32s;
-      }
-      .typing-indicator:nth-child(2) {
-        animation-delay: -0.16s;
-      }
-
-      @keyframes typing {
-        0%,
-        80%,
-        100% {
-          transform: scale(0);
-          opacity: 0.5;
+        .typing-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #9ca3af;
+            animation: typing 1.4s infinite ease-in-out;
         }
-        40% {
-          transform: scale(1);
-          opacity: 1;
+        .typing-indicator:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-      }
-
-      .message-enter {
-        animation: messageSlideIn 0.3s ease-out;
-      }
-
-      @keyframes messageSlideIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+        
+        .message-enter {
+            animation: messageSlideIn 0.3s ease-out;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-      }
-
-      .suggested-prompt:hover {
-        transform: translateY(-3px);
-        transition: all 0.3s ease;
-      }
-
-      .chat-container {
-        height: calc(100vh - 2rem);
-        max-height: 900px;
-      }
-
-      .messages-container {
-        height: calc(100% - 140px);
-      }
-
-      .welcome-container {
-        height: calc(100% - 140px);
-      }
-
-      .paw-float {
-        animation: pawFloat 3s ease-in-out infinite;
-      }
-
-      @keyframes pawFloat {
-        0%,
-        100% {
-          transform: translateY(0px) rotate(-5deg);
+        
+        .suggested-prompt:hover {
+            transform: translateY(-3px);
+            transition: all 0.3s ease;
         }
-        50% {
-          transform: translateY(-8px) rotate(5deg);
+        
+        .chat-container {
+            height: calc(100vh - 2rem);
+            max-height: 900px;
         }
-      }
-
-      .cat-wiggle {
-        animation: catWiggle 2s ease-in-out infinite;
-      }
-
-      @keyframes catWiggle {
-        0%,
-        100% {
-          transform: rotate(-2deg);
+        
+        .messages-container {
+            height: calc(100% - 140px);
         }
-        50% {
-          transform: rotate(2deg);
+        
+        .welcome-container {
+            height: calc(100% - 140px);
         }
-      }
-
-      .dropdown-enter {
-        animation: dropdownSlide 0.3s ease-out;
-      }
-
-      @keyframes dropdownSlide {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
+        
+        .paw-float {
+            animation: pawFloat 3s ease-in-out infinite;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        
+        @keyframes pawFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
         }
-      }
-
-      .cat-card {
-        transition: all 0.3s ease;
-      }
-
-      .cat-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-
-      .heart-beat {
-        animation: heartBeat 2s ease-in-out infinite;
-      }
-
-      @keyframes heartBeat {
-        0%,
-        100% {
-          transform: scale(1);
+        
+        .cat-wiggle {
+            animation: catWiggle 2s ease-in-out infinite;
         }
-        50% {
-          transform: scale(1.1);
+        
+        @keyframes catWiggle {
+            0%, 100% {
+                transform: rotate(-2deg);
+            }
+            50% {
+                transform: rotate(2deg);
+            }
         }
-      }
+        
+        .dropdown-enter {
+            animation: dropdownSlide 0.3s ease-out;
+        }
+        
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .cat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .heart-beat {
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .home-button-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .home-button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.4);
+        }
+        
+        .language-option:hover {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+        
+        .language-option.selected {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #f59e0b;
+        }
+        
+        .markdown-content h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0 0.5rem 0;
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0.75rem 0 0.5rem 0;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin: 0.5rem 0 0.25rem 0;
+        }
+        
+        .markdown-content p {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown-content ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown-content li {
+            margin: 0.25rem 0;
+        }
+        
+        .markdown-content strong {
+            font-weight: bold;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        .markdown-content code {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+        
+        .markdown-content pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .markdown-content blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            margin: 0.5rem 0;
+            font-style: italic;
+        }
 
-      .home-button-hover {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+        /* Mobile overlay for dropdowns */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .mobile-dropdown-content {
+            background: white;
+            border-radius: 1rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-      .home-button-hover:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.4);
-      }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chat-container {
+                height: calc(100vh - 1rem);
+                margin: 0.5rem;
+            }
+            
+            .messages-container {
+                height: calc(100% - 120px);
+            }
+            
+            .welcome-container {
+                height: calc(100% - 120px);
+                padding: 1rem;
+            }
+            
+            .header-mobile {
+                padding: 1rem;
+                margin-top: 3.5rem;
+            }
+            
+            .input-area-mobile {
+                padding: 1rem;
+                border-top: 1px solid #fed7aa;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .welcome-text-mobile h2 {
+                font-size: 1.75rem;
+            }
+            
+            .welcome-text-mobile p {
+                font-size: 1rem;
+            }
+            
+            .suggested-cards-mobile {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
 
-      /* Language dropdown specific styles */
-      .language-option:hover {
-        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-      }
-
-      .language-option.selected {
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        border-color: #f59e0b;
-      }
-
-      /* Markdown styling */
-      .markdown-content h1 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 1rem 0 0.5rem 0;
-      }
-      .markdown-content h2 {
-        font-size: 1.25rem;
-        font-weight: bold;
-        margin: 0.75rem 0 0.5rem 0;
-      }
-      .markdown-content h3 {
-        font-size: 1.125rem;
-        font-weight: bold;
-        margin: 0.5rem 0 0.25rem 0;
-      }
-      .markdown-content p {
-        margin: 0.5rem 0;
-        line-height: 1.6;
-      }
-      .markdown-content ul {
-        margin: 0.5rem 0;
-        padding-left: 1.5rem;
-      }
-      .markdown-content ol {
-        margin: 0.5rem 0;
-        padding-left: 1.5rem;
-      }
-      .markdown-content li {
-        margin: 0.25rem 0;
-      }
-      .markdown-content strong {
-        font-weight: bold;
-      }
-      .markdown-content em {
-        font-style: italic;
-      }
-      .markdown-content code {
-        background: rgba(0, 0, 0, 0.1);
-        padding: 0.125rem 0.25rem;
-        border-radius: 0.25rem;
-        font-family: monospace;
-      }
-      .markdown-content pre {
-        background: rgba(0, 0, 0, 0.05);
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin: 0.5rem 0;
-        overflow-x: auto;
-      }
-      .markdown-content blockquote {
-        border-left: 4px solid #e5e7eb;
-        padding-left: 1rem;
-        margin: 0.5rem 0;
-        font-style: italic;
-      }
+        @media (max-width: 480px) {
+            .welcome-text-mobile h2 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-text-mobile p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
-  </head>
+</head>
 
-  <body
-    class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 min-h-screen"
-  >
-    <!-- Return to Home Button - Fixed Position -->
-    <div class="fixed top-6 left-6 z-50">
-      <a
-        href="/cats"
-        class="home-button-hover inline-flex items-center space-x-3 bg-white/95 backdrop-blur-sm hover:bg-white border-2 border-orange-200 hover:border-orange-300 rounded-2xl px-6 py-3 shadow-lg text-gray-700 hover:text-orange-600 font-medium"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          ></path>
-        </svg>
-        <span>Back to Home</span>
-      </a>
+<body class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 min-h-screen">
+    <!-- Return to Home Button - Responsive -->
+    <div class="fixed top-4 left-4 z-50">
+        <a href="/cats" class="home-button-hover inline-flex items-center space-x-2 lg:space-x-3 bg-white/95 backdrop-blur-sm hover:bg-white border-2 border-orange-200 hover:border-orange-300 rounded-xl lg:rounded-2xl px-3 lg:px-6 py-2 lg:py-3 shadow-lg text-gray-700 hover:text-orange-600 font-medium text-sm lg:text-base">
+            <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span class="hidden sm:inline">Back to Home</span>
+            <span class="sm:hidden">Back</span>
+        </a>
     </div>
 
-    <div class="container mx-auto px-4 py-6 max-w-4xl">
-      <!-- Header -->
-      <div
-        class="bg-white/95 backdrop-blur-sm rounded-t-3xl shadow-xl border border-orange-100 p-6 relative z-40 mt-16"
-      >
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-4">
-            <div
-              class="w-12 h-12 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg"
-            >
-              <span class="text-2xl">🐱</span>
-            </div>
-            <div>
-              <h1 class="text-xl font-bold text-gray-900 flex items-center">
-                WhiskersBot
-                <span class="ml-2 text-lg">🐾</span>
-              </h1>
-              <p class="text-sm text-gray-600">
-                Your friendly feline assistant
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3">
-            <!-- Language Dropdown -->
-            <div class="relative">
-              <button
-                id="languageToggle"
-                onclick="toggleLanguageDropdown()"
-                class="bg-gradient-to-r from-blue-100 to-indigo-100 hover:from-blue-200 hover:to-indigo-200 text-blue-800 rounded-xl px-4 py-2 transition-all duration-200 flex items-center space-x-2 text-sm font-medium border border-blue-200 hover:border-blue-300"
-              >
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                  ></path>
-                </svg>
-                <span id="selectedLanguageText">English</span>
-                <svg
-                  id="languageChevron"
-                  class="w-4 h-4 transition-transform duration-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
+    <div class="container mx-auto px-2 sm:px-4 py-2 sm:py-6 max-w-4xl">
+        <!-- Header - Fully Responsive -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-t-2xl lg:rounded-t-3xl shadow-xl border border-orange-100 p-3 sm:p-4 lg:p-6 relative z-40 mt-12 sm:mt-14 lg:mt-16">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <div class="flex items-center space-x-3 lg:space-x-4 flex-1 min-w-0">
+                    <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-orange-400 to-amber-500 rounded-xl lg:rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+                        <span class="text-xl lg:text-2xl">🐱</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="text-lg lg:text-xl font-bold text-gray-900 flex items-center">
+                            <span class="truncate">WhiskersBot</span>
+                            <span class="ml-2 text-base lg:text-lg">🐾</span>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-600 truncate">Your friendly feline assistant</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-2 lg:space-x-3 flex-shrink-0">
+                    <!-- Language Dropdown -->
+                    <div class="relative">
+                        <button id="languageToggle" onclick="toggleLanguageDropdown()" class="bg-gradient-to-r from-blue-100 to-indigo-100 hover:from-blue-200 hover:to-indigo-200 text-blue-800 rounded-lg lg:rounded-xl px-2 sm:px-3 lg:px-4 py-2 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium border border-blue-200 hover:border-blue-300">
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                            </svg>
+                            <span id="selectedLanguageText" class="hidden sm:inline">English</span>
+                            <span id="selectedLanguageFlag" class="sm:hidden">🇺🇸</span>
+                            <svg id="languageChevron" class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Desktop/Tablet Dropdown -->
+                        <div id="languageDropdown" class="absolute right-0 top-full mt-2 w-64 sm:w-72 bg-white rounded-xl lg:rounded-2xl shadow-2xl border border-blue-100 z-[100] hidden dropdown-enter max-h-60 sm:max-h-80 overflow-y-auto">
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                    <span class="mr-2">🌍</span>Choose Language:
+                                </h3>
+                                <div class="space-y-1" id="languageOptions">
+                                    <!-- Languages will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-              <div
-                id="languageDropdown"
-                class="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-blue-100 z-[100] hidden dropdown-enter max-h-80 overflow-y-auto"
-              >
+                    <!-- Questions Dropdown -->
+                    <div class="relative">
+                        <button id="questionsToggle" onclick="toggleQuestionsDropdown()" class="bg-orange-100 hover:bg-orange-200 text-orange-800 rounded-lg lg:rounded-xl px-2 sm:px-3 lg:px-4 py-2 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium">
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="hidden sm:inline">Questions</span>
+                            <svg id="questionsChevron" class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Desktop/Tablet Dropdown -->
+                        <div id="questionsDropdown" class="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-xl lg:rounded-2xl shadow-2xl border border-orange-100 z-[100] hidden dropdown-enter max-h-60 sm:max-h-80 overflow-y-auto">
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                    <span class="mr-2">🤔</span>Suggested questions:
+                                </h3>
+                                <div class="space-y-2" id="suggestedQuestions">
+                                    <!-- Questions will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="clearChat()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg lg:rounded-xl p-2 transition-all duration-200">
+                        <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Overlays -->
+        <!-- Language Mobile Overlay -->
+        <div id="languageMobileOverlay" class="mobile-overlay hidden">
+            <div class="mobile-dropdown-content">
                 <div class="p-4">
-                  <h3
-                    class="text-sm font-semibold text-gray-700 mb-3 flex items-center"
-                  >
-                    <span class="mr-2">🌍</span>Choose Language:
-                  </h3>
-                  <div class="space-y-1" id="languageOptions">
-                    <!-- Languages will be populated by JavaScript -->
-                  </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                            <span class="mr-2">🌍</span>Choose Language
+                        </h3>
+                        <button onclick="closeLanguageDropdown()" class="text-gray-500 hover:text-gray-700 p-1">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="space-y-1" id="languageOptionsMobile">
+                        <!-- Languages will be populated by JavaScript -->
+                    </div>
                 </div>
-              </div>
             </div>
+        </div>
 
-            <!-- More Questions Dropdown -->
-            <div class="relative">
-              <button
-                id="moreQuestionsToggle"
-                onclick="toggleMoreQuestions()"
-                class="bg-orange-100 hover:bg-orange-200 text-orange-800 rounded-xl px-4 py-2 transition-all duration-200 flex items-center space-x-2 text-sm font-medium"
-              >
-                <span>Suggested Questions</span>
-                <svg
-                  id="moreQuestionsChevron"
-                  class="w-4 h-4 transition-transform duration-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-
-              <div
-                id="moreQuestionsDropdown"
-                class="absolute right-0 top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-orange-100 z-[100] hidden dropdown-enter"
-              >
+        <!-- Questions Mobile Overlay -->
+        <div id="questionsMobileOverlay" class="mobile-overlay hidden">
+            <div class="mobile-dropdown-content">
                 <div class="p-4">
-                  <h3
-                    class="text-sm font-semibold text-gray-700 mb-3 flex items-center"
-                  >
-                    <span class="mr-2">🤔</span>Additional questions:
-                  </h3>
-                  <div class="space-y-2">
-                    <button
-                      onclick="sendSuggestedMessage('I want a quiet cat for an apartment')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">🛌</span>I want a quiet
-                      cat for an apartment
-                    </button>
-                    <button
-                      onclick="sendSuggestedMessage('Show me cats that are affectionate and cuddly')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">❤️</span>Show me cats
-                      that are affectionate and cuddly
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('I\'m an avid traveler looking for a cat that enjoys being on the move, is comfortable with car or plane travel, and adapts well to new environments. Recommend a cat that fits this')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">✈️</span>I'm an avid
-                      traveler looking for a cat that enjoys being on the move,
-                      is comfortable with car or plane travel, and adapts well
-                      to new environments. 
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('Show me cats who have a touching rescue story')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">💖</span>Show me cats who
-                      have a touching rescue story.
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('Do you have any cats that get along with dogs?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">🐶</span>Do you have any
-                      cats that get along with dogs?
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('Show me cats that are less than 3 years')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">🐾</span>Show me cats
-                      that are less than 3 years
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('How does the adoption process work?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">📋</span>How does the
-                      adoption process work?
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('How can I donate to the shelter?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">💖</span>How can I donate
-                      to the shelter?
-                    </button>
-
-                    <button
-                      onclick="sendSuggestedMessage('How often should I take my cat to the vet?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">🏥</span>How often should
-                      I take my cat to the vet?
-                    </button>
-                    <button
-                      onclick="sendSuggestedMessage('What supplies do I need for a cat?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200"
-                    >
-                      <span class="text-blue-600 mr-2">🛍️</span>What supplies do
-                      I need for a cat?
-                    </button>
-                    <button
-                      onclick="sendSuggestedMessage('How do I prepare for a new kitten?')"
-                      class="suggested-prompt w-full text-left bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 rounded-xl px-4 py-3 text-sm text-gray-700 hover:from-purple-100 hover:to-pink-100 hover:border-purple-200 transition-all duration-200"
-                    >
-                      <span class="text-purple-600 mr-2">🏠</span>How do I
-                      prepare for a new kitten?
-                    </button>
-                  </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-700 flex items-center">
+                            <span class="mr-2">🤔</span>Suggested Questions
+                        </h3>
+                        <button onclick="closeQuestionsDropdown()" class="text-gray-500 hover:text-gray-700 p-1">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="space-y-2" id="suggestedQuestionsMobile">
+                        <!-- Questions will be populated by JavaScript -->
+                    </div>
                 </div>
-              </div>
+            </div>
+        </div>
+
+        <!-- Chat Container - Fully Responsive -->
+        <div class="bg-white/95 backdrop-blur-sm chat-container rounded-b-2xl lg:rounded-b-3xl shadow-2xl border-x border-b border-orange-100 relative z-10">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="welcome-container flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 text-center relative overflow-hidden">
+                <!-- Decorative Elements -->
+                <div class="absolute top-4 sm:top-6 lg:top-10 left-4 sm:left-6 lg:left-10 text-xl sm:text-2xl lg:text-3xl paw-float opacity-20">🐾</div>
+                <div class="absolute bottom-6 sm:bottom-10 lg:bottom-16 right-6 sm:right-8 lg:right-12 text-xl sm:text-2xl lg:text-3xl paw-float opacity-20" style="animation-delay: 1s">🐾</div>
+
+                <!-- Main Cat Illustration -->
+                <div class="mb-6 sm:mb-8 relative">
+                    <div class="text-4xl sm:text-5xl lg:text-7xl cat-wiggle">😸</div>
+                </div>
+
+                <!-- Welcome Text -->
+                <div class="mb-6 sm:mb-8 lg:mb-12 relative z-10 welcome-text-mobile">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 lg:mb-4">
+                        Hi there! I'm WhiskersBot 🐾
+                    </h2>
+                    <p class="text-sm sm:text-base lg:text-xl text-gray-600 max-w-2xl leading-relaxed px-2 sm:px-4">
+                        Your purr-fect companion for all things cats!<br />
+                        How can I help you find your feline friend today?
+                    </p>
+                </div>
+
+                <!-- Main Quick Questions - Fully Responsive -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 w-full max-w-4xl mb-6 sm:mb-8 relative z-10 px-2">
+                    <button onclick="sendSuggestedMessage('Show me cats available for adoption')" class="suggested-prompt bg-white border-2 border-purple-200 rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 hover:border-purple-300 hover:shadow-lg transition-all duration-300 text-left group">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl mb-3 lg:mb-4 group-hover:scale-110 transition-transform duration-300">🏠</div>
+                        <h3 class="font-bold text-gray-800 mb-2 lg:mb-3 text-sm sm:text-base lg:text-lg">Find Your Purrfect Match</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Browse adorable cats waiting for their forever homes</p>
+                        <div class="mt-3 lg:mt-4 text-purple-600 font-medium text-xs sm:text-sm flex items-center">
+                            <span>Explore cats</span>
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button onclick="sendSuggestedMessage('I want to make a donation to help cats')" class="suggested-prompt bg-white border-2 border-green-200 rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 hover:border-green-300 hover:shadow-lg transition-all duration-300 text-left group">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl mb-3 lg:mb-4 group-hover:scale-110 transition-transform duration-300 heart-beat">❤️</div>
+                        <h3 class="font-bold text-gray-800 mb-2 lg:mb-3 text-sm sm:text-base lg:text-lg">Support Our Mission</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Help us care for cats in need with your generous donation</p>
+                        <div class="mt-3 lg:mt-4 text-green-600 font-medium text-xs sm:text-sm flex items-center">
+                            <span>Make a difference</span>
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button onclick="sendSuggestedMessage('What is your adoption process?')" class="suggested-prompt bg-white border-2 border-blue-200 rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 hover:border-blue-300 hover:shadow-lg transition-all duration-300 text-left group sm:col-span-2 lg:col-span-1">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl mb-3 lg:mb-4 group-hover:scale-110 transition-transform duration-300">📝</div>
+                        <h3 class="font-bold text-gray-800 mb-2 lg:mb-3 text-sm sm:text-base lg:text-lg">Adoption Made Easy</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Learn about our simple and caring adoption process</p>
+                        <div class="mt-3 lg:mt-4 text-blue-600 font-medium text-xs sm:text-sm flex items-center">
+                            <span>Get started</span>
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Fun Cat Facts -->
+                <div class="text-center text-xs sm:text-sm text-gray-500 bg-orange-50 rounded-xl lg:rounded-2xl p-3 lg:p-4 max-w-md relative z-10 mx-2">
+                    <span class="text-sm sm:text-base lg:text-lg mr-2">💡</span>
+                    <strong>Fun Fact:</strong> Cats spend 70% of their lives sleeping - that's 13-16 hours a day!
+                </div>
             </div>
 
-            <button
-              onclick="clearChat()"
-              class="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl p-2 transition-all duration-200"
-            >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Chat Container -->
-      <div
-        class="bg-white/95 backdrop-blur-sm chat-container rounded-b-3xl shadow-2xl border-x border-b border-orange-100 relative z-10"
-      >
-        <!-- Welcome Screen -->
-        <div
-          id="welcomeScreen"
-          class="welcome-container flex flex-col items-center justify-center p-8 text-center relative overflow-hidden"
-        >
-          <!-- Decorative Elements - Cleaner and fewer -->
-          <div class="absolute top-10 left-10 text-3xl paw-float opacity-20">
-            🐾
-          </div>
-          <div
-            class="absolute bottom-16 right-12 text-3xl paw-float opacity-20"
-            style="animation-delay: 1s"
-          >
-            🐾
-          </div>
-
-          <!-- Main Cat Illustration -->
-          <div class="mb-8 relative">
-            <div class="text-7xl cat-wiggle">😸</div>
-          </div>
-
-          <!-- Welcome Text -->
-          <div class="mb-12 relative z-10">
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">
-              Hi there! I'm WhiskersBot 🐾
-            </h2>
-            <p class="text-xl text-gray-600 max-w-2xl leading-relaxed">
-              Your purr-fect companion for all things cats!
-              <br />How can I help you find your feline friend today?
-            </p>
-          </div>
-
-          <!-- Main Quick Questions -->
-          <div
-            class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-8 relative z-10"
-          >
-            <button
-              onclick="sendSuggestedMessage('Show me cats available for adoption')"
-              class="suggested-prompt bg-white border-2 border-purple-200 rounded-2xl p-6 hover:border-purple-300 hover:shadow-lg transition-all duration-300 text-left group"
-            >
-              <div
-                class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
-              >
-                🏠
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">
-                Find Your Purrfect Match
-              </h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                Browse adorable cats waiting for their forever homes
-              </p>
-              <div
-                class="mt-4 text-purple-600 font-medium text-sm flex items-center"
-              >
-                <span>Explore cats</span>
-                <svg
-                  class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-
-            <button
-              onclick="sendSuggestedMessage('I want to make a donation to help cats')"
-              class="suggested-prompt bg-white border-2 border-green-200 rounded-2xl p-6 hover:border-green-300 hover:shadow-lg transition-all duration-300 text-left group"
-            >
-              <div
-                class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300 heart-beat"
-              >
-                ❤️
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">
-                Support Our Mission
-              </h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                Help us care for cats in need with your generous donation
-              </p>
-              <div
-                class="mt-4 text-green-600 font-medium text-sm flex items-center"
-              >
-                <span>Make a difference</span>
-                <svg
-                  class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-
-            <button
-              onclick="sendSuggestedMessage('What is your adoption process?')"
-              class="suggested-prompt bg-white border-2 border-blue-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-lg transition-all duration-300 text-left group"
-            >
-              <div
-                class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
-              >
-                📝
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">
-                Adoption Made Easy
-              </h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                Learn about our simple and caring adoption process
-              </p>
-              <div
-                class="mt-4 text-blue-600 font-medium text-sm flex items-center"
-              >
-                <span>Get started</span>
-                <svg
-                  class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-          </div>
-
-          <!-- Fun Cat Facts -->
-          <div
-            class="text-center text-sm text-gray-500 bg-orange-50 rounded-2xl p-4 max-w-md relative z-10"
-          >
-            <span class="text-lg mr-2">💡</span>
-            <strong>Fun Fact:</strong> Cats spend 70% of their lives sleeping -
-            that's 13-16 hours a day!
-          </div>
-        </div>
-
-        <!-- Messages Area (Hidden Initially) -->
-        <div
-          id="messagesContainer"
-          class="messages-container overflow-y-auto p-8 space-y-6 hidden"
-        >
-          <!-- Messages will be added here -->
-        </div>
-
-        <!-- Input Area -->
-        <div
-          class="border-t border-orange-100 p-6 bg-gradient-to-r from-orange-50/50 to-amber-50/50 backdrop-blur-sm"
-        >
-          <form id="chatForm" class="flex items-end space-x-4">
-            <div class="flex-1">
-              <div class="relative">
-                <textarea
-                  id="messageInput"
-                  placeholder="Ask me anything about cats, adoption, donations, or pet care... 🐾"
-                  class="w-full resize-none border-2 border-orange-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 shadow-sm bg-white/90 backdrop-blur-sm"
-                  rows="1"
-                  maxlength="500"
-                ></textarea>
-                <div
-                  class="absolute right-4 bottom-2 text-xs text-gray-400"
-                  id="charCount"
-                >
-                  0 / 500
-                </div>
-              </div>
-              <div class="flex justify-between items-center mt-3 px-2">
-                <span class="text-xs text-gray-500"
-                  >🐾 Press Enter to send, Shift+Enter for new line</span
-                >
-              </div>
+            <!-- Messages Area (Hidden Initially) -->
+            <div id="messagesContainer" class="messages-container overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 hidden">
+                <!-- Messages will be added here -->
             </div>
-            <button
-              type="submit"
-              id="sendButton"
-              class="bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-2xl px-8 py-4 hover:from-orange-500 hover:to-amber-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
-            >
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                ></path>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
 
-      <!-- Footer with Credit -->
-      <div class="text-center mt-6 space-y-3">
-        <div
-          class="text-sm text-gray-600 bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-orange-100"
-        >
-          <p class="flex items-center justify-center">
-            <span class="mr-2">🐾</span>
-            WhiskersBot is powered by AI to help you find your perfect feline
-            friend.
-            <span class="ml-2">😸</span>
-          </p>
+            <!-- Input Area - Fully Responsive -->
+            <div class="border-t border-orange-100 p-3 sm:p-4 lg:p-6 bg-gradient-to-r from-orange-50/50 to-amber-50/50 backdrop-blur-sm">
+                <form id="chatForm" class="flex items-end space-x-2 sm:space-x-3 lg:space-x-4">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <textarea id="messageInput" placeholder="Ask me anything about cats, adoption, donations, or pet care... 🐾" class="w-full resize-none border-2 border-orange-200 rounded-xl lg:rounded-2xl px-3 sm:px-4 lg:px-6 py-3 lg:py-4 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 shadow-sm bg-white/90 backdrop-blur-sm text-sm sm:text-base" rows="1" maxlength="500"></textarea>
+                            <div class="absolute right-3 lg:right-4 bottom-2 text-xs text-gray-400" id="charCount">0 / 500</div>
+                        </div>
+                        <div class="flex justify-between items-center mt-2 lg:mt-3 px-2">
+                            <span class="text-xs text-gray-500">🐾 Press Enter to send, Shift+Enter for new line</span>
+                        </div>
+                    </div>
+                    <button type="submit" id="sendButton" class="bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-xl lg:rounded-2xl px-4 sm:px-6 lg:px-8 py-3 lg:py-4 hover:from-orange-500 hover:to-amber-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md">
+                        <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
-        <div
-          class="text-xs text-gray-500 bg-white/50 backdrop-blur-sm rounded-xl p-3 shadow-sm"
-        >
-          <p class="flex items-center justify-center">
-            Made with <span class="mx-1 text-red-500">❤️</span> by Kashish
-          </p>
+
+        <!-- Footer with Credit - Fully Responsive -->
+        <div class="text-center mt-3 sm:mt-4 lg:mt-6 space-y-2 lg:space-y-3 px-2">
+            <div class="text-xs sm:text-sm text-gray-600 bg-white/70 backdrop-blur-sm rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-sm border border-orange-100">
+                <p class="flex items-center justify-center flex-wrap">
+                    <span class="mr-2">🐾</span>
+                    WhiskersBot is powered by AI to help you find your perfect feline friend.
+                    <span class="ml-2">😸</span>
+                </p>
+            </div>
+            <div class="text-xs text-gray-500 bg-white/50 backdrop-blur-sm rounded-lg lg:rounded-xl p-2 lg:p-3 shadow-sm">
+                <p class="flex items-center justify-center">
+                    Made with <span class="mx-1 text-red-500">❤️</span> by Kashish
+                </p>
+            </div>
         </div>
-      </div>
     </div>
 
     <script>
-      let isTyping = false;
-      let moreQuestionsOpen = false;
-      let languageDropdownOpen = false;
-      let chatStarted = false;
-      let selectedLanguage = "en"; // Default to English
+        let isTyping = false;
+        let questionsDropdownOpen = false;
+        let languageDropdownOpen = false;
+        let chatStarted = false;
+        let selectedLanguage = "en";
+        let selectedLanguageData = { code: "en", name: "English", flag: "🇺🇸" };
 
-      // 30 most commonly used languages with ISO 639-1 codes
-      const languages = [
-        { code: "en", name: "English", flag: "🇺🇸" },
-        { code: "fr", name: "French", flag: "🇫🇷" },
-        { code: "hi", name: "Hindi", flag: "🇮🇳" },
-        { code: "zh", name: "Chinese", flag: "🇨🇳" },
+        const languages = [
+            { code: "en", name: "English", flag: "🇺🇸" },
+            { code: "fr", name: "French", flag: "🇫🇷" },
+            { code: "hi", name: "Hindi", flag: "🇮🇳" },
+            { code: "zh", name: "Chinese", flag: "🇨🇳" },
+            { code: "tr", name: "Turkish", flag: "🇹🇷" },
+            { code: "ar", name: "Arabic", flag: "🇸🇦" },
+            { code: "es", name: "Spanish", flag: "🇪🇸" },
+            { code: "pt", name: "Portuguese", flag: "🇵🇹" },
+            { code: "ru", name: "Russian", flag: "🇷🇺" },
+            { code: "bn", name: "Bengali", flag: "🇧🇩" },
+            { code: "de", name: "German", flag: "🇩🇪" },
+            { code: "ja", name: "Japanese", flag: "🇯🇵" },
+            { code: "ur", name: "Urdu", flag: "🇵🇰" },
+            { code: "it", name: "Italian", flag: "🇮🇹" },
+            { code: "vi", name: "Vietnamese", flag: "🇻🇳" },
+            { code: "ko", name: "Korean", flag: "🇰🇷" },
+            { code: "fa", name: "Persian", flag: "🇮🇷" },
+            { code: "ta", name: "Tamil", flag: "🇮🇳" },
+            { code: "sw", name: "Swahili", flag: "🇰🇪" },
+            { code: "uk", name: "Ukrainian", flag: "🇺🇦" },
+        ];
 
-        { code: "tr", name: "Turkish", flag: "🇹🇷" },
-        { code: "ar", name: "Arabic", flag: "🇸🇦" },
-        { code: "es", name: "Spanish", flag: "🇪🇸" },
-        { code: "pt", name: "Portuguese", flag: "🇵🇹" },
-        { code: "ru", name: "Russian", flag: "🇷🇺" },
-        { code: "bn", name: "Bengali", flag: "🇧🇩" },
-        { code: "de", name: "German", flag: "🇩🇪" },
-        { code: "ja", name: "Japanese", flag: "🇯🇵" },
+        const suggestedQuestions = [
+            { text: 'I want a quiet cat for an apartment', emoji: '🛌' },
+            { text: 'Show me cats that are affectionate and cuddly', emoji: '❤️' },
+            { text: 'I\'m an avid traveler looking for a cat that enjoys being on the move, is comfortable with car or plane travel, and adapts well to new environments. Recommend a cat that fits this', emoji: '✈️' },
+            { text: 'Show me cats who have a touching rescue story', emoji: '💖' },
+            { text: 'Do you have any cats that get along with dogs?', emoji: '🐶' },
+            { text: 'Show me cats that are less than 3 years', emoji: '🐾' },
+            { text: 'How does the adoption process work?', emoji: '📋' },
+            { text: 'How can I donate to the shelter?', emoji: '💖' },
+            { text: 'How often should I take my cat to the vet?', emoji: '🏥' },
+            { text: 'What supplies do I need for a cat?', emoji: '🛍️' },
+            { text: 'How do I prepare for a new kitten?', emoji: '🏠' }
+        ];
 
-        { code: "ur", name: "Urdu", flag: "🇵🇰" },
-        { code: "it", name: "Italian", flag: "🇮🇹" },
-        { code: "vi", name: "Vietnamese", flag: "🇻🇳" },
-        { code: "ko", name: "Korean", flag: "🇰🇷" },
-        { code: "fa", name: "Persian", flag: "🇮🇷" },
-        { code: "ta", name: "Tamil", flag: "🇮🇳" },
-        { code: "sw", name: "Swahili", flag: "🇰🇪" },
-        { code: "uk", name: "Ukrainian", flag: "🇺🇦" },
-      ];
+        function isMobile() {
+            return window.innerWidth < 768;
+        }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const messageInput = document.getElementById("messageInput");
-        const charCount = document.getElementById("charCount");
-        const chatForm = document.getElementById("chatForm");
+        document.addEventListener("DOMContentLoaded", function () {
+            const messageInput = document.getElementById("messageInput");
+            const charCount = document.getElementById("charCount");
+            const chatForm = document.getElementById("chatForm");
 
-        // Initialize language dropdown
-        initializeLanguageDropdown();
+            initializeLanguageDropdown();
+            initializeSuggestedQuestions();
 
-        // Auto-resize textarea
-        messageInput.addEventListener("input", function () {
-          this.style.height = "auto";
-          this.style.height = Math.min(this.scrollHeight, 120) + "px";
+            messageInput.addEventListener("input", function () {
+                this.style.height = "auto";
+                this.style.height = Math.min(this.scrollHeight, 120) + "px";
+                charCount.textContent = `${this.value.length} / 500`;
+            });
 
-          // Update character count
-          charCount.textContent = `${this.value.length} / 500`;
+            messageInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    chatForm.dispatchEvent(new Event("submit"));
+                }
+            });
+
+            chatForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                if (message && !isTyping) {
+                    await sendMessage(message);
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener("click", function (e) {
+                if (!e.target.closest("#questionsToggle") && 
+                    !e.target.closest("#questionsDropdown") && 
+                    !e.target.closest("#questionsMobileOverlay")) {
+                    closeQuestionsDropdown();
+                }
+                if (!e.target.closest("#languageToggle") && 
+                    !e.target.closest("#languageDropdown") && 
+                    !e.target.closest("#languageMobileOverlay")) {
+                    closeLanguageDropdown();
+                }
+            });
         });
 
-        // Handle Enter key
-        messageInput.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            chatForm.dispatchEvent(new Event("submit"));
-          }
-        });
+        function initializeLanguageDropdown() {
+            const languageOptions = document.getElementById("languageOptions");
+            const languageOptionsMobile = document.getElementById("languageOptionsMobile");
+            
+            languages.forEach((lang) => {
+                const option = createLanguageOption(lang, false);
+                const optionMobile = createLanguageOption(lang, true);
+                languageOptions.appendChild(option);
+                languageOptionsMobile.appendChild(optionMobile);
+            });
+        }
 
-        // Handle form submission
-        chatForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const message = messageInput.value.trim();
-          if (message && !isTyping) {
-            await sendMessage(message);
-          }
-        });
+        function createLanguageOption(lang, isMobileVersion) {
+            const option = document.createElement("button");
+            option.className = `language-option w-full text-left px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg sm:rounded-xl transition-all duration-200 flex items-center space-x-3 border border-transparent ${
+                lang.code === selectedLanguage ? "selected" : ""
+            }`;
+            option.innerHTML = `
+                <span class="text-base sm:text-lg">${lang.flag}</span>
+                <span class="font-medium flex-1">${lang.name}</span>
+                <span class="text-xs text-gray-500">${lang.code.toUpperCase()}</span>
+            `;
+            option.onclick = () => selectLanguage(lang, isMobileVersion);
+            return option;
+        }
 
-        // Close dropdowns when clicking outside
-        document.addEventListener("click", function (e) {
-          if (
-            !e.target.closest("#moreQuestionsToggle") &&
-            !e.target.closest("#moreQuestionsDropdown")
-          ) {
-            closeMoreQuestions();
-          }
-          if (
-            !e.target.closest("#languageToggle") &&
-            !e.target.closest("#languageDropdown")
-          ) {
+        function initializeSuggestedQuestions() {
+            const questionsContainer = document.getElementById("suggestedQuestions");
+            const questionsContainerMobile = document.getElementById("suggestedQuestionsMobile");
+            
+            suggestedQuestions.forEach((question) => {
+                const button = createSuggestedQuestionButton(question, false);
+                const buttonMobile = createSuggestedQuestionButton(question, true);
+                questionsContainer.appendChild(button);
+                questionsContainerMobile.appendChild(buttonMobile);
+            });
+        }
+
+        function createSuggestedQuestionButton(question, isMobileVersion) {
+            const button = document.createElement("button");
+            button.onclick = () => sendSuggestedMessage(question.text, isMobileVersion);
+            button.className = "suggested-prompt w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-lg sm:rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-700 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-200 transition-all duration-200";
+            button.innerHTML = `
+                <span class="text-blue-600 mr-2">${question.emoji}</span>${question.text}
+            `;
+            return button;
+        }
+
+        function toggleLanguageDropdown() {
+            if (isMobile()) {
+                const overlay = document.getElementById("languageMobileOverlay");
+                const chevron = document.getElementById("languageChevron");
+                
+                if (languageDropdownOpen) {
+                    closeLanguageDropdown();
+                } else {
+                    overlay.classList.remove("hidden");
+                    chevron.style.transform = "rotate(180deg)";
+                    languageDropdownOpen = true;
+                    closeQuestionsDropdown();
+                }
+            } else {
+                const dropdown = document.getElementById("languageDropdown");
+                const chevron = document.getElementById("languageChevron");
+                
+                if (languageDropdownOpen) {
+                    closeLanguageDropdown();
+                } else {
+                    dropdown.classList.remove("hidden");
+                    chevron.style.transform = "rotate(180deg)";
+                    languageDropdownOpen = true;
+                    closeQuestionsDropdown();
+                }
+            }
+        }
+
+        function closeLanguageDropdown() {
+            const dropdown = document.getElementById("languageDropdown");
+            const overlay = document.getElementById("languageMobileOverlay");
+            const chevron = document.getElementById("languageChevron");
+            
+            dropdown.classList.add("hidden");
+            overlay.classList.add("hidden");
+            chevron.style.transform = "rotate(0deg)";
+            languageDropdownOpen = false;
+        }
+
+        function selectLanguage(lang, isMobileVersion) {
+            selectedLanguage = lang.code;
+            selectedLanguageData = lang;
+            
+            document.getElementById("selectedLanguageText").textContent = lang.name;
+            document.getElementById("selectedLanguageFlag").textContent = lang.flag;
+            
+            // Update selected state in both dropdowns
+            document.querySelectorAll(".language-option").forEach((option) => {
+                option.classList.remove("selected");
+            });
+            
+            // Find and mark the selected option
+            const containers = [document.getElementById("languageOptions"), document.getElementById("languageOptionsMobile")];
+            containers.forEach(container => {
+                const options = container.querySelectorAll(".language-option");
+                options.forEach(option => {
+                    if (option.textContent.includes(lang.name)) {
+                        option.classList.add("selected");
+                    }
+                });
+            });
+            
             closeLanguageDropdown();
-          }
-        });
-      });
-
-      function initializeLanguageDropdown() {
-        const languageOptions = document.getElementById("languageOptions");
-
-        languages.forEach((lang) => {
-          const option = document.createElement("button");
-          option.className = `language-option w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200 flex items-center space-x-3 border border-transparent ${
-            lang.code === selectedLanguage ? "selected" : ""
-          }`;
-          option.innerHTML = `
-                    <span class="text-lg">${lang.flag}</span>
-                    <span class="font-medium">${lang.name}</span>
-                    <span class="text-xs text-gray-500 ml-auto">${lang.code.toUpperCase()}</span>
-                `;
-          option.onclick = () => selectLanguage(lang.code, lang.name);
-          languageOptions.appendChild(option);
-        });
-      }
-
-      function toggleLanguageDropdown() {
-        const dropdown = document.getElementById("languageDropdown");
-        const chevron = document.getElementById("languageChevron");
-
-        if (languageDropdownOpen) {
-          closeLanguageDropdown();
-        } else {
-          dropdown.classList.remove("hidden");
-          chevron.style.transform = "rotate(180deg)";
-          languageDropdownOpen = true;
-          closeMoreQuestions(); // Close other dropdown
-        }
-      }
-
-      function closeLanguageDropdown() {
-        const dropdown = document.getElementById("languageDropdown");
-        const chevron = document.getElementById("languageChevron");
-
-        dropdown.classList.add("hidden");
-        chevron.style.transform = "rotate(0deg)";
-        languageDropdownOpen = false;
-      }
-
-      function selectLanguage(code, name) {
-        selectedLanguage = code;
-        document.getElementById("selectedLanguageText").textContent = name;
-
-        // Update selected state in dropdown
-        document.querySelectorAll(".language-option").forEach((option) => {
-          option.classList.remove("selected");
-        });
-        event.target.closest(".language-option").classList.add("selected");
-
-        closeLanguageDropdown();
-      }
-
-      function toggleMoreQuestions() {
-        const dropdown = document.getElementById("moreQuestionsDropdown");
-        const chevron = document.getElementById("moreQuestionsChevron");
-
-        if (moreQuestionsOpen) {
-          closeMoreQuestions();
-        } else {
-          dropdown.classList.remove("hidden");
-          chevron.style.transform = "rotate(180deg)";
-          moreQuestionsOpen = true;
-          closeLanguageDropdown(); // Close other dropdown
-        }
-      }
-
-      function closeMoreQuestions() {
-        const dropdown = document.getElementById("moreQuestionsDropdown");
-        const chevron = document.getElementById("moreQuestionsChevron");
-
-        dropdown.classList.add("hidden");
-        chevron.style.transform = "rotate(0deg)";
-        moreQuestionsOpen = false;
-      }
-
-      function startChat() {
-        if (!chatStarted) {
-          document.getElementById("welcomeScreen").classList.add("hidden");
-          document
-            .getElementById("messagesContainer")
-            .classList.remove("hidden");
-          chatStarted = true;
-        }
-      }
-
-      function sendSuggestedMessage(message) {
-        if (!isTyping) {
-          document.getElementById("messageInput").value = message;
-          sendMessage(message);
-          closeMoreQuestions();
-        }
-      }
-
-      async function sendMessage(message) {
-        startChat();
-
-        const messagesContainer = document.getElementById("messagesContainer");
-        const messageInput = document.getElementById("messageInput");
-        const sendButton = document.getElementById("sendButton");
-        const charCount = document.getElementById("charCount");
-
-        // Add user message
-        addMessage(message, "user");
-
-        // Clear input
-        messageInput.value = "";
-        messageInput.style.height = "auto";
-        charCount.textContent = "0 / 500";
-
-        // Show typing indicator
-        showTypingIndicator();
-
-        // Disable input
-        isTyping = true;
-        sendButton.disabled = true;
-        messageInput.disabled = true;
-
-        try {
-          const response = await fetch("/search", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              query: message,
-              language: selectedLanguage, // Include selected language in request
-            }),
-          });
-
-          const data = await response.json();
-          hideTypingIndicator();
-
-          if (data.error) {
-            addMessage(`Error: ${data.details}`, "bot", true);
-          } else {
-            handleResponse(data);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          hideTypingIndicator();
-          addMessage(
-            "Sorry, I encountered an error. Please try again later.",
-            "bot",
-            true
-          );
-        } finally {
-          isTyping = false;
-          sendButton.disabled = false;
-          messageInput.disabled = false;
-          messageInput.focus();
-        }
-      }
-
-      function handleResponse(data) {
-        const messagesContainer = document.getElementById("messagesContainer");
-
-        // Add explanation as a message with proper markdown rendering
-        if (data.explanation) {
-          addMessage(data.explanation, "bot", false, false, true); // Enable markdown rendering
         }
 
-        // Display cats in enhanced card format
-        if (data.results && data.results.length > 0) {
-          const cardsContainer = document.createElement("div");
-          cardsContainer.className =
-            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 ml-14";
+        function toggleQuestionsDropdown() {
+            if (isMobile()) {
+                const overlay = document.getElementById("questionsMobileOverlay");
+                const chevron = document.getElementById("questionsChevron");
+                
+                if (questionsDropdownOpen) {
+                    closeQuestionsDropdown();
+                } else {
+                    overlay.classList.remove("hidden");
+                    chevron.style.transform = "rotate(180deg)";
+                    questionsDropdownOpen = true;
+                    closeLanguageDropdown();
+                }
+            } else {
+                const dropdown = document.getElementById("questionsDropdown");
+                const chevron = document.getElementById("questionsChevron");
+                
+                if (questionsDropdownOpen) {
+                    closeQuestionsDropdown();
+                } else {
+                    dropdown.classList.remove("hidden");
+                    chevron.style.transform = "rotate(180deg)";
+                    questionsDropdownOpen = true;
+                    closeLanguageDropdown();
+                }
+            }
+        }
 
-          data.results.forEach((cat) => {
-            const card = document.createElement("div");
-            card.className =
-              "cat-card bg-white rounded-2xl shadow-lg overflow-hidden border border-orange-100 hover:border-orange-300";
+        function closeQuestionsDropdown() {
+            const dropdown = document.getElementById("questionsDropdown");
+            const overlay = document.getElementById("questionsMobileOverlay");
+            const chevron = document.getElementById("questionsChevron");
+            
+            dropdown.classList.add("hidden");
+            overlay.classList.add("hidden");
+            chevron.style.transform = "rotate(0deg)";
+            questionsDropdownOpen = false;
+        }
 
-            card.innerHTML = `
+        function startChat() {
+            if (!chatStarted) {
+                document.getElementById("welcomeScreen").classList.add("hidden");
+                document.getElementById("messagesContainer").classList.remove("hidden");
+                chatStarted = true;
+            }
+        }
+
+        function sendSuggestedMessage(message, isMobileVersion = false) {
+            if (!isTyping) {
+                document.getElementById("messageInput").value = message;
+                if (isMobileVersion) {
+                    closeQuestionsDropdown();
+                }
+                // Auto-send the message
+                setTimeout(() => {
+                    sendMessage(message);
+                }, 100);
+            }
+        }
+
+        async function sendMessage(message) {
+            startChat();
+            const messagesContainer = document.getElementById("messagesContainer");
+            const messageInput = document.getElementById("messageInput");
+            const sendButton = document.getElementById("sendButton");
+            const charCount = document.getElementById("charCount");
+
+            addMessage(message, "user");
+            messageInput.value = "";
+            messageInput.style.height = "auto";
+            charCount.textContent = "0 / 500";
+            showTypingIndicator();
+
+            isTyping = true;
+            sendButton.disabled = true;
+            messageInput.disabled = true;
+
+            try {
+                const response = await fetch("/search", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        query: message,
+                        language: selectedLanguage,
+                    }),
+                });
+
+                const data = await response.json();
+                hideTypingIndicator();
+
+                if (data.error) {
+                    addMessage(`Error: ${data.details}`, "bot", true);
+                } else {
+                    handleResponse(data);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                hideTypingIndicator();
+                addMessage("Sorry, I encountered an error. Please try again later.", "bot", true);
+            } finally {
+                isTyping = false;
+                sendButton.disabled = false;
+                messageInput.disabled = false;
+                messageInput.focus();
+            }
+        }
+
+        function handleResponse(data) {
+            const messagesContainer = document.getElementById("messagesContainer");
+
+            if (data.explanation) {
+                addMessage(data.explanation, "bot", false, false, true);
+            }
+
+            if (data.results && data.results.length > 0) {
+                const cardsContainer = document.createElement("div");
+                cardsContainer.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mt-4 lg:mt-6 ml-6 sm:ml-10 lg:ml-14";
+
+                data.results.forEach((cat) => {
+                    const card = document.createElement("div");
+                    card.className = "cat-card bg-white rounded-xl lg:rounded-2xl shadow-lg overflow-hidden border border-orange-100 hover:border-orange-300";
+                    card.innerHTML = `
                         <div class="relative">
-                            <img src="${
-                              cat.image ||
-                              "https://via.placeholder.com/300x200/f59e0b/ffffff?text=🐱"
-                            }" 
+                            <img src="${cat.image || "https://via.placeholder.com/300x200/f59e0b/ffffff?text=🐱"}" 
                                  alt="${cat.name}" 
-                                 class="w-full h-48 object-cover">
-                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-gray-700">
+                                 class="w-full h-40 sm:h-48 object-cover">
+                            <div class="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 text-xs font-medium text-gray-700">
                                 ${cat.age || "Age unknown"}
                             </div>
-                            <div class="absolute top-3 left-3 text-2xl">🐾</div>
+                            <div class="absolute top-2 sm:top-3 left-2 sm:left-3 text-xl sm:text-2xl">🐾</div>
                         </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                                ${cat.name}
-                                <span class="ml-2 text-lg">😸</span>
+                        <div class="p-3 sm:p-4 lg:p-5">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-2 flex items-center">
+                                <span class="truncate">${cat.name}</span>
+                                <span class="ml-2 text-base sm:text-lg">😸</span>
                             </h3>
-                            <p class="text-sm text-orange-600 font-medium mb-3">${
-                              cat.breed || "Mixed breed"
-                            }</p>
-                            <p class="text-sm text-gray-600 mb-4 line-clamp-3">${
-                              cat.description ||
-                              "A wonderful cat looking for a loving home."
-                            }</p>
-                            <a href="https://whisker-way.vercel.app/cats/${
-                              cat._id
-                            }" 
+                            <p class="text-xs sm:text-sm text-orange-600 font-medium mb-3">${cat.breed || "Mixed breed"}</p>
+                            <p class="text-xs sm:text-sm text-gray-600 mb-4 line-clamp-3">${cat.description || "A wonderful cat looking for a loving home."}</p>
+                            <a href="https://whisker-way.vercel.app/cats/${cat._id}" 
                                target="_blank" 
-                               class="inline-flex items-center justify-center w-full bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-xl py-3 px-4 hover:from-orange-500 hover:to-amber-600 transition-all duration-200 font-medium shadow-md hover:shadow-lg">
+                               class="inline-flex items-center justify-center w-full bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-lg lg:rounded-xl py-2 sm:py-2.5 lg:py-3 px-3 sm:px-4 hover:from-orange-500 hover:to-amber-600 transition-all duration-200 font-medium shadow-md hover:shadow-lg text-xs sm:text-sm lg:text-base">
                                 <span>Meet ${cat.name}</span>
                                 <span class="ml-2">🐾</span>
                             </a>
                         </div>
                     `;
+                    cardsContainer.appendChild(card);
+                });
 
-            cardsContainer.appendChild(card);
-          });
-
-          messagesContainer.appendChild(cardsContainer);
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        } else if (data.intent === "donation") {
-          addMessage(data.response, "bot");
-          addActionCard(
-            "donation",
-            "Make a Donation",
-            "Support our mission to help cats find loving homes",
-            "https://whisker-way.vercel.app/donate",
-            "💝"
-          );
-        } else if (data.intent === "adoption_question") {
-          addMessage(data.response, "bot");
-          addActionCard(
-            "adoption",
-            "Learn About Adoption",
-            "Discover our adoption process and requirements",
-            "https://whisker-way.vercel.app/adoptionProcess",
-            "📋"
-          );
-        } else if (
-          data.intent === "off_topic" ||
-          data.intent === "cat_wellnessInfo"
-        ) {
-          addMessage(data.response, "bot");
-        } else {
-          addMessage(data.error, "bot", true);
+                messagesContainer.appendChild(cardsContainer);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            } else if (data.intent === "donation") {
+                addMessage(data.response, "bot");
+                addActionCard("donation", "Make a Donation", "Support our mission to help cats find loving homes", "https://whisker-way.vercel.app/donate", "💝");
+            } else if (data.intent === "adoption_question") {
+                addMessage(data.response, "bot");
+                addActionCard("adoption", "Learn About Adoption", "Discover our adoption process and requirements", "https://whisker-way.vercel.app/adoptionProcess", "📋");
+            } else if (data.intent === "off_topic" || data.intent === "cat_wellnessInfo") {
+                addMessage(data.response, "bot");
+            } else {
+                addMessage(data.error, "bot", true);
+            }
         }
-      }
 
-      function addActionCard(type, title, description, url, emoji) {
-        const messagesContainer = document.getElementById("messagesContainer");
-        const cardContainer = document.createElement("div");
-        cardContainer.className = "ml-14 mt-4";
+        function addActionCard(type, title, description, url, emoji) {
+            const messagesContainer = document.getElementById("messagesContainer");
+            const cardContainer = document.createElement("div");
+            cardContainer.className = "ml-6 sm:ml-10 lg:ml-14 mt-4";
 
-        const gradientClass =
-          type === "donation"
-            ? "from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600"
-            : "from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600";
+            const gradientClass = type === "donation"
+                ? "from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600"
+                : "from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600";
 
-        cardContainer.innerHTML = `
-                <div class="bg-white rounded-2xl shadow-lg border border-orange-100 p-6 max-w-md">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br ${gradientClass} rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+            cardContainer.innerHTML = `
+                <div class="bg-white rounded-xl lg:rounded-2xl shadow-lg border border-orange-100 p-4 lg:p-6 max-w-md">
+                    <div class="flex items-center space-x-3 lg:space-x-4 mb-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br ${gradientClass} rounded-xl lg:rounded-2xl flex items-center justify-center text-xl lg:text-2xl shadow-lg">
                             ${emoji}
                         </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-800">${title}</h3>
-                            <p class="text-sm text-gray-600">${description}</p>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-gray-800 truncate">${title}</h3>
+                            <p class="text-xs sm:text-sm text-gray-600 line-clamp-2">${description}</p>
                         </div>
                     </div>
                     <a href="${url}" 
                        target="_blank" 
-                       class="inline-flex items-center justify-center w-full bg-gradient-to-r ${gradientClass} text-white rounded-xl py-3 px-4 transition-all duration-200 font-medium shadow-md hover:shadow-lg">
+                       class="inline-flex items-center justify-center w-full bg-gradient-to-r ${gradientClass} text-white rounded-lg lg:rounded-xl py-2.5 lg:py-3 px-4 transition-all duration-200 font-medium shadow-md hover:shadow-lg text-sm lg:text-base">
                         <span>Get Started</span>
                         <span class="ml-2">🐾</span>
                     </a>
                 </div>
             `;
 
-        messagesContainer.appendChild(cardContainer);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
-
-      // Enhanced markdown parsing function
-      function parseMarkdown(text) {
-        return (
-          text
-            // Headers
-            .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-            .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-            .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-            // Bold
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            // Italic
-            .replace(/\*(.*?)\*/g, "<em>$1</em>")
-            // Code blocks
-            .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
-            // Inline code
-            .replace(/`([^`]+)`/g, "<code>$1</code>")
-            // Lists
-            .replace(/^\* (.*$)/gim, "<li>$1</li>")
-            .replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>")
-            .replace(/^\d+\. (.*$)/gim, "<li>$1</li>")
-            // Blockquotes
-            .replace(/^> (.*$)/gim, "<blockquote>$1</blockquote>")
-            // Line breaks
-            .replace(/\n/g, "<br>")
-        );
-      }
-
-      function addMessage(
-        text,
-        sender,
-        isError = false,
-        isHTML = false,
-        isMarkdown = false
-      ) {
-        const messagesContainer = document.getElementById("messagesContainer");
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `flex items-start space-x-4 message-enter ${
-          sender === "user" ? "flex-row-reverse space-x-reverse" : ""
-        }`;
-
-        const avatar =
-          sender === "user"
-            ? `<div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                     <span class="text-lg">👤</span>
-                   </div>`
-            : `<div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                     <span class="text-lg">🐱</span>
-                   </div>`;
-
-        const messageClass =
-          sender === "user"
-            ? "bg-gradient-to-r from-blue-400 to-cyan-500 text-white rounded-3xl rounded-tr-lg shadow-lg"
-            : `${
-                isError
-                  ? "bg-red-50 border-2 border-red-200 text-red-800"
-                  : "bg-white/90 backdrop-blur-sm text-gray-800 border border-orange-100"
-              } rounded-3xl rounded-tl-lg shadow-sm`;
-
-        let formattedText;
-        if (isMarkdown) {
-          formattedText = parseMarkdown(text);
-        } else if (isHTML) {
-          formattedText = text;
-        } else {
-          formattedText = text
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\n/g, "<br>");
+            messagesContainer.appendChild(cardContainer);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        const contentClass = isMarkdown ? "markdown-content" : "";
+        function parseMarkdown(text) {
+            return text
+                .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+                .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+                .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
+                .replace(/`([^`]+)`/g, "<code>$1</code>")
+                .replace(/^\* (.*$)/gim, "<li>$1</li>")
+                .replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>")
+                .replace(/^\d+\. (.*$)/gim, "<li>$1</li>")
+                .replace(/^> (.*$)/gim, "<blockquote>$1</blockquote>")
+                .replace(/\n/g, "<br>");
+        }
 
-        messageDiv.innerHTML = `
+        function addMessage(text, sender, isError = false, isHTML = false, isMarkdown = false) {
+            const messagesContainer = document.getElementById("messagesContainer");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `flex items-start space-x-3 lg:space-x-4 message-enter ${
+                sender === "user" ? "flex-row-reverse space-x-reverse" : ""
+            }`;
+
+            const avatar = sender === "user"
+                ? `<div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                     <span class="text-sm sm:text-base lg:text-lg">👤</span>
+                   </div>`
+                : `<div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                     <span class="text-sm sm:text-base lg:text-lg">🐱</span>
+                   </div>`;
+
+            const messageClass = sender === "user"
+                ? "bg-gradient-to-r from-blue-400 to-cyan-500 text-white rounded-2xl lg:rounded-3xl rounded-tr-lg shadow-lg"
+                : `${isError
+                    ? "bg-red-50 border-2 border-red-200 text-red-800"
+                    : "bg-white/90 backdrop-blur-sm text-gray-800 border border-orange-100"
+                } rounded-2xl lg:rounded-3xl rounded-tl-lg shadow-sm`;
+
+            let formattedText;
+            if (isMarkdown) {
+                formattedText = parseMarkdown(text);
+            } else if (isHTML) {
+                formattedText = text;
+            } else {
+                formattedText = text
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\n/g, "<br>");
+            }
+
+            const contentClass = isMarkdown ? "markdown-content" : "";
+
+            messageDiv.innerHTML = `
                 ${avatar}
-                <div class="${messageClass} px-6 py-4 max-w-2xl">
-                    <div class="${contentClass} leading-relaxed">${formattedText}</div>
+                <div class="${messageClass} px-3 sm:px-4 lg:px-6 py-3 lg:py-4 max-w-xs sm:max-w-lg lg:max-w-2xl">
+                    <div class="${contentClass} leading-relaxed text-sm lg:text-base">${formattedText}</div>
                 </div>
             `;
 
-        messagesContainer.appendChild(messageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
 
-      function showTypingIndicator() {
-        const messagesContainer = document.getElementById("messagesContainer");
-        const typingDiv = document.createElement("div");
-        typingDiv.id = "typingIndicator";
-        typingDiv.className = "flex items-start space-x-4";
-        typingDiv.innerHTML = `
-                <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <span class="text-lg">🐱</span>
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById("messagesContainer");
+            const typingDiv = document.createElement("div");
+            typingDiv.id = "typingIndicator";
+            typingDiv.className = "flex items-start space-x-3 lg:space-x-4";
+
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <span class="text-sm sm:text-base lg:text-lg">🐱</span>
                 </div>
-                <div class="bg-white/90 backdrop-blur-sm rounded-3xl rounded-tl-lg px-6 py-4 shadow-sm border border-orange-100">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl rounded-tl-lg px-3 sm:px-4 lg:px-6 py-3 lg:py-4 shadow-sm border border-orange-100">
                     <div class="flex space-x-1 items-center">
-                        <span class="text-sm text-gray-500 mr-2">WhiskersBot is thinking</span>
+                        <span class="text-xs sm:text-sm text-gray-500 mr-2">WhiskersBot is thinking</span>
                         <div class="typing-indicator"></div>
                         <div class="typing-indicator"></div>
                         <div class="typing-indicator"></div>
                     </div>
                 </div>
             `;
-        messagesContainer.appendChild(typingDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
 
-      function hideTypingIndicator() {
-        const typingIndicator = document.getElementById("typingIndicator");
-        if (typingIndicator) {
-          typingIndicator.remove();
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-      }
 
-      function clearChat() {
-        document.getElementById("welcomeScreen").classList.remove("hidden");
-        document.getElementById("messagesContainer").classList.add("hidden");
-        document.getElementById("messagesContainer").innerHTML = "";
-        chatStarted = false;
-      }
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById("typingIndicator");
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function clearChat() {
+            document.getElementById("welcomeScreen").classList.remove("hidden");
+            document.getElementById("messagesContainer").classList.add("hidden");
+            document.getElementById("messagesContainer").innerHTML = "";
+            chatStarted = false;
+        }
     </script>
-  </body>
+</body>
 </html>
