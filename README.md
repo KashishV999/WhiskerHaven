@@ -8,8 +8,7 @@
 [![Chat Now](https://img.shields.io/badge/%F0%9F%A4%96-Try_WhiskerBot-FF6B6B?style=flat)](https://whisker-way.vercel.app/chatbot)
 
 ## 📖 Overview  
-A **multi-modal AI adoption assistant** combining OpenAI's GPT-3.5 with MongoDB vector search to understand natural language queries and recommend perfect feline matches. Features multi-language support, intent classification, and vibe-based matching for faster adoptions.
-
+A **multi-modal AI adoption assistant** leveraging Retrieval-Augmented Generation (RAG) by combining OpenAI's GPT-3.5-turbo with MongoDB Atlas vector search. It processes natural language queries using intent classification and semantic parsing, retrieves relevant cat profiles via vector embeddings for vibe-based matching, and generates personalized, multilingual recommendations to accelerate pet adoption.
 https://github.com/user-attachments/assets/15864752-e13d-4f6c-a547-936f6aaae8c9
 
 
