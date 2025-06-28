@@ -22,6 +22,10 @@ router.post("/register", (req, res) => {
 // User Login
 // =============================================================================
 router.post("/login", (req, res) => {
+  const { redirectUrl } = req.body;
+  console.log("-----------------------------------");
+  console.log(redirectUrl);
+  console.log("-----------------------------------");
   db.checkUser(req.body)
     .then((user) => {
       const token = generateToken(user);
@@ -32,9 +36,11 @@ router.post("/login", (req, res) => {
       });
       //res.redirect(user.role === "admin" ? "/admin/cats" : "/cats");
       //res.json({ message: "Login successful", user });
+      const userRedirectUrl = user.role === "admin" ? "/admin/dashboard" : (redirectUrl || "/cats");
+
       res.json({
   message: `Login successful ${token}`,
-  redirectUrl: user.role === "admin" ? "/admin/dashboard" : "/cats",
+        redirectUrl: userRedirectUrl,
 });
     })
     .catch((msg) => res.status(422).json({ message: msg }));

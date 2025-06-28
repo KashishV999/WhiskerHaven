@@ -355,13 +355,14 @@
     showLoading();
     clearGeneralError();
 
+    const currentPage = window.location.pathname; // Get current page URL for redirection after login
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password , redirectUrl: currentPage }) // Include redirectUrl in the request body
       });
 
       const data = await response.json();
