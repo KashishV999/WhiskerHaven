@@ -232,7 +232,7 @@ WhiskerWay/
 | *User View* | *Admin Dashboard with Real-Time Analytics* |
 
 ### Social Login and Reddit-Style Nested Comments
-| ![Social Login](./assets/login.png) | ![Reddit-Style Comments](./assets/reddit.png)<br>[Try It Out](https://whisker-way.vercel.app/shelters/682bb915e21083b8b4b4a872#comments-section) |
+| ![Social Login](./assets/login.png) | ![Reddit-Style Comments](./assets/reddit.png)<br>[Try It Out](https://whisker-way.vercel.app/shelters/685b98d775cfa6001dc66f7c#comments-section) |
 |:--:|:--:|
 | *User Social Login (Google & Facebook OAuth)* | *Recursive Reddit-Style Nested Comments* |
 
