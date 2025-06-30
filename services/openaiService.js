@@ -455,16 +455,13 @@ ${JSON.stringify(catProfiles, null, 2)}
 GENERATE:
 ISO CODE LANGUAGE: ${language}
 STRICTLY Response in ${language} language, with the following structure:
-1. Opening line reflecting search query
-2. Numbered list with 3 cats max [BOLD NAME, AGE, BREED]
-3. For each:
+1. Numbered list with 3 cats max [BOLD NAME, AGE, BREED]
+2. For each:
   - keep paragraphs short (max 2 sentences)
    - Name/age/breed header
-   - why they match(properly)
-   - Health status (vaccinated/neutered)
-   - Unique detail only if given somewhere or story highlight
+   - why they match(properly) She matches because ... , just keep it short and straightforward
    
-4. Closing invitation
+3. Closing invitation
 `;
 
   const systemMessage = `
@@ -477,9 +474,7 @@ We've got wonderful cats waiting to meet you!** 😊
 - Can include emojis if appropriate
 2. FOR EACH CAT (use numbered list):
 - Name/age/breed header (e.g., "1. Milo, 3-year-old Male Exotic Shorthair")
-- Personality story: "A sun-worshipper who..."
-- Matching traits: "Tell why it matches the user's search"
-- Special detail: "Fun fact:..." only if given — do not make up fake info
+- Matching traits:  why they match(properly) She matches because ... , just keep it short and straightforward
 
 3. CLOSE with invitation:
 "These sweethearts are waiting for you! Check them out on our Website"
@@ -488,8 +483,6 @@ RULES:
 - Never use bullets/hyphens
 - Never mention missing results
 - Keep paragraphs short (max 2 sentences)
-- Include: vaccination/neuter status
-- Shelter contact: Toronto, 123-456-7890
 - Tone: Like a friend recommending pets
 `;
 
