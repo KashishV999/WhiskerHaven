@@ -470,7 +470,6 @@ STRICTLY Response in ${language} language, with the following structure:
 
 1. OPEN with enthusiasm about the matches
 We've got wonderful cats waiting to meet you!** 😊
-"Hi there! We're thrilled to present..."
 - Can include emojis if appropriate
 2. FOR EACH CAT (use numbered list):
 - Name/age/breed header (e.g., "1. Milo, 3-year-old Male Exotic Shorthair")
