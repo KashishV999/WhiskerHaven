@@ -9,6 +9,7 @@
 
 ## 📖 Overview  
 A **multi-modal AI adoption assistant** leveraging Retrieval-Augmented Generation (RAG) by combining OpenAI's GPT-3.5-turbo with MongoDB Atlas vector search. It processes natural language queries using intent classification and semantic parsing, retrieves relevant cat profiles via vector embeddings for vibe-based matching, and generates personalized, multilingual recommendations to accelerate pet adoption.
+
 https://github.com/user-attachments/assets/15864752-e13d-4f6c-a547-936f6aaae8c9
 
 
@@ -231,7 +232,7 @@ WhiskerWay/
 | *User View* | *Admin Dashboard with Real-Time Analytics* |
 
 ### Social Login and Reddit-Style Nested Comments
-| ![Social Login](./assets/login.png) | ![Reddit-Style Comments](./assets/reddit.png)<br>[Try It Out](https://whisker-way.vercel.app/shelters/682bb915e21083b8b4b4a872#comments-section) |
+| ![Social Login](./assets/login.png) | ![Reddit-Style Comments](./assets/reddit.png)<br>[Try It Out](https://whisker-way.vercel.app/shelters/685b98d775cfa6001dc66f7c#comments-section) |
 |:--:|:--:|
 | *User Social Login (Google & Facebook OAuth)* | *Recursive Reddit-Style Nested Comments* |
 
